@@ -3,7 +3,7 @@
 <br/>
 <p align="center">
   <a href="https://github.com/Ravencentric/pyanilist">
-    <img src="https://github.com/Ravencentric/pyanilist/blob/main/docs/assets/logo.png" alt="Logo" width="400">
+    <img src="https://raw.githubusercontent.com/Ravencentric/pyanilist/main/docs/assets/logo.png" alt="Logo" width="400">
   </a>
   <p align="center">
     Simple read-only Anilist API wrapper
