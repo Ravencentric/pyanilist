@@ -4,7 +4,7 @@ from typing import Any
 
 import httpx
 from pydantic import validate_call
-from tenacity import retry, stop_after_attempt, wait_incrementing
+from tenacity import Retrying, stop_after_attempt, wait_incrementing
 
 from .._enums import MediaFormat, MediaSeason, MediaStatus, MediaType
 from .._models import Media
@@ -14,7 +14,9 @@ from .._utils import flatten, remove_null_fields
 
 
 class Anilist:
-    def __init__(self, api_url: str = "https://graphql.anilist.co", **httpx_client_kwargs: Any) -> None:
+    def __init__(
+        self, api_url: str = "https://graphql.anilist.co", retries: int = 5, **httpx_client_kwargs: Any
+    ) -> None:
         """
         Anilist API client.
 
@@ -22,18 +24,16 @@ class Anilist:
         ----------
         api_url : str, optional
             The URL of the Anilist API. Default is "https://graphql.anilist.co".
+        retries : int, optional
+            Number of times to retry a failed request before raising an error. Default is 5.
         httpx_client_kwargs : Any, optional
             Keyword arguments to pass to the internal [httpx.Client()](https://www.python-httpx.org/api/#client)
             used to make the POST request.
         """
         self.api_url = api_url
+        self.retries = retries
         self.httpx_client_kwargs = httpx_client_kwargs
 
-    @retry(
-        stop=stop_after_attempt(5),
-        wait=wait_incrementing(start=0, increment=1),
-        reraise=True,
-    )
     def _post_request(
         self,
         id: AnilistID | None = None,
@@ -92,8 +92,14 @@ class Anilist:
             "variables": {key: value for key, value in query_variables.items() if value is not None},
         }
 
-        with httpx.Client(**self.httpx_client_kwargs) as client:
-            response = client.post(self.api_url, json=payload).raise_for_status()
+        for attempt in Retrying(
+            stop=stop_after_attempt(self.retries),
+            wait=wait_incrementing(start=0, increment=1),
+            reraise=True,
+        ):
+            with attempt:
+                with httpx.Client(**self.httpx_client_kwargs) as client:
+                    response = client.post(self.api_url, json=payload).raise_for_status()
 
         return response
 

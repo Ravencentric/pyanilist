@@ -1,6 +1,17 @@
 name: Tests
 
-on: [push, pull_request, workflow_dispatch]
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'src/**'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'src/**'
+  workflow_dispatch:
 
 defaults:
   run:
@@ -10,7 +21,6 @@ jobs:
   test:
     name: Tests
     strategy:
-      max-parallel: 1
       fail-fast: false
       matrix:
         python-version: ['3.9', '3.10', '3.11', '3.12']
@@ -46,13 +56,16 @@ jobs:
         run: poetry install
 
       - name: Run tests
-        run: |
-          poetry run pytest
+        run: poetry run pytest
 
       - name: Build
         run: poetry build
 
+      - name: Get version
+        id: version
+        run: echo "version=$(poetry run python -c 'import pyanilist; print(pyanilist.__version__)')" >> $GITHUB_OUTPUT
+
       - uses: actions/upload-artifact@v4
         with:
-          name: pyanilist-${{ matrix.python-version }}-${{ matrix.os }}
+          name: pyanilist-${{ steps.version.outputs.version }}-${{ matrix.python-version }}-${{ matrix.os }}
           path: "dist/*"

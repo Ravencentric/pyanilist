@@ -4,7 +4,7 @@ from typing import Any
 
 import httpx
 from pydantic import validate_call
-from tenacity import retry, stop_after_attempt, wait_incrementing
+from tenacity import AsyncRetrying, stop_after_attempt, wait_incrementing
 
 from .._enums import MediaFormat, MediaSeason, MediaStatus, MediaType
 from .._models import Media
@@ -14,7 +14,9 @@ from .._utils import flatten, remove_null_fields
 
 
 class AsyncAnilist:
-    def __init__(self, api_url: str = "https://graphql.anilist.co", **httpx_async_client_kwargs: Any) -> None:
+    def __init__(
+        self, api_url: str = "https://graphql.anilist.co", retries: int = 5, **httpx_async_client_kwargs: Any
+    ) -> None:
         """
         Async Anilist API client.
 
@@ -22,18 +24,16 @@ class AsyncAnilist:
         ----------
         api_url : str, optional
             The URL of the Anilist API. Default is "https://graphql.anilist.co".
+        retries : int, optional
+            Number of times to retry a failed request before raising an error. Default is 5.
         httpx_async_client_kwargs : Any, optional
             Keyword arguments to pass to the internal [httpx.AsyncClient()](https://www.python-httpx.org/api/#asyncclient)
             used to make the POST request.
         """
         self.api_url = api_url
+        self.retries = retries
         self.httpx_async_client_kwargs = httpx_async_client_kwargs
 
-    @retry(
-        stop=stop_after_attempt(5),
-        wait=wait_incrementing(start=0, increment=1),
-        reraise=True,
-    )
     async def _post_request(
         self,
         id: AnilistID | None = None,
@@ -92,9 +92,15 @@ class AsyncAnilist:
             "variables": {key: value for key, value in query_variables.items() if value is not None},
         }
 
-        async with httpx.AsyncClient(**self.httpx_async_client_kwargs) as client:
-            response = await client.post(self.api_url, json=payload)
-            response.raise_for_status()
+        async for attempt in AsyncRetrying(
+            stop=stop_after_attempt(self.retries),
+            wait=wait_incrementing(start=0, increment=1),
+            reraise=True,
+        ):
+            with attempt:
+                async with httpx.AsyncClient(**self.httpx_async_client_kwargs) as client:
+                    response = await client.post(self.api_url, json=payload)
+                    response.raise_for_status()
 
         return response
 
