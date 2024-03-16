@@ -1,0 +1,9 @@
+::: pyanilist._enums.CharacterRole
+::: pyanilist._enums.ExternalLinkType
+::: pyanilist._enums.MediaFormat
+::: pyanilist._enums.MediaRankType
+::: pyanilist._enums.MediaRelation
+::: pyanilist._enums.MediaSeason
+::: pyanilist._enums.MediaSource
+::: pyanilist._enums.MediaStatus
+::: pyanilist._enums.MediaType

@@ -1,0 +1,67 @@
+"""
+This module simply re-exports Exceptions from 
+[`httpx`](https://www.python-httpx.org/exceptions/) and 
+[`pydantic`](https://docs.pydantic.dev/latest/api/pydantic_core/#pydantic_core.ValidationError) for convenience.
+"""
+
+from httpx import (
+    CloseError,
+    ConnectError,
+    ConnectTimeout,
+    CookieConflict,
+    DecodingError,
+    HTTPError,
+    HTTPStatusError,
+    InvalidURL,
+    LocalProtocolError,
+    NetworkError,
+    PoolTimeout,
+    ProtocolError,
+    ProxyError,
+    ReadError,
+    ReadTimeout,
+    RemoteProtocolError,
+    RequestError,
+    RequestNotRead,
+    ResponseNotRead,
+    StreamClosed,
+    StreamConsumed,
+    StreamError,
+    TimeoutException,
+    TooManyRedirects,
+    UnsupportedProtocol,
+    WriteError,
+    WriteTimeout,
+)
+from pydantic import ValidationError
+
+__all__ = [
+    "CloseError",
+    "ConnectError",
+    "ConnectTimeout",
+    "CookieConflict",
+    "DecodingError",
+    "HTTPError",
+    "HTTPStatusError",
+    "InvalidURL",
+    "LocalProtocolError",
+    "NetworkError",
+    "PoolTimeout",
+    "ProtocolError",
+    "ProxyError",
+    "ReadError",
+    "ReadTimeout",
+    "RemoteProtocolError",
+    "RequestError",
+    "RequestNotRead",
+    "ResponseNotRead",
+    "StreamClosed",
+    "StreamConsumed",
+    "StreamError",
+    "TimeoutException",
+    "TooManyRedirects",
+    "UnsupportedProtocol",
+    "WriteError",
+    "WriteTimeout",
+    "ValidationError",
+]
