@@ -13,7 +13,7 @@ def flatten(nested: dict[str, list[dict[str, dict[str, Any]]]] | None, key: str 
     The media details we actually want are nested in ["edges"]["nodes"]
     while it's relation to the parent media is in ["edges"]. I find this unintuitive
     hence this flattening.
-     
+
     If the above explanation doesn't make sense to you then you can get
     the idea by trying a query with Media/Character/StaffConnection on https://anilist.co/graphiql
 
@@ -69,4 +69,4 @@ def remove_null_fields(dictionary: dict[str, Any]) -> dict[str, Any]:
     This will sort of "normalize" fields by removing keys where the value is
     `None`, empty list, or empty dictionary.
     """
-    return remap(dictionary, lambda path, key, value: value not in [None, {}, []]) # type: ignore
+    return remap(dictionary, lambda path, key, value: value not in [None, {}, []])  # type: ignore

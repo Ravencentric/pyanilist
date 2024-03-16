@@ -1,6 +1,6 @@
 """
-This module simply re-exports Exceptions from 
-[`httpx`](https://www.python-httpx.org/exceptions/) and 
+This module simply re-exports Exceptions from
+[`httpx`](https://www.python-httpx.org/exceptions/) and
 [`pydantic`](https://docs.pydantic.dev/latest/api/pydantic_core/#pydantic_core.ValidationError) for convenience.
 """
 

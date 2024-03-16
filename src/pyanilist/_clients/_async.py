@@ -23,7 +23,7 @@ class AsyncAnilist:
         api_url : str, optional
             The URL of the Anilist API. Default is "https://graphql.anilist.co".
         httpx_async_client_kwargs : Any, optional
-            Keyword arguments to pass to the internal [httpx.AsyncClient()](https://www.python-httpx.org/api/#asyncclient) 
+            Keyword arguments to pass to the internal [httpx.AsyncClient()](https://www.python-httpx.org/api/#asyncclient)
             used to make the POST request.
         """
         self.api_url = api_url
@@ -210,7 +210,7 @@ class AsyncAnilist:
                 )
             )
         )
-    
+
     @validate_call
     async def get(self, id: AnilistID) -> Media:
         """

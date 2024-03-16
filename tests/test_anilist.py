@@ -20,6 +20,7 @@ def test_anilist() -> None:
     assert media.type == MediaType.ANIME
     assert media.site_url == HttpUrl("https://anilist.co/anime/16498")
 
+
 def test_anilist_with_type_constraint() -> None:
     media = Anilist().search("Attack on titan", type=MediaType.MANGA)
     assert media.title.romaji == "Shingeki no Kyojin"
@@ -27,6 +28,7 @@ def test_anilist_with_type_constraint() -> None:
     assert media.source == MediaSource.ORIGINAL
     assert media.type == MediaType.MANGA
     assert media.site_url == HttpUrl("https://anilist.co/manga/53390")
+
 
 def test_anilist_with_some_constraints() -> None:
     media = Anilist().search(
@@ -41,7 +43,7 @@ def test_anilist_with_some_constraints() -> None:
 
 def test_anilist_with_all_constraints() -> None:
     media = Anilist().search(
-        "My Hero Academia", 
+        "My Hero Academia",
         season=MediaSeason.SPRING,
         season_year=2016,
         type=MediaType.ANIME,
@@ -53,6 +55,7 @@ def test_anilist_with_all_constraints() -> None:
     assert media.source == MediaSource.MANGA
     assert media.type == MediaType.ANIME
     assert media.site_url == HttpUrl("https://anilist.co/anime/21459")
+
 
 def test_anilist_title_doesnt_exist() -> None:
     with pytest.raises(HTTPStatusError, match="Not Found."):
@@ -76,6 +79,7 @@ def test_anilist_id() -> None:
     assert media.source == MediaSource.MANGA
     assert media.type == MediaType.ANIME
     assert media.site_url == HttpUrl("https://anilist.co/anime/16498")
+
 
 def test_anilist_bad_id() -> None:
     with pytest.raises(HTTPStatusError, match="400 Bad Request"):

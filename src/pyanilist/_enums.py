@@ -128,6 +128,7 @@ class MediaSource(StrEnum):
     PICTURE_BOOK = "PICTURE_BOOK"
     """Version 3 only. Picture book"""
 
+
 class MediaRelation(StrEnum):
     """Type of relation media has to its parent."""
 

@@ -23,7 +23,7 @@ class Anilist:
         api_url : str, optional
             The URL of the Anilist API. Default is "https://graphql.anilist.co".
         httpx_client_kwargs : Any, optional
-            Keyword arguments to pass to the internal [httpx.Client()](https://www.python-httpx.org/api/#client) 
+            Keyword arguments to pass to the internal [httpx.Client()](https://www.python-httpx.org/api/#client)
             used to make the POST request.
         """
         self.api_url = api_url

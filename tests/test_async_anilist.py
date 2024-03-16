@@ -69,7 +69,7 @@ async def test_anilist_bad_search_combo() -> None:
 
 async def test_anilist_wrong_input_types() -> None:
     with pytest.raises(ValidationError):
-        await AsyncAnilist().search(123456789, season_year="hello", type=True) # type: ignore
+        await AsyncAnilist().search(123456789, season_year="hello", type=True)  # type: ignore
 
 
 async def test_anilist_id() -> None:

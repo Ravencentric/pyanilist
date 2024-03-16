@@ -31,7 +31,7 @@ class ParentModel(BaseModel):
             alias=to_camel,
         ),
         frozen=True,
-        populate_by_name=True
+        populate_by_name=True,
     )
 
 
