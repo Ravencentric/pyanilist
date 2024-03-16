@@ -39,9 +39,8 @@ jobs:
       - uses: actions/cache@v4
         name: Define a cache for the venv based on the dependencies lock file
         with:
-          key: ${{ hashFiles('poetry.lock') }}
+          key: ${{ matrix.os }}-${{ hashFiles('poetry.lock') }}
           path: ./.venv
-          enableCrossOsArchive: true
 
       - name: Install the project dependencies
         run: poetry install
