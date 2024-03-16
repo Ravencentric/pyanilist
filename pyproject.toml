@@ -7,12 +7,11 @@ license = "Unlicense"
 readme = "README.md"
 packages = [{include = "pyanilist", from = "src"}]
 homepage = "https://ravencentric.github.io/pyanilist"
-repository = "https://github.com/Ravencentric/juicenet-cli"
+repository = "https://github.com/Ravencentric/pyanilist"
 documentation = "https://ravencentric.github.io/pyanilist"
 classifiers = [
     "License :: OSI Approved :: The Unlicense (Unlicense)",
     "Operating System :: OS Independent",
-    "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",

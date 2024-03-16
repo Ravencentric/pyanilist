@@ -2,51 +2,33 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
-   width="138.45914mm"
-   height="27.636889mm"
-   viewBox="0 0 138.45914 27.636889"
+   width="139.29414mm"
+   height="28.471897mm"
+   viewBox="0 0 139.29415 28.471898"
    version="1.1"
    id="svg1"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
    xmlns:svg="http://www.w3.org/2000/svg">
-  <sodipodi:namedview
-     id="namedview1"
-     pagecolor="#ffffff"
-     bordercolor="#000000"
-     borderopacity="0.25"
-     inkscape:showpageshadow="2"
-     inkscape:pageopacity="0.0"
-     inkscape:pagecheckerboard="0"
-     inkscape:deskcolor="#d1d1d1"
-     inkscape:document-units="mm" />
   <defs
      id="defs1" />
   <g
-     inkscape:label="Layer 1"
-     inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(-31.566739,-107.86305)">
+     transform="translate(-31.149239,-107.44554)">
     <text
        xml:space="preserve"
-       style="font-weight:bold;font-size:25.4px;font-family:'FiraCode Nerd Font Mono';-inkscape-font-specification:'FiraCode Nerd Font Mono Bold';fill:#4584b6;fill-opacity:1;stroke:#0d1117;stroke-width:0.765;stroke-linecap:round;stroke-linejoin:round"
+       style="font-weight:bold;font-size:25.4px;font-family:'FiraCode Nerd Font Mono';-inkscape-font-specification:'FiraCode Nerd Font Mono Bold';fill:#4584b6;fill-opacity:1;stroke:#0d1117;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-dashoffset:0;paint-order:markers stroke fill"
        x="30.321033"
        y="129.32103"
-       id="text1"
-       inkscape:export-filename="text1.svg"
-       inkscape:export-xdpi="96"
-       inkscape:export-ydpi="96"><tspan
-         sodipodi:role="line"
+       id="text1"><tspan
          id="tspan1"
-         style="fill:#4584b6;fill-opacity:1;stroke:#0b1622;stroke-width:0.765;stroke-opacity:1"
+         style="fill:#4584b6;fill-opacity:1;stroke:#0b1622;stroke-width:1.6;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:markers stroke fill"
          x="30.321033"
          y="129.32103">P<tspan
-   style="fill:#ffde57;fill-opacity:1;stroke:#0b1622;stroke-opacity:1"
+   style="fill:#ffde57;fill-opacity:1;stroke:#0b1622;stroke-width:1.6;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:markers stroke fill"
    id="tspan2">y</tspan><tspan
    id="tspan4"
-   style="fill:#ffffff;fill-opacity:1;stroke:#0b1622;stroke-opacity:1">Ani</tspan><tspan
+   style="fill:#ffffff;fill-opacity:1;stroke:#0b1622;stroke-width:1.6;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:markers stroke fill">Ani</tspan><tspan
    id="tspan6"
-   style="fill:#02a9ff;fill-opacity:1;stroke:#0b1622;stroke-opacity:1">list</tspan></tspan></text>
+   style="fill:#02a9ff;fill-opacity:1;stroke:#0b1622;stroke-width:1.6;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:markers stroke fill">list</tspan></tspan></text>
   </g>
 </svg>
