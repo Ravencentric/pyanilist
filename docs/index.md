@@ -1,7 +1,7 @@
 <br/>
 <p align="center">
   <a href="https://github.com/Ravencentric/pyanilist">
-    <img src="/assets/logo.svg" alt="Logo" width="400" height="100">
+    <img src="https://github.com/Ravencentric/pyanilist/blob/main/docs/assets/logo.png" alt="Logo" width="400">
   </a>
   <p align="center">
     Simple read-only Anilist API wrapper
@@ -29,7 +29,7 @@ pip install pyanilist
 
 PyAnilist offers two main classes:
 
-1. Anilist - Synchronous class
+1. `Anilist()` - Synchronous class
     - `search()` - Search a media
 
         ```py
@@ -59,13 +59,13 @@ PyAnilist offers two main classes:
         13
         ```
 
-2. AsyncAnilist - Asynchronous class
+2. `AsyncAnilist()` - Asynchronous class
     - `search()` - Search a media
 
         ```py
         >>> import asyncio
         >>> from pyanilist import AsyncAnilist, MediaType
-        >>> media = asyncio.run(AsyncAnilist().search("Attack on Titan"))
+        >>> media = asyncio.run(AsyncAnilist().search("Attack on Titan", type=MediaType.ANIME))
         >>> media.title
         MediaTitle(romaji='Shingeki no Kyojin', english='Attack on Titan', native='進撃の巨人')
         >>> media.title.romaji
