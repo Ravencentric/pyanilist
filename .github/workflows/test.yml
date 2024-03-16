@@ -1,6 +1,17 @@
 name: Tests
 
-on: [pull_request, workflow_dispatch]
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'src/**'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'src/**'
+  workflow_dispatch:
 
 defaults:
   run:
@@ -45,8 +56,10 @@ jobs:
         run: poetry install
 
       - name: Run tests
-        run: |
-          poetry run pytest
+        run: poetry run pytest
+
+      - name: Build
+        run: poetry build
 
       - name: Get version
         id: version
