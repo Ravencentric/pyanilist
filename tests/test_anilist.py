@@ -1,3 +1,5 @@
+import time
+
 import pytest
 from pyanilist import (
     Anilist,
@@ -13,6 +15,7 @@ from pyanilist import (
 
 
 def test_anilist() -> None:
+    time.sleep(5)
     media = Anilist().search("Attack on titan")
     assert media.title.romaji == "Shingeki no Kyojin"
     assert media.start_date.year == 2013
@@ -22,6 +25,7 @@ def test_anilist() -> None:
 
 
 def test_anilist_with_type_constraint() -> None:
+    time.sleep(5)
     media = Anilist().search("Attack on titan", type=MediaType.MANGA)
     assert media.title.romaji == "Shingeki no Kyojin"
     assert media.start_date.year == 2009
@@ -31,6 +35,7 @@ def test_anilist_with_type_constraint() -> None:
 
 
 def test_anilist_with_some_constraints() -> None:
+    time.sleep(5)
     media = Anilist().search(
         "violet evergarden", type=MediaType.MANGA, format=MediaFormat.NOVEL, status=MediaStatus.FINISHED
     )
@@ -42,6 +47,7 @@ def test_anilist_with_some_constraints() -> None:
 
 
 def test_anilist_with_all_constraints() -> None:
+    time.sleep(5)
     media = Anilist().search(
         "My Hero Academia",
         season=MediaSeason.SPRING,
@@ -58,21 +64,25 @@ def test_anilist_with_all_constraints() -> None:
 
 
 def test_anilist_title_doesnt_exist() -> None:
+    time.sleep(5)
     with pytest.raises(HTTPStatusError, match="Not Found."):
         Anilist().search("Title does not exist", type=MediaType.MANGA)
 
 
 def test_anilist_bad_search_combo() -> None:
+    time.sleep(5)
     with pytest.raises(HTTPStatusError, match="Not Found."):
         Anilist().search("Attack on titan", season_year=1999)
 
 
 def test_anilist_wrong_input_types() -> None:
+    time.sleep(5)
     with pytest.raises(ValidationError):
         Anilist().search(123456789, season_year="hello", type=True)  # type: ignore
 
 
 def test_anilist_id() -> None:
+    time.sleep(5)
     media = Anilist().get(16498)
     assert media.title.romaji == "Shingeki no Kyojin"
     assert media.start_date.year == 2013
@@ -82,5 +92,6 @@ def test_anilist_id() -> None:
 
 
 def test_anilist_bad_id() -> None:
+    time.sleep(5)
     with pytest.raises(HTTPStatusError, match="400 Bad Request"):
         Anilist().get(9999999999)
