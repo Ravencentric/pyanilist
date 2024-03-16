@@ -15,7 +15,7 @@ from pyanilist import (
 
 
 async def test_anilist() -> None:
-    time.sleep(5)
+    time.sleep(1)
     media = await AsyncAnilist().search("Attack on titan")
     assert media.title.romaji == "Shingeki no Kyojin"
     assert media.start_date.year == 2013
@@ -25,7 +25,7 @@ async def test_anilist() -> None:
 
 
 async def test_anilist_with_type_constraint() -> None:
-    time.sleep(5)
+    time.sleep(1)
     media = await AsyncAnilist().search("Attack on titan", type=MediaType.MANGA)
     assert media.title.romaji == "Shingeki no Kyojin"
     assert media.start_date.year == 2009
@@ -35,7 +35,7 @@ async def test_anilist_with_type_constraint() -> None:
 
 
 async def test_anilist_with_some_constraints() -> None:
-    time.sleep(5)
+    time.sleep(1)
     media = await AsyncAnilist().search(
         "violet evergarden", type=MediaType.MANGA, format=MediaFormat.NOVEL, status=MediaStatus.FINISHED
     )
@@ -47,7 +47,7 @@ async def test_anilist_with_some_constraints() -> None:
 
 
 async def test_anilist_with_all_constraints() -> None:
-    time.sleep(5)
+    time.sleep(1)
     media = await AsyncAnilist().search(
         "My Hero Academia",
         season=MediaSeason.SPRING,
@@ -64,25 +64,25 @@ async def test_anilist_with_all_constraints() -> None:
 
 
 async def test_anilist_title_doesnt_exist() -> None:
-    time.sleep(5)
+    time.sleep(1)
     with pytest.raises(HTTPStatusError, match="Not Found."):
         await AsyncAnilist().search("Title does not exist", type=MediaType.MANGA)
 
 
 async def test_anilist_bad_search_combo() -> None:
-    time.sleep(5)
+    time.sleep(1)
     with pytest.raises(HTTPStatusError, match="Not Found."):
         await AsyncAnilist().search("Attack on titan", season_year=1999)
 
 
 async def test_anilist_wrong_input_types() -> None:
-    time.sleep(5)
+    time.sleep(1)
     with pytest.raises(ValidationError):
         await AsyncAnilist().search(123456789, season_year="hello", type=True)  # type: ignore
 
 
 async def test_anilist_id() -> None:
-    time.sleep(5)
+    time.sleep(1)
     media = await AsyncAnilist().get(16498)
     assert media.title.romaji == "Shingeki no Kyojin"
     assert media.start_date.year == 2013
@@ -92,6 +92,6 @@ async def test_anilist_id() -> None:
 
 
 async def test_anilist_bad_id() -> None:
-    time.sleep(5)
+    time.sleep(1)
     with pytest.raises(HTTPStatusError, match="400 Bad Request"):
         await AsyncAnilist().get(9999999999)
