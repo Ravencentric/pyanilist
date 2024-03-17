@@ -1,15 +1,15 @@
 [tool.poetry]
 name = "pyanilist"
-version = "0.2.0"
+version = "0.3.0"
 description = "Simple read-only Anilist API wrapper"
 authors = ["Raventric <raven@pyanilist.zip>"]
 license = "Unlicense"
 readme = "README.md"
 keywords = ["anilist", "anime", "python"]
 packages = [{include = "pyanilist", from = "src"}]
-homepage = "https://ravencentric.github.io/pyanilist"
+homepage = "https://pyanilist.zip"
 repository = "https://github.com/Ravencentric/pyanilist"
-documentation = "https://ravencentric.github.io/pyanilist"
+documentation = "https://pyanilist.zip"
 classifiers = [
     "License :: OSI Approved :: The Unlicense (Unlicense)",
     "Operating System :: OS Independent",
