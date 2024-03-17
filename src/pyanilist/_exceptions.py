@@ -33,7 +33,7 @@ from httpx import (
     WriteError,
     WriteTimeout,
 )
-from pydantic_core import ValidationError
+from pydantic import ValidationError
 
 __all__ = [
     "CloseError",

@@ -1,8 +1,3 @@
-from . import _clients as clients
-from . import _enums as enums
-from . import _exceptions as exceptions
-from . import _models as models
-from . import _types as types
 from ._clients import Anilist, AsyncAnilist
 from ._enums import (
     CharacterRole,
@@ -75,12 +70,6 @@ __all__ = [
     # Clients
     "AsyncAnilist",
     "Anilist",
-    # Modules
-    "clients",
-    "enums",
-    "exceptions",
-    "models",
-    "types",
     # Enums
     "CharacterRole",
     "ExternalLinkType",
