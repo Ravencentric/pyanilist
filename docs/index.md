@@ -14,7 +14,7 @@
 ## About
 
 - Supports both sync and async. 
-- Simple *read-only* API wrapper.
+- Read-only API wrapper.
 - Only supports querying the `Media` type.
 
 ## Installation

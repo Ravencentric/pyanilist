@@ -5,6 +5,7 @@ description = "Simple read-only Anilist API wrapper"
 authors = ["Raventric <78981416+Ravencentric@users.noreply.github.com>"]
 license = "Unlicense"
 readme = "README.md"
+keywords = ["anilist", "anime", "python"]
 packages = [{include = "pyanilist", from = "src"}]
 homepage = "https://ravencentric.github.io/pyanilist"
 repository = "https://github.com/Ravencentric/pyanilist"
