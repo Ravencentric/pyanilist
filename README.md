@@ -12,6 +12,18 @@
   </p>
 </p>
 
+<div align="center">
+
+[![PyPI - Version](https://img.shields.io/pypi/v/pyanilist?link=https%3A%2F%2Fpypi.org%2Fproject%2Fpyanilist%2F)](https://pypi.org/project/pyanilist/)
+![PyPI - Python Version](https://img.shields.io/pypi/pyversions/pyanilist)
+![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/Ravencentric/pyanilist/release.yml)
+![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/ravencentric/pyanilist/test.yml?label=tests&link=https%3A%2F%2Fgithub.com%2FRavencentric%2Fpyanilist%2Factions%2Fworkflows%2Ftest.yml)
+![License](https://img.shields.io/github/license/Ravencentric/pyanilist)
+![Checked with mypy](https://www.mypy-lang.org/static/mypy_badge.svg)
+![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)
+
+</div>
+
 ## Table Of Contents
 
 * [About](#about)
