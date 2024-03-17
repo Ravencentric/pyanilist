@@ -10,7 +10,7 @@ from pyanilist import (
 
 
 async def test_anilist() -> None:
-    media = await AsyncAnilist().search("Attack on titan")
+    media = await AsyncAnilist().search("Attack on titan", type=MediaType.ANIME)
     assert media.title.romaji == "Shingeki no Kyojin"
     assert media.start_date.year == 2013
     assert media.source == MediaSource.MANGA
