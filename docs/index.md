@@ -10,19 +10,17 @@
   </p>
 </p>
 
-<div align="center">
+<p align="center">
+<a href="https://pypi.org/project/pyanilist/"><img src="https://img.shields.io/pypi/v/pyanilist" alt="PyPI - Version" ></a>
+<img src="https://img.shields.io/pypi/pyversions/pyanilist" alt="PyPI - Python Version">
+<img src="https://img.shields.io/github/actions/workflow/status/Ravencentric/pyanilist/release.yml" alt="GitHub Workflow Status">
+<img src="https://img.shields.io/github/actions/workflow/status/Ravencentric/pyanilist/test.yml" alt="GitHub Workflow Status">
+<img src="https://img.shields.io/github/license/Ravencentric/pyanilist" alt="License">
+<img src="https://www.mypy-lang.org/static/mypy_badge.svg" alt="Checked with mypy">
+<img src="https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json" alt="Ruff">
+</p>
 
-[![PyPI - Version](https://img.shields.io/pypi/v/pyanilist?link=https%3A%2F%2Fpypi.org%2Fproject%2Fpyanilist%2F)](https://pypi.org/project/pyanilist/)
-![PyPI - Python Version](https://img.shields.io/pypi/pyversions/pyanilist)
-![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/Ravencentric/pyanilist/release.yml)
-![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/ravencentric/pyanilist/test.yml?label=tests&link=https%3A%2F%2Fgithub.com%2FRavencentric%2Fpyanilist%2Factions%2Fworkflows%2Ftest.yml)
-![License](https://img.shields.io/github/license/Ravencentric/pyanilist)
-![Checked with mypy](https://www.mypy-lang.org/static/mypy_badge.svg)
-![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)
-
-</div>
-
-
+ 
 ## About
 
 - Supports both sync and async. 
