@@ -193,8 +193,8 @@ class Anilist:
         ------
         ValidationError
             Invalid input
-        pyanilist.exceptions.*
-            Any exception from the pyanilist.exceptions module may be raised
+        pyanilist._exceptions.*
+            Any exception from the pyanilist._exceptions module may be raised
             in case of errors encountered during the POST request.
 
         Returns
@@ -230,8 +230,8 @@ class Anilist:
         ------
         ValidationError
             Invalid input
-        pyanilist.exceptions.*
-            Any exception from the pyanilist.exceptions module may be raised
+        pyanilist._exceptions.*
+            Any exception from the pyanilist._exceptions module may be raised
             in case of errors encountered during the POST request.
 
         Returns

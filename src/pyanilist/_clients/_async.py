@@ -178,7 +178,7 @@ class AsyncAnilist:
         Parameters
         ----------
         title : AnilistTitle | None, optional
-            The string used for searching on Anilist. Default is None.
+            The string used for searching on Anilist.
         season : MediaSeason | None, optional
             The season the media was initially released in. Default is None.
         season_year : AnilistYear | None, optional
@@ -194,8 +194,8 @@ class AsyncAnilist:
         ------
         ValidationError
             Invalid input
-        pyanilist.exceptions.*
-            Any exception from the pyanilist.exceptions module may be raised
+        pyanilist._exceptions.*
+            Any exception from the pyanilist._exceptions module may be raised
             in case of errors encountered during the POST request.
 
         Returns
@@ -231,8 +231,8 @@ class AsyncAnilist:
         ------
         ValidationError
             Invalid input
-        pyanilist.exceptions.*
-            Any exception from the pyanilist.exceptions module may be raised
+        pyanilist._exceptions.*
+            Any exception from the pyanilist._exceptions module may be raised
             in case of errors encountered during the POST request.
 
         Returns

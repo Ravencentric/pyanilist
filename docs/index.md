@@ -43,67 +43,87 @@ PyAnilist offers two main classes:
     - `search()` - Search a media
 
         ```py
-        >>> from pyanilist import Anilist, MediaType
-        >>> media = Anilist().search("Attack on Titan", type=MediaType.ANIME)
-        >>> media.title
-        MediaTitle(romaji='Shingeki no Kyojin', english='Attack on Titan', native='進撃の巨人')
-        >>> media.title.romaji
-        'Shingeki no Kyojin'
-        >>> media.site_url
-        Url('https://anilist.co/anime/16498')
-        >>> media.episodes
+        from pyanilist import Anilist, MediaType
+
+        media = Anilist().search("Attack on Titan", type=MediaType.ANIME)
+
+        print(media.title.romaji)
+        """
+        Shingeki no Kyojin
+        """
+        print(media.site_url)
+        """
+        https://anilist.co/anime/16498
+        """
+        print(media.episodes)
+        """
         25
+        """
         ```
     - `get()` - Get a media by it's Anilist ID
 
         ```py
-        >>> from pyanilist import Anilist
-        >>> media = Anilist().get(21459)
-        >>> media.title
-        MediaTitle(romaji='Boku no Hero Academia', english='My Hero Academia', native='僕のヒーローアカデミア')
-        >>> media.title.english
-        'My Hero Academia'
-        >>> media.site_url
-        Url('https://anilist.co/anime/21459')
-        >>> media.episodes
+        from pyanilist import Anilist
+
+        media = Anilist().get(21459)
+
+        print(media.title.english)
+        """
+        My Hero Academia
+        """
+        print(media.site_url)
+        """
+        https://anilist.co/anime/21459
+        """
+        print(media.episodes)
+        """
         13
+        """
         ```
 
 2. `AsyncAnilist()` - Asynchronous class
     - `search()` - Search a media
 
         ```py
-        >>> import asyncio
-        >>> from pyanilist import AsyncAnilist, MediaType
-        >>> media = asyncio.run(AsyncAnilist().search("Attack on Titan", type=MediaType.ANIME))
-        >>> media.title
-        MediaTitle(romaji='Shingeki no Kyojin', english='Attack on Titan', native='進撃の巨人')
-        >>> media.title.romaji
-        'Shingeki no Kyojin'
-        >>> media.site_url
-        Url('https://anilist.co/anime/16498')
-        >>> media.episodes
+        import asyncio
+        from pyanilist import AsyncAnilist, MediaType
+
+        media = asyncio.run(AsyncAnilist().search("Attack on Titan", type=MediaType.ANIME))
+
+        print(media.title.romaji)
+        """
+        Shingeki no Kyojin
+        """
+        print(media.site_url)
+        """
+        https://anilist.co/anime/16498
+        """
+        print(media.episodes)
+        """
         25
+        """
         ```
     - `get()` - Get a media by it's Anilist ID
 
         ```py
-        >>> import asyncio
-        >>> from pyanilist import AsyncAnilist
-        >>> media = asyncio.run(AsyncAnilist().get(21459))
-        >>> media.title
-        MediaTitle(romaji='Boku no Hero Academia', english='My Hero Academia', native='僕のヒーローアカデミア')
-        >>> media.title.english
-        'My Hero Academia'
-        >>> media.site_url
-        Url('https://anilist.co/anime/21459')
-        >>> media.episodes
+        import asyncio
+        from pyanilist import AsyncAnilist
+
+        media = asyncio.run(AsyncAnilist().get(21459))
+
+        print(media.title.english)
+        """
+        My Hero Academia
+        """
+        print(media.site_url)
+        """
+        https://anilist.co/anime/21459
+        """
+        print(media.episodes)
+        """
         13
+        """
         ```
-
-## API Reference
-
-Checkout the complete API reference [here](https://ravencentric.github.io/pyanilist/).
 
 ## License
 
