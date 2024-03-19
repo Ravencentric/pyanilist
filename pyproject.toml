@@ -45,15 +45,15 @@ strict = true
 pretty = true
 
 [tool.poetry.group.dev.dependencies]
-ruff = ">=0.3.2"
-mypy = ">=1.9.0"
-types-boltons = ">=23.1.0.20240310"
+ruff = "^0.3.2"
+mypy = "^1.9.0"
+types-boltons = "^23.1.0.20240310"
 pytest = "^8.1.1"
 pytest-asyncio = "^0.23.5.post1"
 pre-commit = "^3.6.2"
 
 [tool.poetry.group.docs.dependencies]
-mkdocs-material = "^9.5.13"
+mkdocs-material = "^9.5.14"
 mkdocstrings = {extras = ["python"], version = "^0.24.0"}
 mkdocs-autorefs = "^1.0.1"
 
