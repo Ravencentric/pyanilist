@@ -9,13 +9,13 @@ from tenacity import AsyncRetrying, stop_after_attempt, wait_incrementing
 from .._enums import MediaFormat, MediaSeason, MediaStatus, MediaType
 from .._models import Media
 from .._query import query_string
-from .._types import AnilistID, AnilistTitle, AnilistYear
+from .._types import AnilistID, AnilistTitle, AnilistYear, HTTPXAsyncClientKwargs
 from .._utils import flatten, remove_null_fields
 
 
 class AsyncAnilist:
     def __init__(
-        self, api_url: str = "https://graphql.anilist.co", retries: int = 5, **httpx_async_client_kwargs: Any
+        self, api_url: str = "https://graphql.anilist.co", retries: int = 5, **kwargs: HTTPXAsyncClientKwargs
     ) -> None:
         """
         Async Anilist API client.
@@ -26,13 +26,13 @@ class AsyncAnilist:
             The URL of the Anilist API. Default is "https://graphql.anilist.co".
         retries : int, optional
             Number of times to retry a failed request before raising an error. Default is 5.
-        httpx_async_client_kwargs : Any, optional
-            Keyword arguments to pass to the internal [httpx.AsyncClient()](https://www.python-httpx.org/api/#asyncclient)
+        kwargs : HTTPXAsyncClientKwargs, optional
+            Keyword arguments to pass to the underlying [httpx.AsyncClient()](https://www.python-httpx.org/api/#asyncclient)
             used to make the POST request.
         """
         self.api_url = api_url
         self.retries = retries
-        self.httpx_async_client_kwargs = httpx_async_client_kwargs
+        self.kwargs = kwargs
 
     async def _post_request(
         self,
@@ -98,7 +98,7 @@ class AsyncAnilist:
             reraise=True,
         ):
             with attempt:
-                async with httpx.AsyncClient(**self.httpx_async_client_kwargs) as client:
+                async with httpx.AsyncClient(**self.kwargs) as client:
                     response = await client.post(self.api_url, json=payload)
                     response.raise_for_status()
 
@@ -194,9 +194,8 @@ class AsyncAnilist:
         ------
         ValidationError
             Invalid input
-        pyanilist._exceptions.*
-            Any exception from the pyanilist._exceptions module may be raised
-            in case of errors encountered during the POST request.
+        HTTPStatusError
+            Anilist returned a non 2xx response.
 
         Returns
         -------
@@ -231,9 +230,8 @@ class AsyncAnilist:
         ------
         ValidationError
             Invalid input
-        pyanilist._exceptions.*
-            Any exception from the pyanilist._exceptions module may be raised
-            in case of errors encountered during the POST request.
+        HTTPStatusError
+            Anilist returned a non 2xx response.
 
         Returns
         -------

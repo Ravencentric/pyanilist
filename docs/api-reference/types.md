@@ -1,5 +1,5 @@
 !!! note
-    Additionally, this module also offers the convenience of re-exporting some of the Pydantic types used within this library:
+    Additionally, PyAnilist also uses and exports the following [pydantic](https://docs.pydantic.dev/latest/) types for convenience:
 
     - [HttpUrl](https://docs.pydantic.dev/latest/api/networks/#pydantic.networks.HttpUrl)
 
@@ -11,3 +11,5 @@
 ::: pyanilist._types.AnilistTitle
 ::: pyanilist._types.AnilistYear
 ::: pyanilist._types.YearsActive
+::: pyanilist._types.HTTPXAsyncClientKwargs
+::: pyanilist._types.HTTPXClientKwargs
