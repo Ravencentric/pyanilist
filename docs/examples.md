@@ -25,7 +25,7 @@ media = Anilist().search("Attack on titan")
 
 print(media.format)
 """
-ANIME
+TV
 """
 print(media.title.romaji)
 """
