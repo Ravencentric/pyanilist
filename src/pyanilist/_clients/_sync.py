@@ -193,9 +193,8 @@ class Anilist:
         ------
         ValidationError
             Invalid input
-        pyanilist._exceptions.*
-            Any exception from the pyanilist._exceptions module may be raised
-            in case of errors encountered during the POST request.
+        HTTPStatusError
+            Anilist returned a non 2xx response.
 
         Returns
         -------
@@ -230,9 +229,8 @@ class Anilist:
         ------
         ValidationError
             Invalid input
-        pyanilist._exceptions.*
-            Any exception from the pyanilist._exceptions module may be raised
-            in case of errors encountered during the POST request.
+        HTTPStatusError
+            Anilist returned a non 2xx response.
 
         Returns
         -------
