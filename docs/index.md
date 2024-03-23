@@ -4,7 +4,7 @@
     <img src="https://raw.githubusercontent.com/Ravencentric/pyanilist/main/docs/assets/logo.png" alt="Logo" width="400">
   </a>
   <p align="center">
-    Simple Anilist API wrapper to fetch data about Anime or Manga
+    Simple Anilist API wrapper to fetch data about it's media
     <br/>
     <br/>
   </p>
@@ -23,10 +23,9 @@
 
 ## About
 
-- Supports both sync and async. 
-- Read-only API wrapper.
-- Only supports querying the `Anime` or `Manga` type.
-    - *Technically, Anilist has more than just Anime or Manga but they simply lump all animation into their `Anime` type and all comics/text-based media into their `Manga` type. This means that something like a `Light Novel` also falls in the `Manga` type*
+- Supports both sync and async.
+- Provides easy access to almost every field present in Anilist's `Media` type.
+- Only supports querying the `Media` type
 
 ## Installation
 

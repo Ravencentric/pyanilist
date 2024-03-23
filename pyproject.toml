@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "pyanilist"
 version = "0.3.0"
-description = "Simple Anilist API wrapper to fetch data about Anime or Manga"
+description = "Simple Anilist API wrapper to fetch data about it's media"
 authors = ["Raventric <raven@pyanilist.zip>"]
 license = "Unlicense"
 readme = "README.md"

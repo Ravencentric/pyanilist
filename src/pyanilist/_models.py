@@ -484,7 +484,7 @@ class Relation(ParentModel):
     trailer: MediaTrailer = MediaTrailer()
     """Media trailer or advertisement"""
 
-    updated_at: datetime
+    updated_at: datetime = datetime.min
     """When the media's data was last updated"""
 
     cover_image: MediaCoverImage = MediaCoverImage()
@@ -608,7 +608,7 @@ class Media(ParentModel):
     trailer: MediaTrailer = MediaTrailer()
     """Media trailer or advertisement"""
 
-    updated_at: datetime
+    updated_at: datetime = datetime.min
     """When the media's data was last updated"""
 
     cover_image: MediaCoverImage = MediaCoverImage()
