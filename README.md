@@ -6,7 +6,7 @@
     <img src="https://raw.githubusercontent.com/Ravencentric/pyanilist/main/docs/assets/logo.png" alt="Logo" width="400">
   </a>
   <p align="center">
-    Simple Anilist API wrapper to fetch data about it's media
+    Simple Anilist API wrapper to fetch media data
     <br/>
     <br/>
   </p>
