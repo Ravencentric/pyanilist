@@ -23,7 +23,7 @@ class Anilist:
         Parameters
         ----------
         api_url : str, optional
-            The URL of the Anilist API. Default is "https://graphql.anilist.co".
+            The URL of the Anilist API. Default is `https://graphql.anilist.co`.
         retries : int, optional
             Number of times to retry a failed request before raising an error. Default is 5.
         kwargs : HTTPXClientKwargs, optional
@@ -50,7 +50,7 @@ class Anilist:
         Parameters
         ----------
         id : AnilistID, optional
-            Anilist ID of the media as found in the URL: https://anilist.co/{type}/{id}. Default is None.
+            Anilist ID of the media as found in the URL: `https://anilist.co/{type}/{id}`. Default is None.
         season : MediaSeason | None, optional
             The season the media was initially released in. Default is None.
         season_year : AnilistYear | None, optional
@@ -176,7 +176,7 @@ class Anilist:
 
         Parameters
         ----------
-        title : AnilistTitle | None, optional
+        title : AnilistTitle
             The string used for searching on Anilist.
         season : MediaSeason | None, optional
             The season the media was initially released in. Default is None.
@@ -223,7 +223,7 @@ class Anilist:
         Parameters
         ----------
         id : int
-            Anilist ID of the media as found in the URL: https://anilist.co/{type}/{id}.
+            Anilist ID of the media as found in the URL: `https://anilist.co/{type}/{id}`.
 
         Raises
         ------
