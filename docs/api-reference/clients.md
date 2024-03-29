@@ -1,4 +1,4 @@
-::: pyanilist.Anilist
+::: pyanilist.AniList
     options:
         members: 
             - __init__
@@ -6,7 +6,7 @@
             - get
 
 
-::: pyanilist.AsyncAnilist
+::: pyanilist.AsyncAniList
     options:
         members: 
             - __init__

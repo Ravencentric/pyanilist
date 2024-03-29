@@ -1,4 +1,4 @@
-from ._clients import Anilist, AsyncAnilist
+from ._clients import AniList, AsyncAniList
 from ._enums import (
     CharacterRole,
     ExternalLinkType,
@@ -60,7 +60,7 @@ from ._models import (
     StaffName,
     Studio,
 )
-from ._types import AnilistID, AnilistTitle, AnilistYear, Color, CountryCode, HttpUrl, YearsActive
+from ._types import AniListID, AniListTitle, AniListYear, Color, CountryCode, HttpUrl, YearsActive
 from ._version import _get_version
 
 __version__ = _get_version()
@@ -68,8 +68,8 @@ __version_tuple__ = tuple(__version__.split("."))
 
 __all__ = [
     # Clients
-    "AsyncAnilist",
-    "Anilist",
+    "AsyncAniList",
+    "AniList",
     # Enums
     "CharacterRole",
     "ExternalLinkType",
@@ -81,9 +81,9 @@ __all__ = [
     "MediaStatus",
     "MediaType",
     # Types
-    "AnilistID",
-    "AnilistTitle",
-    "AnilistYear",
+    "AniListID",
+    "AniListTitle",
+    "AniListYear",
     "Color",
     "CountryCode",
     "HttpUrl",

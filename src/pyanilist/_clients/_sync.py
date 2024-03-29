@@ -9,21 +9,21 @@ from tenacity import Retrying, stop_after_attempt, wait_incrementing
 from .._enums import MediaFormat, MediaSeason, MediaStatus, MediaType
 from .._models import Media
 from .._query import query_string
-from .._types import AnilistID, AnilistTitle, AnilistYear, HTTPXClientKwargs
+from .._types import AniListID, AniListTitle, AniListYear, HTTPXClientKwargs
 from .._utils import flatten, remove_null_fields
 
 
-class Anilist:
+class AniList:
     def __init__(
         self, api_url: str = "https://graphql.anilist.co", retries: int = 5, **kwargs: HTTPXClientKwargs
     ) -> None:
         """
-        Anilist API client.
+        AniList API client.
 
         Parameters
         ----------
         api_url : str, optional
-            The URL of the Anilist API. Default is `https://graphql.anilist.co`.
+            The URL of the AniList API. Default is `https://graphql.anilist.co`.
         retries : int, optional
             Number of times to retry a failed request before raising an error. Default is 5.
         kwargs : HTTPXClientKwargs, optional
@@ -36,24 +36,24 @@ class Anilist:
 
     def _post_request(
         self,
-        id: AnilistID | None = None,
+        id: AniListID | None = None,
         season: MediaSeason | None = None,
-        season_year: AnilistYear | None = None,
+        season_year: AniListYear | None = None,
         type: MediaType | None = None,
         format: MediaFormat | None = None,
         status: MediaStatus | None = None,
-        title: AnilistTitle | None = None,
+        title: AniListTitle | None = None,
     ) -> httpx.Response:
         """
-        Make a POST request to the Anilist API.
+        Make a POST request to the AniList API.
 
         Parameters
         ----------
-        id : AnilistID, optional
-            Anilist ID of the media as found in the URL: `https://anilist.co/{type}/{id}`. Default is None.
+        id : AniListID, optional
+            AniList ID of the media as found in the URL: `https://anilist.co/{type}/{id}`. Default is None.
         season : MediaSeason | None, optional
             The season the media was initially released in. Default is None.
-        season_year : AnilistYear | None, optional
+        season_year : AniListYear | None, optional
             The season year the media was initially released in. Default is None.
         type : MediaType | None, optional
             The type of the media; anime or manga. Default is None.
@@ -61,8 +61,8 @@ class Anilist:
             The format the media was released in. Default is None.
         status : MediaStatus | None, optional
             The current releasing status of the media. Default is None.
-        title : AnilistTitle | None, optional
-            The string used for searching on Anilist. Default is None.
+        title : AniListTitle | None, optional
+            The string used for searching on AniList. Default is None.
 
         Raises
         ------
@@ -73,10 +73,10 @@ class Anilist:
         Returns
         -------
         Response
-            The response object from the Anilist API.
+            The response object from the AniList API.
         """
 
-        # map params with Anilist's
+        # map params with AniList's
         query_variables = dict(
             id=id,
             season=season,
@@ -106,12 +106,12 @@ class Anilist:
     @staticmethod
     def _post_process_response(response: httpx.Response) -> dict[str, Any]:
         """
-        Post-processes the response from Anilist API.
+        Post-processes the response from AniList API.
 
         Parameters
         ----------
         response : Response
-            The response object received from Anilist API.
+            The response object received from AniList API.
 
         Returns
         -------
@@ -164,23 +164,23 @@ class Anilist:
     @validate_call
     def search(
         self,
-        title: AnilistTitle,
+        title: AniListTitle,
         season: MediaSeason | None = None,
-        season_year: AnilistYear | None = None,
+        season_year: AniListYear | None = None,
         type: MediaType | None = None,
         format: MediaFormat | None = None,
         status: MediaStatus | None = None,
     ) -> Media:
         """
-        Search for media on Anilist based on the provided parameters.
+        Search for media on AniList based on the provided parameters.
 
         Parameters
         ----------
-        title : AnilistTitle
-            The string used for searching on Anilist.
+        title : AniListTitle
+            The string used for searching on AniList.
         season : MediaSeason | None, optional
             The season the media was initially released in. Default is None.
-        season_year : AnilistYear | None, optional
+        season_year : AniListYear | None, optional
             The season year the media was initially released in. Default is None.
         type : MediaType | None, optional
             The type of the media; anime or manga. Default is None.
@@ -194,7 +194,7 @@ class Anilist:
         ValidationError
             Invalid input
         HTTPStatusError
-            Anilist returned a non 2xx response.
+            AniList returned a non 2xx response.
 
         Returns
         -------
@@ -216,21 +216,21 @@ class Anilist:
         )
 
     @validate_call
-    def get(self, id: AnilistID) -> Media:
+    def get(self, id: AniListID) -> Media:
         """
-        Retrieve media information from Anilist based on it's ID.
+        Retrieve media information from AniList based on it's ID.
 
         Parameters
         ----------
         id : int
-            Anilist ID of the media as found in the URL: `https://anilist.co/{type}/{id}`.
+            AniList ID of the media as found in the URL: `https://anilist.co/{type}/{id}`.
 
         Raises
         ------
         ValidationError
             Invalid input
         HTTPStatusError
-            Anilist returned a non 2xx response.
+            AniList returned a non 2xx response.
 
         Returns
         -------

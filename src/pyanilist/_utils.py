@@ -7,7 +7,7 @@ from boltons.iterutils import remap
 
 def flatten(nested: dict[str, list[dict[str, dict[str, Any]]]] | None, key: str = "") -> list[dict[str, Any]]:
     """
-    Flattens the nested dictionary returned by Anilist's Media/Character/StaffConnection
+    Flattens the nested dictionary returned by AniList's Media/Character/StaffConnection
     data types into a list of non-nested dictionaries.
 
     The media details we actually want are nested in ["edges"]["nodes"]
@@ -62,7 +62,7 @@ def flatten(nested: dict[str, list[dict[str, dict[str, Any]]]] | None, key: str 
 
 def remove_null_fields(dictionary: dict[str, Any]) -> dict[str, Any]:
     """
-    Anilist's `null` return is inconsistent for fields that have their own subfields.
+    AniList's `null` return is inconsistent for fields that have their own subfields.
     some of them will return each subfield as `null` while some of them
     will return a single null for the parent field.
 

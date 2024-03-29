@@ -27,7 +27,7 @@ class ParentModel(BaseModel):
 
     model_config = ConfigDict(
         alias_generator=AliasGenerator(
-            # Anilist uses camelCase
+            # AniList uses camelCase
             alias=to_camel,
         ),
         frozen=True,
