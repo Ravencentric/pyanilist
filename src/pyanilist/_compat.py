@@ -2,15 +2,14 @@
 
 import sys
 
-if sys.version_info[0:2] < (3, 11):
-    from strenum import StrEnum
-else:
+if sys.version_info >= (3, 11):
     from enum import StrEnum
-
-
-if sys.version_info[0:2] < (3, 10):
-    import importlib_metadata as metadata
 else:
+    from backports.strenum import StrEnum
+
+if sys.version_info >= (3, 10):
     from importlib import metadata
+else:
+    import importlib_metadata as metadata
 
 __all__ = ["metadata", "StrEnum"]
