@@ -1,7 +1,7 @@
 # Project information
 site_name: pyanilist
 site_author: Ravencentric
-site_description: Simple read-only Anilist API wrapper
+site_description: Simple AniList API wrapper to fetch media data
 
 # Repository
 repo_name: pyanilist

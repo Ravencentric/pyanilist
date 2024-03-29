@@ -1,5 +1,5 @@
 from pyanilist import (
-    Anilist,
+    AniList,
     HttpUrl,
     MediaFormat,
     MediaSeason,
@@ -9,8 +9,8 @@ from pyanilist import (
 )
 
 
-def test_anilist() -> None:
-    media = Anilist().search("Attack on titan", type=MediaType.ANIME)
+def test_anilist_anime() -> None:
+    media = AniList().search("Attack on titan", type=MediaType.ANIME)
     assert media.title.romaji == "Shingeki no Kyojin"
     assert media.start_date.year == 2013
     assert media.source == MediaSource.MANGA
@@ -18,8 +18,8 @@ def test_anilist() -> None:
     assert media.site_url == HttpUrl("https://anilist.co/anime/16498")
 
 
-def test_anilist_with_type_constraint() -> None:
-    media = Anilist().search("Attack on titan", type=MediaType.MANGA)
+def test_anilist_manga() -> None:
+    media = AniList().search("Attack on titan", type=MediaType.MANGA)
     assert media.title.romaji == "Shingeki no Kyojin"
     assert media.start_date.year == 2009
     assert media.source == MediaSource.ORIGINAL
@@ -28,7 +28,7 @@ def test_anilist_with_type_constraint() -> None:
 
 
 def test_anilist_with_some_constraints() -> None:
-    media = Anilist().search(
+    media = AniList().search(
         "violet evergarden", type=MediaType.MANGA, format=MediaFormat.NOVEL, status=MediaStatus.FINISHED
     )
     assert media.title.romaji == "Violet Evergarden"
@@ -39,7 +39,7 @@ def test_anilist_with_some_constraints() -> None:
 
 
 def test_anilist_with_all_constraints() -> None:
-    media = Anilist().search(
+    media = AniList().search(
         "My Hero Academia",
         season=MediaSeason.SPRING,
         season_year=2016,
@@ -55,7 +55,7 @@ def test_anilist_with_all_constraints() -> None:
 
 
 def test_anilist_id() -> None:
-    media = Anilist().get(16498)
+    media = AniList().get(16498)
     assert media.title.romaji == "Shingeki no Kyojin"
     assert media.start_date.year == 2013
     assert media.source == MediaSource.MANGA

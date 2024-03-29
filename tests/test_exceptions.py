@@ -1,12 +1,12 @@
 import pytest
 from pyanilist import (
-    Anilist,
+    AniList,
     HTTPStatusError,
     MediaType,
     ValidationError,
 )
 
-anilist = Anilist(retries=1)
+anilist = AniList(retries=1)
 
 
 def test_anilist_title_doesnt_exist() -> None:

@@ -1,4 +1,4 @@
-from ._async import AsyncAnilist
-from ._sync import Anilist
+from ._async import AsyncAniList
+from ._sync import AniList
 
-__all__ = ["AsyncAnilist", "Anilist"]
+__all__ = ["AsyncAniList", "AniList"]

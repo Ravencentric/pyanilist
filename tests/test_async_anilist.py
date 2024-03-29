@@ -1,5 +1,5 @@
 from pyanilist import (
-    AsyncAnilist,
+    AsyncAniList,
     HttpUrl,
     MediaFormat,
     MediaSeason,
@@ -9,8 +9,8 @@ from pyanilist import (
 )
 
 
-async def test_anilist() -> None:
-    media = await AsyncAnilist().search("Attack on titan", type=MediaType.ANIME)
+async def test_anilist_anime() -> None:
+    media = await AsyncAniList().search("Attack on titan", type=MediaType.ANIME)
     assert media.title.romaji == "Shingeki no Kyojin"
     assert media.start_date.year == 2013
     assert media.source == MediaSource.MANGA
@@ -18,8 +18,8 @@ async def test_anilist() -> None:
     assert media.site_url == HttpUrl("https://anilist.co/anime/16498")
 
 
-async def test_anilist_with_type_constraint() -> None:
-    media = await AsyncAnilist().search("Attack on titan", type=MediaType.MANGA)
+async def test_anilist_manga() -> None:
+    media = await AsyncAniList().search("Attack on titan", type=MediaType.MANGA)
     assert media.title.romaji == "Shingeki no Kyojin"
     assert media.start_date.year == 2009
     assert media.source == MediaSource.ORIGINAL
@@ -28,7 +28,7 @@ async def test_anilist_with_type_constraint() -> None:
 
 
 async def test_anilist_with_some_constraints() -> None:
-    media = await AsyncAnilist().search(
+    media = await AsyncAniList().search(
         "violet evergarden", type=MediaType.MANGA, format=MediaFormat.NOVEL, status=MediaStatus.FINISHED
     )
     assert media.title.romaji == "Violet Evergarden"
@@ -39,7 +39,7 @@ async def test_anilist_with_some_constraints() -> None:
 
 
 async def test_anilist_with_all_constraints() -> None:
-    media = await AsyncAnilist().search(
+    media = await AsyncAniList().search(
         "My Hero Academia",
         season=MediaSeason.SPRING,
         season_year=2016,
@@ -55,7 +55,7 @@ async def test_anilist_with_all_constraints() -> None:
 
 
 async def test_anilist_id() -> None:
-    media = await AsyncAnilist().get(16498)
+    media = await AsyncAniList().get(16498)
     assert media.title.romaji == "Shingeki no Kyojin"
     assert media.start_date.year == 2013
     assert media.source == MediaSource.MANGA

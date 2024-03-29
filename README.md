@@ -6,9 +6,7 @@
     <img src="https://raw.githubusercontent.com/Ravencentric/pyanilist/main/docs/assets/logo.png" alt="Logo" width="400">
   </a>
   <p align="center">
-    Simple Anilist API wrapper to fetch media data
-    <br/>
-    <br/>
+    Simple AniList API wrapper to fetch media data
   </p>
 </p>
 
@@ -34,7 +32,7 @@
 ## About
 
 - Supports both sync and async.
-- Provides easy access to almost every field present in Anilist's `Media` type.
+- Provides easy access to almost every field present in AniList's `Media` type.
 - Only supports querying the `Media` type
 
 ## Installation
@@ -47,13 +45,13 @@ pip install pyanilist
 
 ## Usage
 
-1. `Anilist()` - Synchronous class
+1. `AniList()` - Synchronous class
     - `search()` - Search a media
 
         ```py
-        from pyanilist import Anilist, MediaType
+        from pyanilist import AniList, MediaType
 
-        media = Anilist().search("Attack on Titan", type=MediaType.ANIME)
+        media = AniList().search("Attack on Titan", type=MediaType.ANIME)
 
         print(media.title.romaji)
         """
@@ -68,12 +66,12 @@ pip install pyanilist
         25
         """
         ```
-    - `get()` - Get a media by it's Anilist ID
+    - `get()` - Get a media by it's AniList ID
 
         ```py
-        from pyanilist import Anilist
+        from pyanilist import AniList
 
-        media = Anilist().get(21459)
+        media = AniList().get(21459)
 
         print(media.title.english)
         """
@@ -89,14 +87,14 @@ pip install pyanilist
         """
         ```
 
-2. `AsyncAnilist()` - Asynchronous class
+2. `AsyncAniList()` - Asynchronous class
     - `search()` - Search a media
 
         ```py
         import asyncio
-        from pyanilist import AsyncAnilist, MediaType
+        from pyanilist import AsyncAniList, MediaType
 
-        media = asyncio.run(AsyncAnilist().search("Attack on Titan", type=MediaType.ANIME))
+        media = asyncio.run(AsyncAniList().search("Attack on Titan", type=MediaType.ANIME))
 
         print(media.title.romaji)
         """
@@ -111,13 +109,13 @@ pip install pyanilist
         25
         """
         ```
-    - `get()` - Get a media by it's Anilist ID
+    - `get()` - Get a media by it's AniList ID
 
         ```py
         import asyncio
-        from pyanilist import AsyncAnilist
+        from pyanilist import AsyncAniList
         
-        media = asyncio.run(AsyncAnilist().get(21459))
+        media = asyncio.run(AsyncAniList().get(21459))
 
         print(media.title.english)
         """

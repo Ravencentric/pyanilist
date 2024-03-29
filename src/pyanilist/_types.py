@@ -25,9 +25,9 @@ class YearsActive(NamedTuple):
     end_year: int | None = None
 
 
-AnilistID = Annotated[int, Field(gt=0, description="Anilist ID as found in the URL: https://anilist.co/{type}/{id}")]
-AnilistYear = Annotated[int, Field(ge=1000, description="Release Year")]
-AnilistTitle = Annotated[str, Field(min_length=1, description="Title of the media")]
+AniListID = Annotated[int, Field(gt=0, description="AniList ID as found in the URL: https://anilist.co/{type}/{id}")]
+AniListYear = Annotated[int, Field(ge=1000, description="Release Year")]
+AniListTitle = Annotated[str, Field(min_length=1, description="Title of the media")]
 
 HTTPXClientKwargs: TypeAlias = Any
 """Simple TypeAlias to refer to `httpx.Client()` kwargs"""
@@ -36,9 +36,9 @@ HTTPXAsyncClientKwargs: TypeAlias = Any
 """Simple TypeAlias to refer to `httpx.AsyncClient()` kwargs"""
 
 __all__ = [
-    "AnilistID",
-    "AnilistTitle",
-    "AnilistYear",
+    "AniListID",
+    "AniListTitle",
+    "AniListYear",
     "Color",
     "CountryCode",
     "HttpUrl",
