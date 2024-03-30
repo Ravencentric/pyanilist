@@ -1,7 +1,29 @@
 from ._compat import StrEnum
 
 
-class MediaType(StrEnum):
+class BaseStrEnum(StrEnum):
+    @property
+    def title(self) -> str:  # type: ignore
+        """
+        Title Cased value
+        """
+
+        # These don't get the desired results with .title()
+        # so we manually map them
+        exceptions = {
+            "TV": "TV",
+            "TV_SHORT": "TV Short",
+            "OVA": "OVA",
+            "ONA": "ONA",
+        }
+
+        if self.value in exceptions:
+            return exceptions[self.value]
+
+        return self.value.replace("_", " ").title()
+
+
+class MediaType(BaseStrEnum):
     """The type of the media; anime or manga."""
 
     ANIME = "ANIME"
@@ -11,7 +33,7 @@ class MediaType(StrEnum):
     """Asian comic"""
 
 
-class MediaFormat(StrEnum):
+class MediaFormat(BaseStrEnum):
     """The format the media was released in."""
 
     TV = "TV"
@@ -27,10 +49,17 @@ class MediaFormat(StrEnum):
     """Special episodes that have been included in DVD/Blu-ray releases, picture dramas, pilots, etc"""
 
     OVA = "OVA"
-    """(Original Video Animation) Anime that have been released directly on DVD/Blu-ray without originally going through a theatrical release or television broadcast"""
+    """
+    (Original Video Animation)
+    Anime that have been released directly on DVD/Blu-ray without 
+    originally going through a theatrical release or television broadcast
+    """
 
     ONA = "ONA"
-    """(Original Net Animation) Anime that have been originally released online or are only available through streaming services."""
+    """
+    (Original Net Animation) 
+    Anime that have been originally released online or are only available through streaming services
+    """
 
     MUSIC = "MUSIC"
     """Short anime released as a music video"""
@@ -45,7 +74,7 @@ class MediaFormat(StrEnum):
     """Manga with just one chapter"""
 
 
-class MediaStatus(StrEnum):
+class MediaStatus(BaseStrEnum):
     """The current releasing status of the media."""
 
     FINISHED = "FINISHED"
@@ -64,7 +93,7 @@ class MediaStatus(StrEnum):
     """Version 2 only. Is currently paused from releasing and will resume at a later date"""
 
 
-class MediaSeason(StrEnum):
+class MediaSeason(BaseStrEnum):
     """The season the media was initially released in."""
 
     WINTER = "WINTER"
@@ -80,7 +109,7 @@ class MediaSeason(StrEnum):
     """Months September to November"""
 
 
-class MediaSource(StrEnum):
+class MediaSource(BaseStrEnum):
     """Source type the media was adapted from."""
 
     ORIGINAL = "ORIGINAL"
@@ -129,7 +158,7 @@ class MediaSource(StrEnum):
     """Version 3 only. Picture book"""
 
 
-class MediaRelation(StrEnum):
+class MediaRelation(BaseStrEnum):
     """Type of relation media has to its parent."""
 
     ADAPTATION = "ADAPTATION"
@@ -172,7 +201,7 @@ class MediaRelation(StrEnum):
     """Version 2 only."""
 
 
-class ExternalLinkType(StrEnum):
+class ExternalLinkType(BaseStrEnum):
     """External Link Type"""
 
     INFO = "INFO"
@@ -185,7 +214,7 @@ class ExternalLinkType(StrEnum):
     """Streaming site"""
 
 
-class CharacterRole(StrEnum):
+class CharacterRole(BaseStrEnum):
     """The role the character plays in the media"""
 
     MAIN = "MAIN"
@@ -198,7 +227,7 @@ class CharacterRole(StrEnum):
     """A background character in the media"""
 
 
-class MediaRankType(StrEnum):
+class MediaRankType(BaseStrEnum):
     """The type of ranking"""
 
     RATED = "RATED"

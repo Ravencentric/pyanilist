@@ -1,4 +1,17 @@
+from typing_extensions import NamedTuple
+
 from ._compat import metadata
+
+
+class VersionInfo(NamedTuple):
+    """Version tuple based on SemVer"""
+
+    major: int
+    """Major version number"""
+    minor: int
+    """Minor version number"""
+    patch: int
+    """Patch version number"""
 
 
 def _get_version() -> str:

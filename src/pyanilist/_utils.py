@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import re
 from typing import Any
 
 from boltons.iterutils import remap
@@ -58,6 +59,18 @@ def flatten(nested: dict[str, list[dict[str, dict[str, Any]]]] | None, key: str 
                     flattened.append(node)
 
     return flattened
+
+
+def sanitize_description(description: str | None) -> str | None:
+    """
+    Despite the HTML parameter not being true in the query, the description
+    can still have HTML tags in it so we will strip them.
+    """
+
+    if description is None:
+        return description
+    else:
+        return re.sub(r"<.*?>", "", description)
 
 
 def remove_null_fields(dictionary: dict[str, Any]) -> dict[str, Any]:

@@ -10,7 +10,7 @@ from .._enums import MediaFormat, MediaSeason, MediaStatus, MediaType
 from .._models import Media
 from .._query import query_string
 from .._types import AniListID, AniListTitle, AniListYear, HTTPXClientKwargs
-from .._utils import flatten, remove_null_fields
+from .._utils import flatten, remove_null_fields, sanitize_description
 
 
 class AniList:
@@ -151,7 +151,16 @@ class AniList:
         dictionary.pop("staff", None)
         flattened_staff = flatten(staff, "role")
 
+        # Remove the HTML tags from description
+        sanitized_description = sanitize_description(dictionary.get("description"))
+
+        # Also remove them for the related media
+        for relation in flattened_relations:
+            description = relation.get("description")
+            relation["description"] = sanitize_description(description)
+
         # replace the original
+        dictionary["description"] = sanitized_description
         dictionary["relations"] = flattened_relations
         dictionary["studios"] = flattened_studios
         dictionary["characters"] = flattened_characters

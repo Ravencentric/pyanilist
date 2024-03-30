@@ -86,6 +86,29 @@ Violet Evergarden CM (ONA) - https://anilist.co/anime/154164
 """
 ```
 
+## Characters
+
+```py
+from pyanilist import AniList, CharacterRole
+
+media = AniList().get(20954)
+
+all_characters = [character.name.full for character in media.characters]
+
+# Filter main characters
+main_characters = [character.name.full for character in media.characters if character.role is CharacterRole.MAIN]
+
+print(all_characters)
+"""
+['Shouya Ishida', 'Shouko Nishimiya', 'Yuzuru Nishimiya', 'Naoka Ueno', 'Miyako Ishida', 'Maria Ishida', 'Miki Kawai', 'Satoshi Mashiba', 'Tomohiro Nagatsuka', 'Yaeko Nishimiya', 'Ito Nishimiya', 'Miyoko Sahara', 'Kazuki Shimada', 'Takeuchi', 'Pedro', 'Keisuke Hirose', 'Ishida no Ane', 'Kita']
+"""
+
+print(main_characters)
+"""
+['Shouya Ishida', 'Shouko Nishimiya']
+"""
+```
+
 ## Retries
 
 AniList API is flaky, sometimes it might return an error for a perfectly valid request. `pyanilist` handles this by simply retrying failed requests a specified number of times (default is 5) before raising an error. Every subsequent retry also adds an additional one-second delay between requests.
@@ -93,8 +116,8 @@ AniList API is flaky, sometimes it might return an error for a perfectly valid r
 ```py
 from pyanilist import AniList
 
-# Configure the number of retries. Setting it to 1 basically disables retrying.
-anilist = AniList(retries=1)
+# Configure the number of retries. Setting it to 0 disables retrying.
+anilist = AniList(retries=0)
 
 media = anilist.search("violet evergarden")
 
