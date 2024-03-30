@@ -1,3 +1,4 @@
+::: pyanilist._enums.BaseStrEnum
 ::: pyanilist._enums.CharacterRole
 ::: pyanilist._enums.ExternalLinkType
 ::: pyanilist._enums.MediaFormat

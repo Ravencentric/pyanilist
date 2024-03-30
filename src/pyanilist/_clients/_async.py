@@ -10,7 +10,7 @@ from .._enums import MediaFormat, MediaSeason, MediaStatus, MediaType
 from .._models import Media
 from .._query import query_string
 from .._types import AniListID, AniListTitle, AniListYear, HTTPXAsyncClientKwargs
-from .._utils import flatten, remove_null_fields
+from .._utils import flatten, remove_null_fields, sanitize_description
 
 
 class AsyncAniList:
@@ -105,7 +105,7 @@ class AsyncAniList:
         return response
 
     @staticmethod
-    def _post_process_response(response: httpx.Response) -> dict[str, Any]:
+    async def _post_process_response(response: httpx.Response) -> dict[str, Any]:
         """
         Post-processes the response from AniList API.
 
@@ -152,7 +152,16 @@ class AsyncAniList:
         dictionary.pop("staff", None)
         flattened_staff = flatten(staff, "role")
 
+        # Remove the HTML tags from description
+        sanitized_description = sanitize_description(dictionary.get("description"))
+
+        # Also remove them for the related media
+        for relation in flattened_relations:
+            description = relation.get("description")
+            relation["description"] = sanitize_description(description)
+
         # replace the original
+        dictionary["description"] = sanitized_description
         dictionary["relations"] = flattened_relations
         dictionary["studios"] = flattened_studios
         dictionary["characters"] = flattened_characters
@@ -204,7 +213,7 @@ class AsyncAniList:
         """
 
         return Media.model_validate(
-            self._post_process_response(
+            await self._post_process_response(
                 await self._post_request(
                     title=title,
                     season=season,
@@ -240,7 +249,7 @@ class AsyncAniList:
         """
 
         return Media.model_validate(
-            self._post_process_response(
+            await self._post_process_response(
                 await self._post_request(
                     id=id,
                 )

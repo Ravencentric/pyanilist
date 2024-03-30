@@ -6,7 +6,7 @@ from pyanilist import (
     ValidationError,
 )
 
-anilist = AniList(retries=1)
+anilist = AniList(retries=0)
 
 
 def test_anilist_title_doesnt_exist() -> None:
