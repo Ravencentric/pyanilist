@@ -9,6 +9,8 @@ from pyanilist import (
     MediaType,
 )
 
+from .mock_descriptions import BloomIntoYouAnthologyDescriptions, BloomIntoYouDescriptions
+
 
 async def test_anilist_anime() -> None:
     media = await AsyncAniList().search("Attack on titan", type=MediaType.ANIME)
@@ -65,22 +67,20 @@ async def test_anilist_id() -> None:
 
 
 async def test_anilist_description() -> None:
-    media = await AsyncAniList().get(99426)
-    assert media.title.english == "A Place Further Than the Universe"
+    media = await AsyncAniList().get(106794)
+    assert media.title.english == "Bloom Into You Anthology"
     assert media.start_date.year == 2018
-    assert media.source is MediaSource.ORIGINAL
-    assert media.type is MediaType.ANIME
-    assert media.description == (
-        """Mari Tamaki is in her second year of high school and wants to start something. It's then that she meets Shirase, a girl with few friends who's considered weirdo by the rest of the class and nicknamed "Antarctic" since it's all she ever talks about. Unlike her peers, Mari is moved by Shirase's dedication and decides that even though it's unlikely that high school girls will ever go to Antarctica, she's going to try to go with Shirase.
-
-(Source: Anime News Network)"""
-    )
-    assert media.relations[0].description == (
-        """Mari Tamaki is in her second year of high school and wants to start something. It's then that she meets Shirase, a girl with few friends who's considered a weirdo by the rest of the class and nicknamed "Antarctica" since it's all she ever talks about. Unlike her peers, Mari is moved by Shirase's dedication and decides that even though it's unlikely that high school girls will ever go to Antarctica, she's going to try to go with Shirase.
-
-Note: Includes two extra chapters."""
-    )
-    assert media.site_url == HttpUrl("https://anilist.co/anime/99426")
+    assert media.source is MediaSource.MANGA
+    assert media.type is MediaType.MANGA
+    assert media.description.default == BloomIntoYouAnthologyDescriptions.SANITIZED_DEFAULT
+    assert media.description.html == BloomIntoYouAnthologyDescriptions.SANITIZED_HTML
+    assert media.description.markdown == BloomIntoYouAnthologyDescriptions.MARKDOWN
+    assert media.description.text == BloomIntoYouAnthologyDescriptions.TEXT
+    assert media.relations[0].description.default == BloomIntoYouDescriptions.DEFAULT
+    assert media.relations[0].description.html == BloomIntoYouDescriptions.HTML
+    assert media.relations[0].description.markdown == BloomIntoYouDescriptions.MARKDOWN
+    assert media.relations[0].description.text == BloomIntoYouDescriptions.TEXT
+    assert media.site_url == HttpUrl("https://anilist.co/manga/106794")
 
 
 async def test_anilist_characters() -> None:

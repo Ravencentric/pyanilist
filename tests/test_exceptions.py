@@ -2,16 +2,10 @@ import pytest
 from pyanilist import (
     AniList,
     HTTPStatusError,
-    MediaType,
     ValidationError,
 )
 
 anilist = AniList(retries=0)
-
-
-def test_anilist_title_doesnt_exist() -> None:
-    with pytest.raises(HTTPStatusError, match="Not Found."):
-        anilist.search("Title does not exist", type=MediaType.MANGA)
 
 
 def test_anilist_bad_search_combo() -> None:

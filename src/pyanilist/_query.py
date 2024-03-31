@@ -11,7 +11,8 @@ query ($id: Int, $season: MediaSeason, $seasonYear: Int, $type: MediaType, $form
     type
     format
     status
-    description
+    defaultDescription: description(asHtml: false)
+    htmlDescription: description(asHtml: true)
     startDate {
       year
       month
@@ -78,7 +79,8 @@ query ($id: Int, $season: MediaSeason, $seasonYear: Int, $type: MediaType, $form
           type
           format
           status
-          description
+          defaultDescription: description(asHtml: false)
+          htmlDescription: description(asHtml: true)
           startDate {
             year
             month

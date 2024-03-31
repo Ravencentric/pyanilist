@@ -418,6 +418,46 @@ class MediaRank(ParentModel):
     """String that gives context to the ranking type and time span"""
 
 
+class MediaDescription(ParentModel):
+    """
+    Description of the media
+
+    Note
+    ----
+    The descriptions are processed with [nh3](https://nh3.readthedocs.io/en/latest/)
+    to sanitize them
+    """
+
+    default: str | None = None
+    """
+    The default description of the media as returned by AniList.
+    This may or may not contain HTML tags
+    """
+
+    html: str | None = None
+    """
+    The HTML formatted description of the media as returned by AniList
+    """
+
+    markdown: str | None = None
+    """
+    The Markdown formatted description of the media.
+    This is derived from the `html` description
+    with [html2text](https://github.com/Alir3z4/html2text)
+    """
+
+    text: str | None = None
+    """
+    The plain text formatted description of the media.
+    This is derived from `default` description with a simple regex
+
+    Note
+    ----
+    This will be "lossy" in the sense that things like like italics, bolds, etc
+    will also be stripped
+    """
+
+
 class Relation(ParentModel):
     """Related Anime or Manga to parent Media"""
 
@@ -439,7 +479,7 @@ class Relation(ParentModel):
     status: MediaStatus | None = None
     """The current releasing status of the media"""
 
-    description: str | None = None
+    description: MediaDescription = MediaDescription()
     """Short description of the media's story and characters"""
 
     start_date: FuzzyDate = FuzzyDate()
@@ -563,7 +603,7 @@ class Media(ParentModel):
     status: MediaStatus | None = None
     """The current releasing status of the media"""
 
-    description: str | None = None
+    description: MediaDescription = MediaDescription()
     """Short description of the media's story and characters"""
 
     start_date: FuzzyDate = FuzzyDate()
@@ -683,6 +723,7 @@ __all__ = [
     "FuzzyDate",
     "Media",
     "MediaCoverImage",
+    "MediaDescription",
     "MediaExternalLink",
     "MediaRank",
     "MediaStreamingEpisode",

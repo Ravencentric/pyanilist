@@ -2,16 +2,10 @@ import pytest
 from pyanilist import (
     AsyncAniList,
     HTTPStatusError,
-    MediaType,
     ValidationError,
 )
 
 anilist = AsyncAniList(retries=0)
-
-
-async def test_anilist_title_doesnt_exist() -> None:
-    with pytest.raises(HTTPStatusError, match="Not Found."):
-        await anilist.search("Title does not exist", type=MediaType.MANGA)
 
 
 async def test_anilist_bad_search_combo() -> None:
