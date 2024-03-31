@@ -5,6 +5,7 @@
 ::: pyanilist._models.CharacterName
 ::: pyanilist._models.FuzzyDate
 ::: pyanilist._models.MediaCoverImage
+::: pyanilist._models.MediaDescription
 ::: pyanilist._models.MediaExternalLink
 ::: pyanilist._models.MediaRank
 ::: pyanilist._models.MediaStreamingEpisode

@@ -3,7 +3,9 @@ from __future__ import annotations
 import re
 from typing import Any
 
+import nh3
 from boltons.iterutils import remap
+from html2text import HTML2Text
 
 
 def flatten(nested: dict[str, list[dict[str, dict[str, Any]]]] | None, key: str = "") -> list[dict[str, Any]]:
@@ -63,14 +65,28 @@ def flatten(nested: dict[str, list[dict[str, dict[str, Any]]]] | None, key: str 
 
 def sanitize_description(description: str | None) -> str | None:
     """
-    Despite the HTML parameter not being true in the query, the description
-    can still have HTML tags in it so we will strip them.
+    Sanitize the description as it may contain
+    arbitrary html elements
     """
 
     if description is None:
         return description
     else:
-        return re.sub(r"<.*?>", "", description)
+        return nh3.clean(description).strip()
+
+
+def markdown_formatter(description: str | None) -> str | None:
+    if description is None:
+        return description
+    else:
+        return HTML2Text(bodywidth=0).handle(description).strip()  # type: ignore
+
+
+def text_formatter(description: str | None) -> str | None:
+    if description is None:
+        return description
+    else:
+        return re.sub(r"<.*?>", "", description).strip()
 
 
 def remove_null_fields(dictionary: dict[str, Any]) -> dict[str, Any]:

@@ -1,4 +1,6 @@
-from pyanilist._utils import flatten, remove_null_fields
+from pyanilist._utils import flatten, markdown_formatter, remove_null_fields, sanitize_description, text_formatter
+
+from .mock_descriptions import BloomIntoYouAnthologyDescriptions
 
 
 def test_flatten() -> None:
@@ -90,3 +92,12 @@ def test_remove_null_fields() -> None:
             }
         }
     }
+
+
+# fmt: off
+def test_formatters() -> None:
+    assert sanitize_description(BloomIntoYouAnthologyDescriptions.DEFAULT) == BloomIntoYouAnthologyDescriptions.SANITIZED_DEFAULT
+    assert sanitize_description(BloomIntoYouAnthologyDescriptions.HTML) == BloomIntoYouAnthologyDescriptions.SANITIZED_HTML
+    assert markdown_formatter(BloomIntoYouAnthologyDescriptions.HTML) == BloomIntoYouAnthologyDescriptions.MARKDOWN
+    assert text_formatter(BloomIntoYouAnthologyDescriptions.DEFAULT) == BloomIntoYouAnthologyDescriptions.TEXT
+# fmt: on

@@ -10,7 +10,7 @@ from .._enums import MediaFormat, MediaSeason, MediaStatus, MediaType
 from .._models import Media
 from .._query import query_string
 from .._types import AniListID, AniListTitle, AniListYear, HTTPXAsyncClientKwargs
-from .._utils import flatten, remove_null_fields, sanitize_description
+from .._utils import flatten, markdown_formatter, remove_null_fields, sanitize_description, text_formatter
 
 
 class AsyncAniList:
@@ -105,7 +105,60 @@ class AsyncAniList:
         return response
 
     @staticmethod
-    async def _post_process_response(response: httpx.Response) -> dict[str, Any]:
+    async def _process_description(dictionary: dict[str, Any]) -> dict[str, Any]:
+        """
+        Anilist's description field takes a parameter `asHtml: boolean`, effectively
+        resulting in two differently formatted descriptions.
+
+        Despite what the name implies, `asHtml` being `False` does not gurantee that there will be no `HTML`
+        tags in the description.
+
+        So we do a bit of post processing:
+        - Sanitize the resulting descriptions
+        - Introduce two more formats derived from the default, i.e, markdown and plain text
+        - Nest our newly acquired 4 descriptions into a single parent dictionary
+
+        Example:
+
+        This
+        ```py
+        {
+            "defaultDescription": "...",
+            "htmlDescription": "...",
+        }
+        ```
+        Turns into this:
+        ```py
+        {
+            "description": {
+                "default": "...",
+                "html": "...",
+                "markdown": "...",
+                "text": "...",
+            }
+        }
+        ```py
+
+        """
+
+        default_description = sanitize_description(dictionary.get("defaultDescription"))
+        html_description = sanitize_description(dictionary.get("htmlDescription"))
+        markdown_description = markdown_formatter(html_description)
+        text_description = text_formatter(default_description)
+
+        # Delete the processed keys
+        dictionary.pop("defaultDescription", None)
+        dictionary.pop("htmlDescription", None)
+
+        # Nest them inside a parent dictionary
+        return dict(
+            default=default_description,
+            html=html_description,
+            markdown=markdown_description,
+            text=text_description,
+        )
+
+    async def _post_process_response(self, response: httpx.Response) -> dict[str, Any]:
         """
         Post-processes the response from AniList API.
 
@@ -152,16 +205,14 @@ class AsyncAniList:
         dictionary.pop("staff", None)
         flattened_staff = flatten(staff, "role")
 
-        # Remove the HTML tags from description
-        sanitized_description = sanitize_description(dictionary.get("description"))
+        # Process description
+        dictionary["description"] = await self._process_description(dictionary)
 
-        # Also remove them for the related media
+        # Process description of every relation
         for relation in flattened_relations:
-            description = relation.get("description")
-            relation["description"] = sanitize_description(description)
+            relation["description"] = await self._process_description(relation)
 
         # replace the original
-        dictionary["description"] = sanitized_description
         dictionary["relations"] = flattened_relations
         dictionary["studios"] = flattened_studios
         dictionary["characters"] = flattened_characters
