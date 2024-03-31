@@ -430,13 +430,13 @@ class MediaDescription(ParentModel):
 
     default: str | None = None
     """
-    The default description of the media as returned by AniList.
+    The default description of the media.
     This may or may not contain HTML tags
     """
 
     html: str | None = None
     """
-    The HTML formatted description of the media as returned by AniList
+    The HTML formatted description of the media
     """
 
     markdown: str | None = None
@@ -453,7 +453,7 @@ class MediaDescription(ParentModel):
 
     Note
     ----
-    This will be "lossy" in the sense that things like like italics, bolds, etc
+    This will be "lossy" in the sense that things like like hrefs, italics, bolds, etc
     will also be stripped
     """
 

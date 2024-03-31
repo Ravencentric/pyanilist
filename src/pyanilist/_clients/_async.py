@@ -115,7 +115,7 @@ class AsyncAniList:
 
         So we do a bit of post processing:
         - Sanitize the resulting descriptions
-        - Introduce two more formats derived from the default, i.e, markdown and plain text
+        - Introduce two more formats derived from the original two, i.e, markdown and plain text
         - Nest our newly acquired 4 descriptions into a single parent dictionary
 
         Example:
