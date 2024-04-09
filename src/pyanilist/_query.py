@@ -195,42 +195,42 @@ query ($id: Int, $season: MediaSeason, $seasonYear: Int, $type: MediaType, $form
       }
     }
     staff {
-      nodes {
-        id
-        name {
-          first
-          middle
-          last
-          full
-          native
-          userPreferred
-        }
-        languageV2
-        image {
-          large
-          medium
-        }
-        description
-        primaryOccupations
-        gender
-        dateOfBirth {
-          year
-          month
-          day
-        }
-        dateOfDeath {
-          year
-          month
-          day
-        }
-        age
-        yearsActive
-        homeTown
-        bloodType
-        siteUrl
-      }
       edges {
         role
+        node {
+          id
+          name {
+            first
+            middle
+            last
+            full
+            native
+            userPreferred
+          }
+          languageV2
+          image {
+            large
+            medium
+          }
+          description
+          primaryOccupations
+          gender
+          dateOfBirth {
+            year
+            month
+            day
+          }
+          dateOfDeath {
+            year
+            month
+            day
+          }
+          age
+          yearsActive
+          homeTown
+          bloodType
+          siteUrl
+        }
       }
     }
     studios {
