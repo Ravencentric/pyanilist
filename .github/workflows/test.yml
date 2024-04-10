@@ -56,7 +56,7 @@ jobs:
         run: poetry install
 
       - name: Run tests
-        run: poetry run coverage -m pytest
+        run: poetry run coverage run -m pytest
 
       - name: Build
         run: poetry build
