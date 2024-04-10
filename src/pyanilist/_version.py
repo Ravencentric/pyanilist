@@ -3,7 +3,7 @@ from typing_extensions import NamedTuple
 from ._compat import metadata
 
 
-class VersionInfo(NamedTuple):
+class Version(NamedTuple):
     """Version tuple based on SemVer"""
 
     major: int

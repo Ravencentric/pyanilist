@@ -12,11 +12,13 @@
 
 [![PyPI - Version](https://img.shields.io/pypi/v/pyanilist?link=https%3A%2F%2Fpypi.org%2Fproject%2Fpyanilist%2F)](https://pypi.org/project/pyanilist/)
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/pyanilist)
-![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/Ravencentric/pyanilist/release.yml)
-![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/ravencentric/pyanilist/test.yml?label=tests)
 ![License](https://img.shields.io/github/license/Ravencentric/pyanilist)
 ![Checked with mypy](https://www.mypy-lang.org/static/mypy_badge.svg)
 ![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)
+
+![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/Ravencentric/pyanilist/release.yml)
+![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/ravencentric/pyanilist/test.yml?label=tests)
+[![codecov](https://codecov.io/gh/Ravencentric/pyanilist/graph/badge.svg?token=B45ODO7TEY)](https://codecov.io/gh/Ravencentric/pyanilist)
 
 </div>
 

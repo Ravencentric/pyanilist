@@ -62,10 +62,10 @@ from ._models import (
     Studio,
 )
 from ._types import AniListID, AniListTitle, AniListYear, Color, CountryCode, HttpUrl, YearsActive
-from ._version import VersionInfo, _get_version
+from ._version import Version, _get_version
 
 __version__ = _get_version()
-__version_tuple__ = VersionInfo(*map(int, __version__.split(".")))
+__version_tuple__ = Version(*map(int, __version__.split(".")))
 
 __all__ = [
     # Clients

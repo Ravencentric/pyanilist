@@ -16,6 +16,8 @@ async def test_anilist_anime() -> None:
     media = await AsyncAniList().search("Attack on titan", type=MediaType.ANIME)
     assert media.title.romaji == "Shingeki no Kyojin"
     assert media.start_date.year == 2013
+    assert media.start_date.iso_format() == "2013-04-07"
+    assert media.end_date.iso_format() == "2013-09-28"
     assert media.source is MediaSource.MANGA
     assert media.type is MediaType.ANIME
     assert [(staff.name.full, staff.role) for staff in media.staff] == [
@@ -52,6 +54,8 @@ async def test_anilist_manga() -> None:
     media = await AsyncAniList().search("Attack on titan", type=MediaType.MANGA)
     assert media.title.romaji == "Shingeki no Kyojin"
     assert media.start_date.year == 2009
+    assert media.start_date.iso_format() == "2009-09-09"
+    assert media.end_date.iso_format() == "2021-04-09"
     assert media.source is MediaSource.ORIGINAL
     assert media.type is MediaType.MANGA
     assert [(staff.name.full, staff.role) for staff in media.staff] == [
@@ -78,6 +82,8 @@ async def test_anilist_with_some_constraints() -> None:
     )
     assert media.title.romaji == "Violet Evergarden"
     assert media.start_date.year == 2015
+    assert media.start_date.iso_format() == "2015-12-25"
+    assert media.end_date.iso_format() == "2016-12-26"
     assert media.source is MediaSource.ORIGINAL
     assert media.type is MediaType.MANGA
     assert [(staff.name.full, staff.role) for staff in media.staff] == [
@@ -98,6 +104,8 @@ async def test_anilist_with_all_constraints() -> None:
     )
     assert media.title.romaji == "Boku no Hero Academia"
     assert media.start_date.year == 2016
+    assert media.start_date.iso_format() == "2016-04-03"
+    assert media.end_date.iso_format() == "2016-06-26"
     assert media.source is MediaSource.MANGA
     assert media.type is MediaType.ANIME
     assert [(staff.name.full, staff.role) for staff in media.staff] == [
@@ -136,6 +144,35 @@ async def test_anilist_id() -> None:
     assert media.start_date.year == 2013
     assert media.source is MediaSource.MANGA
     assert media.type is MediaType.ANIME
+    assert media.start_date.iso_format() == "2013-04-07"
+    assert media.end_date.iso_format() == "2013-09-28"
+    assert [(staff.name.full, staff.role) for staff in media.staff] == [
+        ("Tetsurou Araki", "Director"),
+        ("Yasuko Kobayashi", "Series Composition"),
+        ("Youko Hikasa", "Theme Song Performance (ED1)"),
+        ("Hiroyuki Sawano", "Music"),
+        ("Hironori Tanaka", "Key Animation (eps 7, 21)"),
+        ("Hajime Isayama", "Original Creator"),
+        ("Mika Kobayashi", "Insert Song Performance"),
+        ("Kyouji Asano", "Character Design"),
+        ("Aimee Blackschleger", "Insert Song Performance"),
+        ("Hiroyuki Tanaka", "Assistant Director"),
+        ("Hiroyuki Tanaka", "Episode Director (eps 1, 10, 18, 21, 24)"),
+        ("Cyua", "Insert Song Performance"),
+        ("Seiichi Nakatani", "Key Animation (ep 25)"),
+        ("Kouichi Arai", "Animation (ED1)"),
+        ("Hiromi Katou", "Key Animation (ep 25)"),
+        ("Mayu Fujimoto", "Key Animation (OP1, ep 1)"),
+        ("Kazuhiro Miwa", "Key Animation (ED2)"),
+        ("Hiroshi Seko", "Script (eps 3, 5-7, 10, 11, 15, 17, 18, 23)"),
+        ("Tomohiro Hirata", "Key Animation (ep 25)"),
+        ("Tomohiro Hirata", "Storyboard (eps 8, 19, 21, 25)"),
+        ("Naoki Kobayashi", "Key Animation (ep 9)"),
+        ("Toshirou Fujii", "Key Animation (ep 9)"),
+        ("Shouko Yasuda", "Key Animation (eps 3, 4, 11, 15)"),
+        ("Daizen Komatsuda", "Storyboard (ep 23)"),
+        ("You Moriyama", "Key Animation (OP1)"),
+    ]
     assert media.site_url == HttpUrl("https://anilist.co/anime/16498")
 
 

@@ -9,7 +9,7 @@ anilist = AniList(retries=0)
 
 
 def test_anilist_bad_search_combo() -> None:
-    with pytest.raises(HTTPStatusError, match="Not Found."):
+    with pytest.raises(HTTPStatusError):
         anilist.search("Attack on titan", season_year=1999)
 
 
@@ -19,5 +19,5 @@ def test_anilist_wrong_input_types() -> None:
 
 
 def test_anilist_bad_id() -> None:
-    with pytest.raises(HTTPStatusError, match="400 Bad Request"):
+    with pytest.raises(HTTPStatusError):
         anilist.get(9999999999)

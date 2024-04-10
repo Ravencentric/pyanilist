@@ -69,3 +69,10 @@ jobs:
         with:
           name: pyanilist-${{ steps.version.outputs.version }}-${{ matrix.python-version }}-${{ matrix.os }}
           path: "dist/*"
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          env_vars: OS,PYTHON
+          token: ${{ secrets.CODECOV_TOKEN }}
+          verbose: true

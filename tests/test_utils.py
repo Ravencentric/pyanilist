@@ -100,4 +100,8 @@ def test_formatters() -> None:
     assert sanitize_description(BloomIntoYouAnthologyDescriptions.HTML) == BloomIntoYouAnthologyDescriptions.SANITIZED_HTML
     assert markdown_formatter(BloomIntoYouAnthologyDescriptions.HTML) == BloomIntoYouAnthologyDescriptions.MARKDOWN
     assert text_formatter(BloomIntoYouAnthologyDescriptions.DEFAULT) == BloomIntoYouAnthologyDescriptions.TEXT
+    assert sanitize_description(None) is None
+    assert sanitize_description(None) is None
+    assert markdown_formatter(None) is None
+    assert text_formatter(None) is None
 # fmt: on
