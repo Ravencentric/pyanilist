@@ -55,8 +55,10 @@ jobs:
       - name: Install the project dependencies
         run: poetry install
 
-      - name: Run tests
-        run: poetry run coverage run -m pytest
+      - name: Run tests and generate coverage
+        run: |
+          poetry run coverage run -m pytest
+          poetry run coverage xml
 
       - name: Build
         run: poetry build
