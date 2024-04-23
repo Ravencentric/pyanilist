@@ -13,11 +13,15 @@
 <p align="center">
 <a href="https://pypi.org/project/pyanilist/"><img src="https://img.shields.io/pypi/v/pyanilist" alt="PyPI - Version" ></a>
 <img src="https://img.shields.io/pypi/pyversions/pyanilist" alt="PyPI - Python Version">
-<img src="https://img.shields.io/github/actions/workflow/status/Ravencentric/pyanilist/release.yml?" alt="GitHub Workflow Status">
-<img src="https://img.shields.io/github/actions/workflow/status/Ravencentric/pyanilist/test.yml?label=tests" alt="GitHub Workflow Status">
 <img src="https://img.shields.io/github/license/Ravencentric/pyanilist" alt="License">
 <img src="https://www.mypy-lang.org/static/mypy_badge.svg" alt="Checked with mypy">
 <img src="https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json" alt="Ruff">
+</p>
+
+<p align="center">
+<img src="https://img.shields.io/github/actions/workflow/status/Ravencentric/pyanilist/release.yml?" alt="GitHub Workflow Status">
+<img src="https://img.shields.io/github/actions/workflow/status/Ravencentric/pyanilist/test.yml?label=tests" alt="GitHub Workflow Status">
+<a href="https://codecov.io/gh/Ravencentric/pyanilist"><img src="https://codecov.io/gh/Ravencentric/pyanilist/graph/badge.svg?token=B45ODO7TEY" alt="Codecov"></a>
 </p>
 
 
