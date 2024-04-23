@@ -14,6 +14,7 @@ from .._utils import flatten, markdown_formatter, remove_null_fields, sanitize_d
 
 
 class AniList:
+    @validate_call
     def __init__(
         self, api_url: str = "https://graphql.anilist.co", retries: PositiveInt = 5, **kwargs: HTTPXClientKwargs
     ) -> None:
