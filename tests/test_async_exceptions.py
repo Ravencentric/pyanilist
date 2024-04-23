@@ -5,7 +5,7 @@ from pyanilist import (
     ValidationError,
 )
 
-anilist = AsyncAniList(retries=0)
+anilist = AsyncAniList(retries=1)
 
 
 async def test_anilist_bad_search_combo() -> None:

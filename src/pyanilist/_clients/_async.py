@@ -3,8 +3,8 @@ from __future__ import annotations
 from typing import Any
 
 import httpx
-from pydantic import validate_call
-from tenacity import AsyncRetrying, stop_after_attempt, wait_incrementing
+from pydantic import PositiveInt, validate_call
+from stamina import retry_context
 
 from .._enums import MediaFormat, MediaSeason, MediaStatus, MediaType
 from .._models import Media
@@ -15,7 +15,7 @@ from .._utils import flatten, markdown_formatter, remove_null_fields, sanitize_d
 
 class AsyncAniList:
     def __init__(
-        self, api_url: str = "https://graphql.anilist.co", retries: int = 5, **kwargs: HTTPXAsyncClientKwargs
+        self, api_url: str = "https://graphql.anilist.co", retries: PositiveInt = 5, **kwargs: HTTPXAsyncClientKwargs
     ) -> None:
         """
         Async AniList API client.
@@ -24,8 +24,9 @@ class AsyncAniList:
         ----------
         api_url : str, optional
             The URL of the AniList API. Default is `https://graphql.anilist.co`.
-        retries : int, optional
+        retries : PositiveInt, optional
             Number of times to retry a failed request before raising an error. Default is 5.
+            Set this to 1 to disable retrying.
         kwargs : HTTPXAsyncClientKwargs, optional
             Keyword arguments to pass to the underlying [httpx.AsyncClient()](https://www.python-httpx.org/api/#asyncclient)
             used to make the POST request.
@@ -92,11 +93,7 @@ class AsyncAniList:
             "variables": {key: value for key, value in query_variables.items() if value is not None},
         }
 
-        async for attempt in AsyncRetrying(
-            stop=stop_after_attempt(self.retries),
-            wait=wait_incrementing(start=0, increment=1),
-            reraise=True,
-        ):
+        async for attempt in retry_context(on=httpx.HTTPError, attempts=self.retries):
             with attempt:
                 async with httpx.AsyncClient(**self.kwargs) as client:
                     response = await client.post(self.api_url, json=payload)

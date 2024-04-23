@@ -116,8 +116,8 @@ AniList API is flaky, sometimes it might return an error for a perfectly valid r
 ```py
 from pyanilist import AniList
 
-# Configure the number of retries. Setting it to 0 disables retrying.
-anilist = AniList(retries=0)
+# Configure the number of retries. Setting it to 1 disables retrying.
+anilist = AniList(retries=1)
 
 media = anilist.search("violet evergarden")
 
