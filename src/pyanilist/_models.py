@@ -82,7 +82,7 @@ class FuzzyDate(ParentModel):
 
         else:
             return ""
-        
+
     def as_int(self) -> FuzzyDateInt:
         """
         Return an 8 digit long date integer (YYYYMMDD).

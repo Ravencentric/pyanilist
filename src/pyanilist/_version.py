@@ -10,6 +10,7 @@ class Version(NamedTuple):
     minor: int
     micro: int
 
+
 def _get_version() -> str:
     """
     Get the version of pyanilist

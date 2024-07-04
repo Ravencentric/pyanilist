@@ -1,5 +1,12 @@
-from pyanilist._utils import flatten, markdown_formatter, remove_null_fields, sanitize_description, text_formatter, query_variables_constructor
 from pyanilist import MediaSource
+from pyanilist._utils import (
+    flatten,
+    markdown_formatter,
+    query_variables_constructor,
+    remove_null_fields,
+    sanitize_description,
+    text_formatter,
+)
 
 from .mock_descriptions import BloomIntoYouAnthologyDescriptions
 

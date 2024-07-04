@@ -18,9 +18,7 @@ from .._utils import query_variables_constructor
 
 class AniList:
     @validate_call
-    def __init__(
-        self, api_url: str = "https://graphql.anilist.co", retries: PositiveInt = 5, **kwargs: Any
-    ) -> None:
+    def __init__(self, api_url: str = "https://graphql.anilist.co", retries: PositiveInt = 5, **kwargs: Any) -> None:
         """
         AniList API client.
 
@@ -69,7 +67,7 @@ class AniList:
             with attempt:
                 with Client(**self.kwargs) as client:
                     response = client.post(self.api_url, json=payload).raise_for_status()
-        
+
         return response
 
     @validate_call

@@ -117,7 +117,7 @@ def test_anilist_with_constraints() -> None:
         ("Katsuyuki Kodera", "Storyboard (eps 5, 9, 13)"),
         ("Kenji Nagasaki", "Storyboard (OP, ED, eps 1, 2)"),
     ]
-    assert media.site_url.__str__() =="https://anilist.co/anime/21459"
+    assert media.site_url.__str__() == "https://anilist.co/anime/21459"
 
 
 def test_anilist_id() -> None:

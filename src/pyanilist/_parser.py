@@ -4,8 +4,9 @@ from typing import TYPE_CHECKING, Any
 
 from ._utils import flatten, markdown_formatter, remove_null_fields, sanitize_description, text_formatter
 
-if TYPE_CHECKING: # pragma: no cover
+if TYPE_CHECKING:  # pragma: no cover
     from httpx import Response
+
 
 def process_description(dictionary: dict[str, Any]) -> dict[str, Any]:
     """
@@ -59,6 +60,7 @@ def process_description(dictionary: dict[str, Any]) -> dict[str, Any]:
         markdown=markdown_description,
         text=text_description,
     )
+
 
 def post_process_response(response: Response) -> dict[str, Any]:
     """

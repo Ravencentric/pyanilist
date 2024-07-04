@@ -101,6 +101,7 @@ def remove_null_fields(dictionary: dict[str, Any]) -> dict[str, Any]:
     """
     return remap(dictionary, lambda path, key, value: value not in [None, {}, []])  # type: ignore
 
+
 def query_variables_constructor(vars: dict[str, Any]) -> dict[str, Any]:
     """
     Anilist doesn't stick to a single casing.
@@ -179,7 +180,7 @@ def query_variables_constructor(vars: dict[str, Any]) -> dict[str, Any]:
     }
 
     query_vars = {}
-        
+
     for key, value in vars.items():
         if value is not None:
             if isinstance(value, Iterable) and not isinstance(value, str):
