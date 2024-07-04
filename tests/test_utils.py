@@ -1,4 +1,5 @@
-from pyanilist._utils import flatten, markdown_formatter, remove_null_fields, sanitize_description, text_formatter
+from pyanilist._utils import flatten, markdown_formatter, remove_null_fields, sanitize_description, text_formatter, query_variables_constructor
+from pyanilist import MediaSource
 
 from .mock_descriptions import BloomIntoYouAnthologyDescriptions
 
@@ -105,3 +106,21 @@ def test_formatters() -> None:
     assert markdown_formatter(None) is None
     assert text_formatter(None) is None
 # fmt: on
+
+
+def test_query_variables_constructor() -> None:
+    kwargs = {
+        "id": 123456,
+        "is_licensed": True,
+        "search": "Attack on Titan",
+        "id_not_in": [1, 2, 3, 4, 5, 5, 5],
+        "source_in": [MediaSource.ANIME, MediaSource.ANIME, MediaSource.MANGA],
+    }
+
+    assert query_variables_constructor(kwargs) == {
+        "id": 123456,
+        "isLicensed": True,
+        "search": "Attack on Titan",
+        "id_not_in": {1, 2, 3, 4, 5},
+        "source_in": {MediaSource.ANIME, MediaSource.MANGA},
+    }

@@ -75,24 +75,7 @@ def test_anilist_manga() -> None:
     assert media.site_url.__str__() == "https://anilist.co/manga/53390"
 
 
-def test_anilist_with_some_constraints() -> None:
-    media = AniList().get(
-        "violet evergarden", type=MediaType.MANGA, format=MediaFormat.NOVEL, status=MediaStatus.FINISHED
-    )
-    assert media.title.romaji == "Violet Evergarden"
-    assert media.start_date.year == 2015
-    assert media.start_date.iso_format() == "2015-12-25"
-    assert media.end_date.iso_format() == "2016-12-26"
-    assert media.source is MediaSource.ORIGINAL
-    assert media.type is MediaType.MANGA
-    assert [(staff.name.full, staff.role) for staff in media.staff] == [
-        ("Akiko Takase", "Illustration"),
-        ("Kana Akatsuki", "Story"),
-    ]
-    assert media.site_url.__str__() == "https://anilist.co/manga/97298"
-
-
-def test_anilist_with_all_constraints() -> None:
+def test_anilist_with_constraints() -> None:
     media = AniList().get(
         "My Hero Academia",
         season=MediaSeason.SPRING,

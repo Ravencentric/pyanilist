@@ -183,7 +183,7 @@ def query_variables_constructor(vars: dict[str, Any]) -> dict[str, Any]:
     for key, value in vars.items():
         if value is not None:
             if isinstance(value, Iterable) and not isinstance(value, str):
-                value = tuple(value)
+                value = set(value)
             query_vars[casing[key]] = value
 
     return query_vars
