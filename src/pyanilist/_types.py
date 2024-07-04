@@ -7,12 +7,10 @@ Aside from providing it's own types, this module also re-exports the following f
 
 from __future__ import annotations
 
-from typing import Annotated, Any
+from typing import Annotated
 
-from pydantic import Field, HttpUrl
-from pydantic_extra_types.color import Color
-from pydantic_extra_types.country import CountryAlpha2 as CountryCode
-from typing_extensions import NamedTuple, TypeAlias
+from pydantic import Field
+from typing_extensions import NamedTuple
 
 
 class YearsActive(NamedTuple):
@@ -25,22 +23,16 @@ class YearsActive(NamedTuple):
     end_year: int | None = None
 
 
-AniListID = Annotated[int, Field(gt=0, description="AniList ID as found in the URL: https://anilist.co/{type}/{id}")]
-AniListYear = Annotated[int, Field(ge=1000, description="Release Year")]
-AniListTitle = Annotated[str, Field(min_length=1, description="Title of the media")]
+FuzzyDateInt = Annotated[
+    int,
+    Field(
+        ge=10000000,
+        le=99999999,
+        description="8 digit long date integer (YYYYMMDD). Unknown dates represented by 0. E.g. 2016: 20160000, May 1976: 19760500",
+    ),
+]
 
-HTTPXClientKwargs: TypeAlias = Any
-"""Simple TypeAlias to refer to `httpx.Client()` kwargs"""
-
-HTTPXAsyncClientKwargs: TypeAlias = Any
-"""Simple TypeAlias to refer to `httpx.AsyncClient()` kwargs"""
 
 __all__ = [
-    "AniListID",
-    "AniListTitle",
-    "AniListYear",
-    "Color",
-    "CountryCode",
-    "HttpUrl",
     "YearsActive",
 ]

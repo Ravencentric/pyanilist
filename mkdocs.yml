@@ -47,7 +47,6 @@ plugins:
           options:
             allow_inspection: false
             docstring_style: numpy
-            members: true
             show_root_heading: true
             show_root_full_path: false
             show_signature_annotations: true
@@ -56,9 +55,7 @@ plugins:
             show_symbol_type_toc: true
             signature_crossrefs: true
             merge_init_into_class: true
-            preload_modules:
-              - httpx
-              - pydantic
+            filters: ["!^_", "^__init__$"]
 
 markdown_extensions:
   - md_in_html

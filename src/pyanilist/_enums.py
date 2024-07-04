@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from ._compat import StrEnum
 
 
@@ -15,6 +17,8 @@ class BaseStrEnum(StrEnum):
             "TV_SHORT": "TV Short",
             "OVA": "OVA",
             "ONA": "ONA",
+            "ID": "ID",
+            "ID_DESC": "ID Desc",
         }
 
         if self.value in exceptions:
@@ -237,6 +241,48 @@ class MediaRankType(BaseStrEnum):
     """Ranking is based on the media's popularity"""
 
 
+class MediaSort(BaseStrEnum):
+    """Media sort enums"""
+
+    ID = "ID"
+    ID_DESC = "ID_DESC"
+    TITLE_ROMAJI = "TITLE_ROMAJI"
+    TITLE_ROMAJI_DESC = "TITLE_ROMAJI_DESC"
+    TITLE_ENGLISH = "TITLE_ENGLISH"
+    TITLE_ENGLISH_DESC = "TITLE_ENGLISH_DESC"
+    TITLE_NATIVE = "TITLE_NATIVE"
+    TITLE_NATIVE_DESC = "TITLE_NATIVE_DESC"
+    TYPE = "TYPE"
+    TYPE_DESC = "TYPE_DESC"
+    FORMAT = "FORMAT"
+    FORMAT_DESC = "FORMAT_DESC"
+    START_DATE = "START_DATE"
+    START_DATE_DESC = "START_DATE_DESC"
+    END_DATE = "END_DATE"
+    END_DATE_DESC = "END_DATE_DESC"
+    SCORE = "SCORE"
+    SCORE_DESC = "SCORE_DESC"
+    POPULARITY = "POPULARITY"
+    POPULARITY_DESC = "POPULARITY_DESC"
+    TRENDING = "TRENDING"
+    TRENDING_DESC = "TRENDING_DESC"
+    EPISODES = "EPISODES"
+    EPISODES_DESC = "EPISODES_DESC"
+    DURATION = "DURATION"
+    DURATION_DESC = "DURATION_DESC"
+    STATUS = "STATUS"
+    STATUS_DESC = "STATUS_DESC"
+    CHAPTERS = "CHAPTERS"
+    CHAPTERS_DESC = "CHAPTERS_DESC"
+    VOLUMES = "VOLUMES"
+    VOLUMES_DESC = "VOLUMES_DESC"
+    UPDATED_AT = "UPDATED_AT"
+    UPDATED_AT_DESC = "UPDATED_AT_DESC"
+    SEARCH_MATCH = "SEARCH_MATCH"
+    FAVOURITES = "FAVOURITES"
+    FAVOURITES_DESC = "FAVOURITES_DESC"
+
+
 __all__ = [
     "CharacterRole",
     "ExternalLinkType",
@@ -244,6 +290,7 @@ __all__ = [
     "MediaRankType",
     "MediaRelation",
     "MediaSeason",
+    "MediaSort",
     "MediaSource",
     "MediaStatus",
     "MediaType",

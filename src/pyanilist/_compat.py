@@ -1,4 +1,5 @@
 """Compatibility module to for older python versions"""
+from __future__ import annotations
 
 import sys
 

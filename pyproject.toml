@@ -22,7 +22,7 @@ classifiers = [
 
 [tool.poetry.dependencies]
 python = ">=3.9"
-pydantic = ">=2.7.1"
+pydantic = "^2.8.0"
 typing-extensions =">=4.11.0"
 pydantic-extra-types =">=2.7.0"
 pycountry = ">=23.12.11"

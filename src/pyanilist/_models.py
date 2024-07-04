@@ -2,8 +2,10 @@ from __future__ import annotations
 
 from datetime import datetime
 
-from pydantic import AliasGenerator, BaseModel, ConfigDict
+from pydantic import AliasGenerator, BaseModel, ConfigDict, HttpUrl
 from pydantic.alias_generators import to_camel
+from pydantic_extra_types.color import Color
+from pydantic_extra_types.country import CountryAlpha2 as CountryCode
 
 from ._enums import (
     CharacterRole,
@@ -16,7 +18,7 @@ from ._enums import (
     MediaStatus,
     MediaType,
 )
-from ._types import Color, CountryCode, HttpUrl, YearsActive
+from ._types import FuzzyDateInt, YearsActive
 
 
 class ParentModel(BaseModel):
@@ -80,6 +82,20 @@ class FuzzyDate(ParentModel):
 
         else:
             return ""
+        
+    def as_int(self) -> FuzzyDateInt:
+        """
+        Return an 8 digit long date integer (YYYYMMDD).
+        Unknown dates represented by 0.
+        For example, 2016 is 20160000 and May 1976 is 19760500
+
+        The result is equivalent to AniList's FuzzyDateInt type.
+        """
+        year = str(self.year).zfill(4) if self.year is not None else "1000"
+        month = str(self.month).zfill(2) if self.month is not None else "00"
+        day = str(self.day).zfill(2) if self.day is not None else "00"
+
+        return int(f"{year}{month}{day}")
 
 
 class MediaTrailer(ParentModel):

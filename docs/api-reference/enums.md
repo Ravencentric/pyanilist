@@ -5,6 +5,7 @@
 ::: pyanilist._enums.MediaRankType
 ::: pyanilist._enums.MediaRelation
 ::: pyanilist._enums.MediaSeason
+::: pyanilist._enums.MediaSort
 ::: pyanilist._enums.MediaSource
 ::: pyanilist._enums.MediaStatus
 ::: pyanilist._enums.MediaType

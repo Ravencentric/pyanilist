@@ -1,7 +1,6 @@
 from pyanilist import (
     AniList,
     CharacterRole,
-    HttpUrl,
     MediaFormat,
     MediaSeason,
     MediaSource,
@@ -13,7 +12,7 @@ from .mock_descriptions import BloomIntoYouAnthologyDescriptions, BloomIntoYouDe
 
 
 def test_anilist_anime() -> None:
-    media = AniList().search("Attack on titan", type=MediaType.ANIME)
+    media = AniList().get("Attack on titan", type=MediaType.ANIME)
     assert media.title.romaji == "Shingeki no Kyojin"
     assert media.start_date.year == 2013
     assert media.start_date.iso_format() == "2013-04-07"
@@ -47,11 +46,11 @@ def test_anilist_anime() -> None:
         ("Daizen Komatsuda", "Storyboard (ep 23)"),
         ("You Moriyama", "Key Animation (OP1)"),
     ]
-    assert media.site_url == HttpUrl("https://anilist.co/anime/16498")
+    assert media.site_url.__str__() == "https://anilist.co/anime/16498"
 
 
 def test_anilist_manga() -> None:
-    media = AniList().search("Attack on titan", type=MediaType.MANGA)
+    media = AniList().get("Attack on titan", type=MediaType.MANGA)
     assert media.title.romaji == "Shingeki no Kyojin"
     assert media.start_date.year == 2009
     assert media.start_date.iso_format() == "2009-09-09"
@@ -73,11 +72,11 @@ def test_anilist_manga() -> None:
         ("Shintarou Kawakubo", "Editing"),
         ("Yifeng Zhang", "Translator (Chinese)"),
     ]
-    assert media.site_url == HttpUrl("https://anilist.co/manga/53390")
+    assert media.site_url.__str__() == "https://anilist.co/manga/53390"
 
 
 def test_anilist_with_some_constraints() -> None:
-    media = AniList().search(
+    media = AniList().get(
         "violet evergarden", type=MediaType.MANGA, format=MediaFormat.NOVEL, status=MediaStatus.FINISHED
     )
     assert media.title.romaji == "Violet Evergarden"
@@ -90,11 +89,11 @@ def test_anilist_with_some_constraints() -> None:
         ("Akiko Takase", "Illustration"),
         ("Kana Akatsuki", "Story"),
     ]
-    assert media.site_url == HttpUrl("https://anilist.co/manga/97298")
+    assert media.site_url.__str__() == "https://anilist.co/manga/97298"
 
 
 def test_anilist_with_all_constraints() -> None:
-    media = AniList().search(
+    media = AniList().get(
         "My Hero Academia",
         season=MediaSeason.SPRING,
         season_year=2016,
@@ -135,11 +134,11 @@ def test_anilist_with_all_constraints() -> None:
         ("Katsuyuki Kodera", "Storyboard (eps 5, 9, 13)"),
         ("Kenji Nagasaki", "Storyboard (OP, ED, eps 1, 2)"),
     ]
-    assert media.site_url == HttpUrl("https://anilist.co/anime/21459")
+    assert media.site_url.__str__() =="https://anilist.co/anime/21459"
 
 
 def test_anilist_id() -> None:
-    media = AniList().get(16498)
+    media = AniList().get(id=16498)
     assert media.title.romaji == "Shingeki no Kyojin"
     assert media.start_date.year == 2013
     assert media.source is MediaSource.MANGA
@@ -173,11 +172,11 @@ def test_anilist_id() -> None:
         ("Daizen Komatsuda", "Storyboard (ep 23)"),
         ("You Moriyama", "Key Animation (OP1)"),
     ]
-    assert media.site_url == HttpUrl("https://anilist.co/anime/16498")
+    assert media.site_url.__str__() == "https://anilist.co/anime/16498"
 
 
 def test_anilist_description() -> None:
-    media = AniList().get(106794)
+    media = AniList().get(id=106794)
     assert media.title.english == "Bloom Into You Anthology"
     assert media.start_date.year == 2018
     assert media.source is MediaSource.MANGA
@@ -190,11 +189,11 @@ def test_anilist_description() -> None:
     assert media.relations[0].description.html == BloomIntoYouDescriptions.HTML
     assert media.relations[0].description.markdown == BloomIntoYouDescriptions.MARKDOWN
     assert media.relations[0].description.text == BloomIntoYouDescriptions.TEXT
-    assert media.site_url == HttpUrl("https://anilist.co/manga/106794")
+    assert media.site_url.__str__() == "https://anilist.co/manga/106794"
 
 
 def test_anilist_characters() -> None:
-    media = AniList().get(20954)
+    media = AniList().get(id=20954)
     assert media.title.english == "A Silent Voice"
     assert media.start_date.year == 2016
     assert media.source is MediaSource.MANGA
@@ -203,4 +202,4 @@ def test_anilist_characters() -> None:
         "Shouya Ishida",
         "Shouko Nishimiya",
     ]
-    assert media.site_url == HttpUrl("https://anilist.co/anime/20954")
+    assert media.site_url.__str__() == "https://anilist.co/anime/20954"
