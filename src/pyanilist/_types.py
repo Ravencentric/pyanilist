@@ -1,16 +1,15 @@
-"""
-Aside from providing it's own types, this module also re-exports the following from pydantic for convenience:
-- [HttpUrl](https://docs.pydantic.dev/latest/api/networks/#pydantic.networks.HttpUrl)
-- [Color](https://docs.pydantic.dev/latest/api/pydantic_extra_types_color/#pydantic_extra_types.color.Color)
-- [CountryAlpha2 as CountryCoude](https://docs.pydantic.dev/latest/api/pydantic_extra_types_country/#pydantic_extra_types.country.CountryAlpha2)
-"""
-
 from __future__ import annotations
 
 from typing import Annotated
 
 from pydantic import Field
-from typing_extensions import NamedTuple
+from typing_extensions import NamedTuple, TypeAlias, TypeVar, Union
+
+# A simpler Iterable type instead of collections.abc.Iterable
+# to stop pydantic from converting them to ValidatorIterator
+# https://github.com/pydantic/pydantic/issues/9541
+T = TypeVar("T")
+Iterable: TypeAlias = Union[set[T], tuple[T, ...], list[T]]
 
 
 class YearsActive(NamedTuple):
@@ -30,9 +29,4 @@ FuzzyDateInt = Annotated[
         le=99999999,
         description="8 digit long date integer (YYYYMMDD). Unknown dates represented by 0. E.g. 2016: 20160000, May 1976: 19760500",
     ),
-]
-
-
-__all__ = [
-    "YearsActive",
 ]

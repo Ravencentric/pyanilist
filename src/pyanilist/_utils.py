@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import re
-from collections.abc import Iterable
 from typing import Any
 
 import nh3
@@ -102,13 +101,23 @@ def remove_null_fields(dictionary: dict[str, Any]) -> dict[str, Any]:
     return remap(dictionary, lambda path, key, value: value not in [None, {}, []])  # type: ignore
 
 
-def query_variables_constructor(vars: dict[str, Any]) -> dict[str, Any]:
+def to_anilist_case(var: str) -> str:
     """
     Anilist doesn't stick to a single casing.
     Most of it is camelCase but then there's some made up stuff in there too.
     So can do nothing but create a mapping from snake_case to anilistCase
+
+    Parameters
+    ----------
+    var : str
+        A snake_case variable.
+
+    Returns
+    -------
+    str
+        Same thing but in anilist's case.
     """
-    casing = {
+    casemap = {
         "id": "id",
         "id_mal": "idMal",
         "start_date": "startDate",
@@ -179,12 +188,4 @@ def query_variables_constructor(vars: dict[str, Any]) -> dict[str, Any]:
         "sort": "sort",
     }
 
-    query_vars = {}
-
-    for key, value in vars.items():
-        if value is not None:
-            if isinstance(value, Iterable) and not isinstance(value, str):
-                value = set(value)
-            query_vars[casing[key]] = value
-
-    return query_vars
+    return casemap[var]

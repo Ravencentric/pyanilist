@@ -11,6 +11,7 @@ from ._enums import (
     MediaRankType,
     MediaRelation,
     MediaSeason,
+    MediaSort,
     MediaSource,
     MediaStatus,
     MediaType,
@@ -36,10 +37,10 @@ from ._models import (
     StaffName,
     Studio,
 )
-from ._types import YearsActive
+from ._types import FuzzyDateInt, YearsActive
 from ._version import Version, _get_version
 
-__version__ = _get_version()
+__version__ = _get_version() 
 __version_tuple__ = Version(*map(int, __version__.split(".")))
 
 __all__ = [
@@ -53,11 +54,13 @@ __all__ = [
     "MediaRankType",
     "MediaRelation",
     "MediaSeason",
+    "MediaSort",
     "MediaSource",
     "MediaStatus",
     "MediaType",
     # Types
     "YearsActive",
+    "FuzzyDateInt",
     # Models
     "AiringSchedule",
     "Character",

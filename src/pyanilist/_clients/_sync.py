@@ -1,19 +1,17 @@
 from __future__ import annotations
 
-from collections.abc import Iterable
 from typing import Any
 
 from httpx import Client, HTTPError, Response
 from pydantic import PositiveInt, validate_call
-from pydantic_extra_types.country import CountryAlpha2 as CountryCode
 from stamina import retry_context
 
 from .._enums import MediaFormat, MediaSeason, MediaSort, MediaSource, MediaStatus, MediaType
 from .._models import Media
 from .._parser import post_process_response
 from .._query import query_string
-from .._types import FuzzyDateInt
-from .._utils import query_variables_constructor
+from .._types import FuzzyDateInt, Iterable
+from .._utils import to_anilist_case
 
 
 class AniList:
@@ -60,7 +58,7 @@ class AniList:
 
         payload = {
             "query": query_string,
-            "variables": query_variables_constructor(kwargs),
+            "variables": {to_anilist_case(key): value for key, value in kwargs.items() if value is not None},
         }
 
         for attempt in retry_context(on=HTTPError, attempts=self.retries):
@@ -98,7 +96,7 @@ class AniList:
         average_score: int | None = None,
         popularity: int | None = None,
         source: MediaSource | None = None,
-        country_of_origin: CountryCode | str | None = None,
+        country_of_origin: str | None = None,
         is_licensed: bool | None = None,
         id_not: int | None = None,
         id_in: Iterable[int] | None = None,
