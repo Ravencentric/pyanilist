@@ -33,6 +33,7 @@ print(media.episodes)
 
 ```py
 from pyanilist import AniList, MediaSeason, MediaType, MediaStatus, MediaFormat
+
 media = AniList().get(
         "My Hero Academia",
         season=MediaSeason.SPRING,
@@ -42,6 +43,7 @@ media = AniList().get(
         status=MediaStatus.FINISHED,
 
 )
+
 print(media.title.romaji)
 #> Boku no Hero Academia
 print(media.start_date.iso_format())
@@ -89,7 +91,7 @@ print(main_characters)
 
 ## Retries
 
-AniList API is flaky, sometimes it might return an error for a perfectly valid request. `pyanilist` handles this by simply retrying failed requests a specified number of times (default is 5) before raising an error. Every subsequent retry also adds an additional delay between requests.
+AniList API is flaky, sometimes it might return an error for a perfectly valid request. `pyanilist` handles this by simply retrying failed requests a specified number of times (default is 5) before raising an error.
 
 ```py
 from pyanilist import AniList
