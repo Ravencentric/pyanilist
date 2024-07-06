@@ -82,7 +82,7 @@ def test_anilist_with_constraints() -> None:
         season_year=2016,
         type=MediaType.ANIME,
         format=MediaFormat.TV,
-        status=MediaStatus.FINISHED,
+        status_in=[MediaStatus.FINISHED],
     )
     assert media.title.romaji == "Boku no Hero Academia"
     assert media.start_date.year == 2016

@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-from collections.abc import Iterable
 from typing import Any
 
 from httpx import AsyncClient, HTTPError, Response
@@ -11,7 +10,7 @@ from .._enums import MediaFormat, MediaSeason, MediaSort, MediaSource, MediaStat
 from .._models import Media
 from .._parser import post_process_response
 from .._query import query_string
-from .._types import FuzzyDateInt
+from .._types import FuzzyDateInt, Iterable
 from .._utils import to_anilist_case
 
 
