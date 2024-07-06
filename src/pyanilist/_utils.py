@@ -79,7 +79,7 @@ def markdown_formatter(description: str | None) -> str | None:
     if description is None:
         return description
     else:
-        return HTML2Text(bodywidth=0).handle(description).strip()  # type: ignore
+        return HTML2Text(bodywidth=0).handle(description).strip()
 
 
 def text_formatter(description: str | None) -> str | None:
