@@ -40,7 +40,7 @@ from ._models import (
 from ._types import FuzzyDateInt, YearsActive
 from ._version import Version, _get_version
 
-__version__ = _get_version() 
+__version__ = _get_version()
 __version_tuple__ = Version(*map(int, __version__.split(".")))
 
 __all__ = [

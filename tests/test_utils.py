@@ -115,7 +115,6 @@ def test_formatters() -> None:
 
 
 def test_query_variables_constructor() -> None:
-
     casemap = {
         "id": "id",
         "id_mal": "idMal",
