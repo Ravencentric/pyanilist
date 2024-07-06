@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pyanilist"
-version = "0.4.1"
+version = "0.5.0"
 description = "Simple AniList API wrapper to fetch media data"
 authors = ["Raventric <me@ravencentric.cc>"]
 license = "Unlicense"
