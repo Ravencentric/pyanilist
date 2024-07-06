@@ -59,7 +59,7 @@ print(media.episodes)
 
 ## Docs
 
-Checkout the complete documentation [here](https://pyanilist.zip).
+Checkout the complete documentation [here](https://pyanilist.ravencentric.cc).
 
 ## License
 
