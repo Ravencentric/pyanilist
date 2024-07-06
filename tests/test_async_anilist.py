@@ -8,7 +8,7 @@ from pyanilist import (
     MediaType,
 )
 
-from .mock_descriptions import BloomIntoYouAnthologyDescriptions, BloomIntoYouDescriptions
+from .helpers import get_description
 
 
 async def test_anilist_anime() -> None:
@@ -164,14 +164,10 @@ async def test_anilist_description() -> None:
     assert media.start_date.year == 2018
     assert media.source is MediaSource.MANGA
     assert media.type is MediaType.MANGA
-    assert media.description.default == BloomIntoYouAnthologyDescriptions.SANITIZED_DEFAULT
-    assert media.description.html == BloomIntoYouAnthologyDescriptions.SANITIZED_HTML
-    assert media.description.markdown == BloomIntoYouAnthologyDescriptions.MARKDOWN
-    assert media.description.text == BloomIntoYouAnthologyDescriptions.TEXT
-    assert media.relations[0].description.default == BloomIntoYouDescriptions.DEFAULT
-    assert media.relations[0].description.html == BloomIntoYouDescriptions.HTML
-    assert media.relations[0].description.markdown == BloomIntoYouDescriptions.MARKDOWN
-    assert media.relations[0].description.text == BloomIntoYouDescriptions.TEXT
+    assert media.description.default == get_description(id=106794, ext="default")
+    assert media.description.html == get_description(id=106794, ext="html")
+    assert media.description.markdown == get_description(id=106794, ext="markdown")
+    assert media.description.text == get_description(id=106794, ext="text")
     assert media.site_url.__str__() == "https://anilist.co/manga/106794"
 
 

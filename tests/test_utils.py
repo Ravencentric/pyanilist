@@ -7,8 +7,6 @@ from pyanilist._utils import (
     to_anilist_case,
 )
 
-from .mock_descriptions import BloomIntoYouAnthologyDescriptions
-
 
 def test_flatten() -> None:
     data = {
@@ -103,10 +101,9 @@ def test_remove_null_fields() -> None:
 
 # fmt: off
 def test_formatters() -> None:
-    assert sanitize_description(BloomIntoYouAnthologyDescriptions.DEFAULT) == BloomIntoYouAnthologyDescriptions.SANITIZED_DEFAULT
-    assert sanitize_description(BloomIntoYouAnthologyDescriptions.HTML) == BloomIntoYouAnthologyDescriptions.SANITIZED_HTML
-    assert markdown_formatter(BloomIntoYouAnthologyDescriptions.HTML) == BloomIntoYouAnthologyDescriptions.MARKDOWN
-    assert text_formatter(BloomIntoYouAnthologyDescriptions.DEFAULT) == BloomIntoYouAnthologyDescriptions.TEXT
+    assert sanitize_description("<unknown><br>hi<br />") == "<br>hi<br>"
+    assert markdown_formatter("<p>Hello, <a href='https://www.google.com/earth/'>world</a>!") == "Hello, [world](https://www.google.com/earth/)!"
+    assert text_formatter("<p>Hello, <a href='https://www.google.com/earth/'>world</a>!") == "Hello, world!"
     assert sanitize_description(None) is None
     assert sanitize_description(None) is None
     assert markdown_formatter(None) is None
