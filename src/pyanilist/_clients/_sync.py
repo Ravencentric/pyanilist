@@ -2,22 +2,21 @@ from __future__ import annotations
 
 from typing import Any
 
-import httpx
+from httpx import Client, HTTPError, Response
 from pydantic import PositiveInt, validate_call
 from stamina import retry_context
 
-from .._enums import MediaFormat, MediaSeason, MediaStatus, MediaType
+from .._enums import MediaFormat, MediaSeason, MediaSort, MediaSource, MediaStatus, MediaType
 from .._models import Media
+from .._parser import post_process_response
 from .._query import query_string
-from .._types import AniListID, AniListTitle, AniListYear, HTTPXClientKwargs
-from .._utils import flatten, markdown_formatter, remove_null_fields, sanitize_description, text_formatter
+from .._types import FuzzyDateInt, Iterable
+from .._utils import to_anilist_case
 
 
 class AniList:
     @validate_call
-    def __init__(
-        self, api_url: str = "https://graphql.anilist.co", retries: PositiveInt = 5, **kwargs: HTTPXClientKwargs
-    ) -> None:
+    def __init__(self, api_url: str = "https://graphql.anilist.co", retries: PositiveInt = 5, **kwargs: Any) -> None:
         """
         AniList API client.
 
@@ -28,43 +27,22 @@ class AniList:
         retries : PositiveInt, optional
             Number of times to retry a failed request before raising an error. Default is 5.
             Set this to 1 to disable retrying.
-        kwargs : HTTPXClientKwargs, optional
-            Keyword arguments to pass to the underlying [httpx.Client()](https://www.python-httpx.org/api/#client)
+        kwargs : Any, optional
+            Keyword arguments to pass to the underlying [`httpx.Client`](https://www.python-httpx.org/api/#client)
             used to make the POST request.
         """
         self.api_url = api_url
         self.retries = retries
         self.kwargs = kwargs
 
-    def _post_request(
-        self,
-        id: AniListID | None = None,
-        season: MediaSeason | None = None,
-        season_year: AniListYear | None = None,
-        type: MediaType | None = None,
-        format: MediaFormat | None = None,
-        status: MediaStatus | None = None,
-        title: AniListTitle | None = None,
-    ) -> httpx.Response:
+    def _post_request(self, **kwargs: Any) -> Response:
         """
         Make a POST request to the AniList API.
 
         Parameters
         ----------
-        id : AniListID, optional
-            AniList ID of the media as found in the URL: `https://anilist.co/{type}/{id}`. Default is None.
-        season : MediaSeason | None, optional
-            The season the media was initially released in. Default is None.
-        season_year : AniListYear | None, optional
-            The season year the media was initially released in. Default is None.
-        type : MediaType | None, optional
-            The type of the media; anime or manga. Default is None.
-        format : MediaFormat | None, optional
-            The format the media was released in. Default is None.
-        status : MediaStatus | None, optional
-            The current releasing status of the media. Default is None.
-        title : AniListTitle | None, optional
-            The string used for searching on AniList. Default is None.
+        kwargs : Any
+            Anilist query kwargs
 
         Raises
         ------
@@ -78,174 +56,232 @@ class AniList:
             The response object from the AniList API.
         """
 
-        # map params with AniList's
-        query_variables = dict(
-            id=id,
-            season=season,
-            seasonYear=season_year,
-            type=type,
-            format=format,
-            status=status,
-            search=title,
-        )
-
         payload = {
             "query": query_string,
-            "variables": {key: value for key, value in query_variables.items() if value is not None},
+            "variables": {to_anilist_case(key): value for key, value in kwargs.items() if value is not None},
         }
 
-        for attempt in retry_context(on=httpx.HTTPError, attempts=self.retries):
+        for attempt in retry_context(on=HTTPError, attempts=self.retries):
             with attempt:
-                with httpx.Client(**self.kwargs) as client:
+                with Client(**self.kwargs) as client:
                     response = client.post(self.api_url, json=payload).raise_for_status()
 
         return response
 
-    @staticmethod
-    def _process_description(dictionary: dict[str, Any]) -> dict[str, Any]:
-        """
-        Anilist's description field takes a parameter `asHtml: boolean`, effectively
-        resulting in two differently formatted descriptions.
-
-        Despite what the name implies, `asHtml` being `False` does not gurantee that there will be no `HTML`
-        tags in the description.
-
-        So we do a bit of post processing:
-        - Sanitize the resulting descriptions
-        - Introduce two more formats derived from the original two, i.e, markdown and plain text
-        - Nest our newly acquired 4 descriptions into a single parent dictionary
-
-        Example:
-
-        This
-        ```py
-        {
-            "defaultDescription": "...",
-            "htmlDescription": "...",
-        }
-        ```
-        Turns into this:
-        ```py
-        {
-            "description": {
-                "default": "...",
-                "html": "...",
-                "markdown": "...",
-                "text": "...",
-            }
-        }
-        ```py
-
-        """
-
-        default_description = sanitize_description(dictionary.get("defaultDescription"))
-        html_description = sanitize_description(dictionary.get("htmlDescription"))
-        markdown_description = markdown_formatter(html_description)
-        text_description = text_formatter(default_description)
-
-        # Delete the processed keys
-        dictionary.pop("defaultDescription", None)
-        dictionary.pop("htmlDescription", None)
-
-        # Nest them inside a parent dictionary
-        return dict(
-            default=default_description,
-            html=html_description,
-            markdown=markdown_description,
-            text=text_description,
-        )
-
-    def _post_process_response(self, response: httpx.Response) -> dict[str, Any]:
-        """
-        Post-processes the response from AniList API.
-
-        Parameters
-        ----------
-        response : Response
-            The response object received from AniList API.
-
-        Returns
-        -------
-        dict[str, Any]
-            Processed dictionary containing media information.
-
-        Notes
-        -----
-        Currently, this function does two things:
-        1. Flattening nested structures such as relations, studios, characters, and staff.
-        2. Removing null fields to ensure a cleaner output.
-        """
-
-        # type hinting for IDE because it doesn't detect it automagically
-        dictionary: dict[str, Any]
-
-        dictionary = response.json()["data"]["Media"]
-
-        # "Flatten" the nested list of dictionaries of list of dictionaries... blah blah
-        # into simpler list for more intuitive access
-        relations = dictionary.get("relations")
-        dictionary.pop("relations", None)
-        flattened_relations = flatten(relations, "relationType")
-
-        # same thing here
-        studios = dictionary.get("studios")
-        dictionary.pop("studios", None)
-        flattened_studios = flatten(studios, "isMain")
-
-        # same thing here
-        characters = dictionary.get("characters")
-        dictionary.pop("characters", None)
-        flattened_characters = flatten(characters, "role")
-
-        # same thing here
-        staff = dictionary.get("staff")
-        dictionary.pop("staff", None)
-        flattened_staff = flatten(staff, "role")
-
-        # Process description
-        dictionary["description"] = self._process_description(dictionary)
-
-        # Process description of every relation
-        for relation in flattened_relations:
-            relation["description"] = self._process_description(relation)
-
-        # replace the original
-        dictionary["relations"] = flattened_relations
-        dictionary["studios"] = flattened_studios
-        dictionary["characters"] = flattened_characters
-        dictionary["staff"] = flattened_staff
-
-        # self explanatory, details on why
-        # are in the function docstring
-        return remove_null_fields(dictionary)
-
     @validate_call
-    def search(
+    def get(
         self,
-        title: AniListTitle,
+        search: str | None = None,
+        *,
+        id: int | None = None,
+        id_mal: int | None = None,
+        start_date: FuzzyDateInt | None = None,
+        end_date: FuzzyDateInt | None = None,
         season: MediaSeason | None = None,
-        season_year: AniListYear | None = None,
+        season_year: int | None = None,
         type: MediaType | None = None,
         format: MediaFormat | None = None,
         status: MediaStatus | None = None,
+        episodes: int | None = None,
+        chapters: int | None = None,
+        duration: int | None = None,
+        volumes: int | None = None,
+        is_adult: bool | None = None,
+        genre: str | None = None,
+        tag: str | None = None,
+        minimum_tag_rank: int | None = None,
+        tag_category: str | None = None,
+        licensed_by: str | None = None,
+        licensed_by_id: int | None = None,
+        average_score: int | None = None,
+        popularity: int | None = None,
+        source: MediaSource | None = None,
+        country_of_origin: str | None = None,
+        is_licensed: bool | None = None,
+        id_not: int | None = None,
+        id_in: Iterable[int] | None = None,
+        id_not_in: Iterable[int] | None = None,
+        id_mal_not: int | None = None,
+        id_mal_in: Iterable[int] | None = None,
+        id_mal_not_in: Iterable[int] | None = None,
+        start_date_greater: FuzzyDateInt | None = None,
+        start_date_lesser: FuzzyDateInt | None = None,
+        start_date_like: str | None = None,
+        end_date_greater: FuzzyDateInt | None = None,
+        end_date_lesser: FuzzyDateInt | None = None,
+        end_date_like: str | None = None,
+        format_in: Iterable[MediaFormat] | None = None,
+        format_not: MediaFormat | None = None,
+        format_not_in: Iterable[MediaFormat] | None = None,
+        status_in: Iterable[MediaStatus] | None = None,
+        status_not: MediaStatus | None = None,
+        status_not_in: Iterable[MediaStatus] | None = None,
+        episodes_greater: int | None = None,
+        episodes_lesser: int | None = None,
+        duration_greater: int | None = None,
+        duration_lesser: int | None = None,
+        chapters_greater: int | None = None,
+        chapters_lesser: int | None = None,
+        volumes_greater: int | None = None,
+        volumes_lesser: int | None = None,
+        genre_in: Iterable[str] | None = None,
+        genre_not_in: Iterable[str] | None = None,
+        tag_in: Iterable[str] | None = None,
+        tag_not_in: Iterable[str] | None = None,
+        tag_category_in: Iterable[str] | None = None,
+        tag_category_not_in: Iterable[str] | None = None,
+        licensed_by_in: Iterable[str] | None = None,
+        licensed_by_id_in: Iterable[int] | None = None,
+        average_score_not: int | None = None,
+        average_score_greater: int | None = None,
+        average_score_lesser: int | None = None,
+        popularity_not: int | None = None,
+        popularity_greater: int | None = None,
+        popularity_lesser: int | None = None,
+        source_in: Iterable[MediaSource] | None = None,
+        sort: Iterable[MediaSort] | None = None,
     ) -> Media:
         """
         Search for media on AniList based on the provided parameters.
 
         Parameters
         ----------
-        title : AniListTitle
-            The string used for searching on AniList.
-        season : MediaSeason | None, optional
-            The season the media was initially released in. Default is None.
-        season_year : AniListYear | None, optional
-            The season year the media was initially released in. Default is None.
-        type : MediaType | None, optional
-            The type of the media; anime or manga. Default is None.
-        format : MediaFormat | None, optional
-            The format the media was released in. Default is None.
-        status : MediaStatus | None, optional
-            The current releasing status of the media. Default is None.
+        search : str, optional
+            Filter by search query
+        id : int, optional
+            Filter by the media id
+        id_mal : int, optional
+            Filter by the media's MyAnimeList id
+        start_date : FuzzyDateInt, optional
+            Filter by the start date of the media
+        end_date : FuzzyDateInt, optional
+            Filter by the end date of the media
+        season : MediaSeason, optional
+            Filter by the season the media was released in
+        season_year : int, optional
+            The year of the season (Winter 2017 would also include December 2016 releases). Requires season argument
+        type : MediaType, optional
+            Filter by the media's type
+        format : MediaFormat, optional
+            Filter by the media's format
+        status : MediaStatus, optional
+            Filter by the media's current release status
+        episodes : int, optional
+            Filter by amount of episodes the media has
+        chapters : int, optional
+            Filter by the media's episode length
+        duration : int, optional
+            Filter by the media's chapter count
+        volumes : int, optional
+            Filter by the media's volume count
+        is_adult : bool, optional
+            Filter by if the media's intended for 18+ adult audiences
+        genre : str, optional
+            Filter by the media's genres
+        tag : str, optional
+            Filter by the media's tags
+        minimum_tag_rank : int, optional
+            Only apply the tags filter argument to tags above this rank. Default: 18
+        tag_category : str, optional
+            Filter by the media's tags with in a tag category
+        licensed_by : str, optional
+            Filter media by sites name with a online streaming or reading license
+        licensed_by_id : int, optional
+            Filter media by sites id with a online streaming or reading license
+        average_score : int, optional
+            Filter by the media's average score
+        popularity : int, optional
+            Filter by the number of users with this media on their list
+        source : MediaSource, optional
+            Filter by the source type of the media
+        country_of_origin : CountryCode | str, optional
+            Filter by the media's country of origin
+        is_licensed : bool, optional
+            If the media is officially licensed or a self-published doujin release
+        id_not : int, optional
+            Filter by the media id
+        id_in : Iterable[int], optional
+            Filter by the media id
+        id_not_in : Iterable[int], optional
+            Filter by the media id
+        id_mal_not : int, optional
+            Filter by the media's MyAnimeList id
+        id_mal_in : Iterable[int], optional
+            Filter by the media's MyAnimeList id
+        id_mal_not_in : Iterable[int], optional
+            Filter by the media's MyAnimeList id
+        start_date_greater : FuzzyDateInt, optional
+            Filter by the start date of the media
+        start_date_lesser : FuzzyDateInt, optional
+            Filter by the start date of the media
+        start_date_like : str, optional
+            Filter by the start date of the media
+        end_date_greater : FuzzyDateInt, optional
+            Filter by the end date of the media
+        end_date_lesser : FuzzyDateInt, optional
+            Filter by the end date of the media
+        end_date_like : str, optional
+            Filter by the end date of the media
+        format_in : Iterable[MediaFormat], optional
+            Filter by the media's format
+        format_not : MediaFormat, optional
+            Filter by the media's format
+        format_not_in : Iterable[MediaFormat], optional
+            Filter by the media's format
+        status_in : Iterable[MediaStatus], optional
+            Filter by the media's current release status
+        status_not : MediaStatus, optional
+            Filter by the media's current release status
+        status_not_in : Iterable[MediaStatus], optional
+            Filter by the media's current release status
+        episodes_greater : int, optional
+            Filter by amount of episodes the media has
+        episodes_lesser : int, optional
+            Filter by amount of episodes the media has
+        duration_greater : int, optional
+            Filter by the media's episode length
+        duration_lesser : int, optional
+            Filter by the media's episode length
+        chapters_greater : int, optional
+            Filter by the media's chapter count
+        chapters_lesser : int, optional
+            Filter by the media's chapter count
+        volumes_greater : int, optional
+            Filter by the media's volume count
+        volumes_lesser : int, optional
+            Filter by the media's volume count
+        genre_in : Iterable[str], optional
+            Filter by the media's genres
+        genre_not_in : Iterable[str], optional
+            Filter by the media's genres
+        tag_in : Iterable[str], optional
+            Filter by the media's tags
+        tag_not_in : Iterable[str], optional
+            Filter by the media's tags
+        tag_category_in : Iterable[str], optional
+            Filter by the media's tags with in a tag category
+        tag_category_not_in : Iterable[str], optional
+            Filter by the media's tags with in a tag category
+        licensed_by_in : Iterable[str], optional
+            Filter media by sites name with a online streaming or reading license
+        licensed_by_id_in : Iterable[int], optional
+            Filter media by sites id with a online streaming or reading license
+        average_score_not : int, optional
+            Filter by the media's average score
+        average_score_greater : int, optional
+            Filter by the media's average score
+        average_score_lesser : int, optional
+            Filter by the media's average score
+        popularity_not : int, optional
+            Filter by the number of users with this media on their list
+        popularity_greater : int, optional
+            Filter by the number of users with this media on their list
+        popularity_lesser : int, optional
+            Filter by the number of users with this media on their list
+        source_in : Iterable[MediaSource], optional
+            Filter by the source type of the media
+        sort : Iterable[MediaSort], optional
+            The order the results will be returned in
 
         Raises
         ------
@@ -261,45 +297,76 @@ class AniList:
         """
 
         return Media.model_validate(
-            self._post_process_response(
+            post_process_response(
                 self._post_request(
-                    title=title,
+                    id=id,
+                    id_mal=id_mal,
+                    start_date=start_date,
+                    end_date=end_date,
                     season=season,
                     season_year=season_year,
                     type=type,
                     format=format,
                     status=status,
-                )
-            )
-        )
-
-    @validate_call
-    def get(self, id: AniListID) -> Media:
-        """
-        Retrieve media information from AniList based on it's ID.
-
-        Parameters
-        ----------
-        id : int
-            AniList ID of the media as found in the URL: `https://anilist.co/{type}/{id}`.
-
-        Raises
-        ------
-        ValidationError
-            Invalid input
-        HTTPStatusError
-            AniList returned a non 2xx response.
-
-        Returns
-        -------
-        Media
-            A Media object representing the retrieved media information.
-        """
-
-        return Media.model_validate(
-            self._post_process_response(
-                self._post_request(
-                    id=id,
+                    episodes=episodes,
+                    chapters=chapters,
+                    duration=duration,
+                    volumes=volumes,
+                    is_adult=is_adult,
+                    genre=genre,
+                    tag=tag,
+                    minimum_tag_rank=minimum_tag_rank,
+                    tag_category=tag_category,
+                    licensed_by=licensed_by,
+                    licensed_by_id=licensed_by_id,
+                    average_score=average_score,
+                    popularity=popularity,
+                    source=source,
+                    country_of_origin=country_of_origin,
+                    is_licensed=is_licensed,
+                    search=search,
+                    id_not=id_not,
+                    id_in=id_in,
+                    id_not_in=id_not_in,
+                    id_mal_not=id_mal_not,
+                    id_mal_in=id_mal_in,
+                    id_mal_not_in=id_mal_not_in,
+                    start_date_greater=start_date_greater,
+                    start_date_lesser=start_date_lesser,
+                    start_date_like=start_date_like,
+                    end_date_greater=end_date_greater,
+                    end_date_lesser=end_date_lesser,
+                    end_date_like=end_date_like,
+                    format_in=format_in,
+                    format_not=format_not,
+                    format_not_in=format_not_in,
+                    status_in=status_in,
+                    status_not=status_not,
+                    status_not_in=status_not_in,
+                    episodes_greater=episodes_greater,
+                    episodes_lesser=episodes_lesser,
+                    duration_greater=duration_greater,
+                    duration_lesser=duration_lesser,
+                    chapters_greater=chapters_greater,
+                    chapters_lesser=chapters_lesser,
+                    volumes_greater=volumes_greater,
+                    volumes_lesser=volumes_lesser,
+                    genre_in=genre_in,
+                    genre_not_in=genre_not_in,
+                    tag_in=tag_in,
+                    tag_not_in=tag_not_in,
+                    tag_category_in=tag_category_in,
+                    tag_category_not_in=tag_category_not_in,
+                    licensed_by_in=licensed_by_in,
+                    licensed_by_id_in=licensed_by_id_in,
+                    average_score_not=average_score_not,
+                    average_score_greater=average_score_greater,
+                    average_score_lesser=average_score_lesser,
+                    popularity_not=popularity_not,
+                    popularity_greater=popularity_greater,
+                    popularity_lesser=popularity_lesser,
+                    source_in=source_in,
+                    sort=sort,
                 )
             )
         )

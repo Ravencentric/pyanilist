@@ -1,22 +1,19 @@
+from __future__ import annotations
+
 from typing_extensions import NamedTuple
 
 from ._compat import metadata
 
 
 class Version(NamedTuple):
-    """Version tuple based on SemVer"""
-
     major: int
-    """Major version number"""
     minor: int
-    """Minor version number"""
-    patch: int
-    """Patch version number"""
+    micro: int
 
 
 def _get_version() -> str:
     """
-    Get the version of juicenet
+    Get the version of pyanilist
     """
     try:
         return metadata.version("pyanilist")

@@ -1,19 +1,17 @@
 # Examples
 
 !!! note
-    These examples use `pyanilist.AniList` but you can do the same thing with `pyanilist.AsyncAniList` since they share the same methods
+    These examples use [`pyanilist.AniList`][pyanilist.AniList] but you can do the same thing with [`pyanilist.AsyncAniList`][pyanilist.AsyncAniList] since they share the same methods
 
 ## AniList ID
 
 ```py
 from pyanilist import AniList
 
-media = AniList().get(16498)
+media = AniList().get(id=16498)
 
 print(media.title.english)
-"""
-Attack on Titan
-"""
+#> Attack on Titan
 ```
 
 ## Search
@@ -21,27 +19,21 @@ Attack on Titan
 ```py
 from pyanilist import AniList
 
-media = AniList().search("Attack on titan")
+media = AniList().get("Attack on titan")
 
 print(media.format)
-"""
-TV
-"""
+#> TV
 print(media.title.romaji)
-"""
-Shingeki no Kyojin
-"""
+#> Shingeki no Kyojin
 print(media.episodes)
-"""
-25
-"""
+#> 25
 ```
 
 ## Search with constraints
 
 ```py
 from pyanilist import AniList, MediaSeason, MediaType, MediaStatus, MediaFormat
-media = AniList().search(
+media = AniList().get(
         "My Hero Academia",
         season=MediaSeason.SPRING,
         season_year=2016,
@@ -51,17 +43,11 @@ media = AniList().search(
 
 )
 print(media.title.romaji)
-"""
-Boku no Hero Academia
-"""
+#> Boku no Hero Academia
 print(media.start_date.iso_format())
-"""
-2016-04-03
-"""
+#> 2016-04-03
 print(media.site_url)
-"""
-https://anilist.co/anime/21459
-"""
+#> https://anilist.co/anime/21459
 ```
 
 ## Related media
@@ -69,21 +55,17 @@ https://anilist.co/anime/21459
 ```py
 from pyanilist import AniList
 
-media = AniList().search("violet evergarden")
+media = AniList().get("violet evergarden")
 
 print(media.format)
-"""
-TV
-"""
+#> TV
 
 for relation in media.relations:
     print(f"{relation.title.romaji} ({relation.format}) - {relation.site_url}")
-"""
-Violet Evergarden: Kitto "Ai" wo Shiru Hi ga Kuru no Darou (OVA) - https://anilist.co/anime/101432
-Violet Evergarden (NOVEL) - https://anilist.co/manga/97298
-Violet Evergarden Gaiden: Eien to Jidou Shuki Ningyou (MOVIE) - https://anilist.co/anime/109190
-Violet Evergarden CM (ONA) - https://anilist.co/anime/154164
-"""
+    #> Violet Evergarden: Kitto "Ai" wo Shiru Hi ga Kuru no Darou (OVA) - https://anilist.co/anime/101432
+    #> Violet Evergarden (NOVEL) - https://anilist.co/manga/97298
+    #> Violet Evergarden Gaiden: Eien to Jidou Shuki Ningyou (MOVIE) - https://anilist.co/anime/109190
+    #> Violet Evergarden CM (ONA) - https://anilist.co/anime/154164
 ```
 
 ## Characters
@@ -91,7 +73,7 @@ Violet Evergarden CM (ONA) - https://anilist.co/anime/154164
 ```py
 from pyanilist import AniList, CharacterRole
 
-media = AniList().get(20954)
+media = AniList().get(id=20954)
 
 all_characters = [character.name.full for character in media.characters]
 
@@ -99,19 +81,15 @@ all_characters = [character.name.full for character in media.characters]
 main_characters = [character.name.full for character in media.characters if character.role is CharacterRole.MAIN]
 
 print(all_characters)
-"""
-['Shouya Ishida', 'Shouko Nishimiya', 'Yuzuru Nishimiya', 'Naoka Ueno', 'Miyako Ishida', 'Maria Ishida', 'Miki Kawai', 'Satoshi Mashiba', 'Tomohiro Nagatsuka', 'Yaeko Nishimiya', 'Ito Nishimiya', 'Miyoko Sahara', 'Kazuki Shimada', 'Takeuchi', 'Pedro', 'Keisuke Hirose', 'Ishida no Ane', 'Kita']
-"""
+#> ['Shouya Ishida', 'Shouko Nishimiya', 'Yuzuru Nishimiya', 'Naoka Ueno', 'Miyako Ishida', 'Maria Ishida', 'Miki Kawai', 'Satoshi Mashiba', 'Tomohiro Nagatsuka', 'Yaeko Nishimiya', 'Ito Nishimiya', 'Miyoko Sahara', 'Kazuki Shimada', 'Takeuchi', 'Pedro', 'Keisuke Hirose', 'Ishida no Ane', 'Kita']
 
 print(main_characters)
-"""
-['Shouya Ishida', 'Shouko Nishimiya']
-"""
+#> ['Shouya Ishida', 'Shouko Nishimiya']
 ```
 
 ## Retries
 
-AniList API is flaky, sometimes it might return an error for a perfectly valid request. `pyanilist` handles this by simply retrying failed requests a specified number of times (default is 5) before raising an error. Every subsequent retry also adds an additional one-second delay between requests.
+AniList API is flaky, sometimes it might return an error for a perfectly valid request. `pyanilist` handles this by simply retrying failed requests a specified number of times (default is 5) before raising an error. Every subsequent retry also adds an additional delay between requests.
 
 ```py
 from pyanilist import AniList
@@ -119,17 +97,15 @@ from pyanilist import AniList
 # Configure the number of retries. Setting it to 1 disables retrying.
 anilist = AniList(retries=1)
 
-media = anilist.search("violet evergarden")
+media = anilist.get("violet evergarden")
 
 print(f"{media.title.english} - {media.site_url}")
-"""
-Violet Evergarden - https://anilist.co/anime/21827
-"""
+#> Violet Evergarden - https://anilist.co/anime/21827
 ```
 
 ## Client
 
-`pyanilist` gives you direct access to the internal [`httpx.Client()`](https://www.python-httpx.org/api/#client) used to send the POST request.
+`pyanilist` lets you pass keyword arguments to the internal [`httpx.Client`](https://www.python-httpx.org/api/#client) used to send the POST request.
 
 ```py
 from pyanilist import AniList
@@ -139,10 +115,8 @@ headers = {'user-agent': 'my-app/0.0.1'}
 # You can pass any httpx.Client() keyword argument to AniList()
 anilist = AniList(headers=headers)
 
-media = anilist.get(105333)
+media = anilist.get(id=105333)
 
 print(media.title.english)
-"""
-Dr. STONE
-"""
+#> Dr. STONE
 ```

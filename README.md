@@ -32,8 +32,7 @@
 ## About
 
 - Supports both sync and async.
-- Provides easy access to almost every field present in AniList's `Media` type.
-- Only supports querying the `Media` type
+- Only supports querying the `Media` type.
 
 ## Installation
 
@@ -45,91 +44,18 @@ pip install pyanilist
 
 ## Usage
 
-1. `AniList()` - Synchronous class
-    - `search()` - Search a media
+```py
+from pyanilist import AniList
 
-        ```py
-        from pyanilist import AniList, MediaType
+media = AniList().get("My Hero Academia")
 
-        media = AniList().search("Attack on Titan", type=MediaType.ANIME)
-
-        print(media.title.romaji)
-        """
-        Shingeki no Kyojin
-        """
-        print(media.site_url)
-        """
-        https://anilist.co/anime/16498
-        """
-        print(media.episodes)
-        """
-        25
-        """
-        ```
-    - `get()` - Get a media by it's AniList ID
-
-        ```py
-        from pyanilist import AniList
-
-        media = AniList().get(21459)
-
-        print(media.title.english)
-        """
-        My Hero Academia
-        """
-        print(media.site_url)
-        """
-        https://anilist.co/anime/21459
-        """
-        print(media.episodes)
-        """
-        13
-        """
-        ```
-
-2. `AsyncAniList()` - Asynchronous class
-    - `search()` - Search a media
-
-        ```py
-        import asyncio
-        from pyanilist import AsyncAniList, MediaType
-
-        media = asyncio.run(AsyncAniList().search("Attack on Titan", type=MediaType.ANIME))
-
-        print(media.title.romaji)
-        """
-        Shingeki no Kyojin
-        """
-        print(media.site_url)
-        """
-        https://anilist.co/anime/16498
-        """
-        print(media.episodes)
-        """
-        25
-        """
-        ```
-    - `get()` - Get a media by it's AniList ID
-
-        ```py
-        import asyncio
-        from pyanilist import AsyncAniList
-        
-        media = asyncio.run(AsyncAniList().get(21459))
-
-        print(media.title.english)
-        """
-        My Hero Academia
-        """
-        print(media.site_url)
-        """
-        https://anilist.co/anime/21459
-        """
-        print(media.episodes)
-        """
-        13
-        """
-        ```
+print(media.title.romaji)
+#> Boku no Hero Academia
+print(media.site_url)
+#> https://anilist.co/anime/21459
+print(media.episodes)
+#> 13
+```
 
 ## Docs
 

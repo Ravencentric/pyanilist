@@ -1,3 +1,8 @@
+from __future__ import annotations
+
+from httpx import HTTPStatusError
+from pydantic import ValidationError
+
 from ._clients import AniList, AsyncAniList
 from ._enums import (
     CharacterRole,
@@ -6,39 +11,10 @@ from ._enums import (
     MediaRankType,
     MediaRelation,
     MediaSeason,
+    MediaSort,
     MediaSource,
     MediaStatus,
     MediaType,
-)
-from ._exceptions import (
-    CloseError,
-    ConnectError,
-    ConnectTimeout,
-    CookieConflict,
-    DecodingError,
-    HTTPError,
-    HTTPStatusError,
-    InvalidURL,
-    LocalProtocolError,
-    NetworkError,
-    PoolTimeout,
-    ProtocolError,
-    ProxyError,
-    ReadError,
-    ReadTimeout,
-    RemoteProtocolError,
-    RequestError,
-    RequestNotRead,
-    ResponseNotRead,
-    StreamClosed,
-    StreamConsumed,
-    StreamError,
-    TimeoutException,
-    TooManyRedirects,
-    UnsupportedProtocol,
-    ValidationError,
-    WriteError,
-    WriteTimeout,
 )
 from ._models import (
     AiringSchedule,
@@ -61,10 +37,10 @@ from ._models import (
     StaffName,
     Studio,
 )
-from ._types import AniListID, AniListTitle, AniListYear, Color, CountryCode, HttpUrl, YearsActive
+from ._types import FuzzyDateInt, YearsActive
 from ._version import Version, _get_version
 
-__version__ = _get_version()
+__version__ = _get_version() 
 __version_tuple__ = Version(*map(int, __version__.split(".")))
 
 __all__ = [
@@ -78,17 +54,13 @@ __all__ = [
     "MediaRankType",
     "MediaRelation",
     "MediaSeason",
+    "MediaSort",
     "MediaSource",
     "MediaStatus",
     "MediaType",
     # Types
-    "AniListID",
-    "AniListTitle",
-    "AniListYear",
-    "Color",
-    "CountryCode",
-    "HttpUrl",
     "YearsActive",
+    "FuzzyDateInt",
     # Models
     "AiringSchedule",
     "Character",
@@ -110,32 +82,6 @@ __all__ = [
     "StaffName",
     "Studio",
     # Exceptions
-    "CloseError",
-    "ConnectError",
-    "ConnectTimeout",
-    "CookieConflict",
-    "DecodingError",
-    "HTTPError",
     "HTTPStatusError",
-    "InvalidURL",
-    "LocalProtocolError",
-    "NetworkError",
-    "PoolTimeout",
-    "ProtocolError",
-    "ProxyError",
-    "ReadError",
-    "ReadTimeout",
-    "RemoteProtocolError",
-    "RequestError",
-    "RequestNotRead",
-    "ResponseNotRead",
-    "StreamClosed",
-    "StreamConsumed",
-    "StreamError",
-    "TimeoutException",
-    "TooManyRedirects",
-    "UnsupportedProtocol",
-    "WriteError",
-    "WriteTimeout",
     "ValidationError",
 ]
