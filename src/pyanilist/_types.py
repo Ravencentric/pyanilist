@@ -15,7 +15,7 @@ Iterable: TypeAlias = Union[set[T], tuple[T, ...], list[T]]
 class YearsActive(NamedTuple):
     """
     Simple Named Tuple for
-    `_models.Staff.years_active`
+    [`Staff.years_active`][pyanilist._models.Staff.years_active]
     """
 
     start_year: int | None = None
@@ -30,3 +30,4 @@ FuzzyDateInt = Annotated[
         description="8 digit long date integer (YYYYMMDD). Unknown dates represented by 0. E.g. 2016: 20160000, May 1976: 19760500",
     ),
 ]
+"""8 digit long date integer (YYYYMMDD). Unknown dates represented by 0. E.g. 2016: 20160000, May 1976: 19760500"""
