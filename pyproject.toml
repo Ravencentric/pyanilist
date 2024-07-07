@@ -2,7 +2,7 @@
 name = "pyanilist"
 version = "0.5.0"
 description = "Simple AniList API wrapper to fetch media data"
-authors = ["Raventric <me@ravencentric.cc>"]
+authors = ["Ravencentric <me@ravencentric.cc>"]
 license = "Unlicense"
 readme = "README.md"
 keywords = ["anilist", "anime", "python"]
