@@ -184,7 +184,7 @@ class AsyncAniList:
         minimum_tag_rank : int, optional
             Only apply the tags filter argument to tags above this rank. Default: 18
         tag_category : str, optional
-            Filter by the media's tags with in a tag category
+            Filter by the media's tags within a tag category
         licensed_by : str, optional
             Filter media by sites name with a online streaming or reading license
         licensed_by_id : int, optional
@@ -195,7 +195,7 @@ class AsyncAniList:
             Filter by the number of users with this media on their list
         source : MediaSource, optional
             Filter by the source type of the media
-        country_of_origin : CountryCode | str, optional
+        country_of_origin : str, optional
             Filter by the media's country of origin
         is_licensed : bool, optional
             If the media is officially licensed or a self-published doujin release
@@ -260,9 +260,9 @@ class AsyncAniList:
         tag_not_in : CollectionOf[str], optional
             Filter by the media's tags
         tag_category_in : CollectionOf[str], optional
-            Filter by the media's tags with in a tag category
+            Filter by the media's tags within a tag category
         tag_category_not_in : CollectionOf[str], optional
-            Filter by the media's tags with in a tag category
+            Filter by the media's tags within a tag category
         licensed_by_in : CollectionOf[str], optional
             Filter media by sites name with a online streaming or reading license
         licensed_by_id_in : CollectionOf[int], optional
