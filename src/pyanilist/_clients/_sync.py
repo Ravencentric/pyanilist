@@ -10,7 +10,7 @@ from .._enums import MediaFormat, MediaSeason, MediaSort, MediaSource, MediaStat
 from .._models import Media
 from .._parser import post_process_response
 from .._query import query_string
-from .._types import FuzzyDateInt, Iterable
+from .._types import CollectionOf, FuzzyDateInt
 from .._utils import to_anilist_case
 
 
@@ -99,23 +99,23 @@ class AniList:
         country_of_origin: str | None = None,
         is_licensed: bool | None = None,
         id_not: int | None = None,
-        id_in: Iterable[int] | None = None,
-        id_not_in: Iterable[int] | None = None,
+        id_in: CollectionOf[int] | None = None,
+        id_not_in: CollectionOf[int] | None = None,
         id_mal_not: int | None = None,
-        id_mal_in: Iterable[int] | None = None,
-        id_mal_not_in: Iterable[int] | None = None,
+        id_mal_in: CollectionOf[int] | None = None,
+        id_mal_not_in: CollectionOf[int] | None = None,
         start_date_greater: FuzzyDateInt | None = None,
         start_date_lesser: FuzzyDateInt | None = None,
         start_date_like: str | None = None,
         end_date_greater: FuzzyDateInt | None = None,
         end_date_lesser: FuzzyDateInt | None = None,
         end_date_like: str | None = None,
-        format_in: Iterable[MediaFormat] | None = None,
+        format_in: CollectionOf[MediaFormat] | None = None,
         format_not: MediaFormat | None = None,
-        format_not_in: Iterable[MediaFormat] | None = None,
-        status_in: Iterable[MediaStatus] | None = None,
+        format_not_in: CollectionOf[MediaFormat] | None = None,
+        status_in: CollectionOf[MediaStatus] | None = None,
         status_not: MediaStatus | None = None,
-        status_not_in: Iterable[MediaStatus] | None = None,
+        status_not_in: CollectionOf[MediaStatus] | None = None,
         episodes_greater: int | None = None,
         episodes_lesser: int | None = None,
         duration_greater: int | None = None,
@@ -124,22 +124,22 @@ class AniList:
         chapters_lesser: int | None = None,
         volumes_greater: int | None = None,
         volumes_lesser: int | None = None,
-        genre_in: Iterable[str] | None = None,
-        genre_not_in: Iterable[str] | None = None,
-        tag_in: Iterable[str] | None = None,
-        tag_not_in: Iterable[str] | None = None,
-        tag_category_in: Iterable[str] | None = None,
-        tag_category_not_in: Iterable[str] | None = None,
-        licensed_by_in: Iterable[str] | None = None,
-        licensed_by_id_in: Iterable[int] | None = None,
+        genre_in: CollectionOf[str] | None = None,
+        genre_not_in: CollectionOf[str] | None = None,
+        tag_in: CollectionOf[str] | None = None,
+        tag_not_in: CollectionOf[str] | None = None,
+        tag_category_in: CollectionOf[str] | None = None,
+        tag_category_not_in: CollectionOf[str] | None = None,
+        licensed_by_in: CollectionOf[str] | None = None,
+        licensed_by_id_in: CollectionOf[int] | None = None,
         average_score_not: int | None = None,
         average_score_greater: int | None = None,
         average_score_lesser: int | None = None,
         popularity_not: int | None = None,
         popularity_greater: int | None = None,
         popularity_lesser: int | None = None,
-        source_in: Iterable[MediaSource] | None = None,
-        sort: Iterable[MediaSort] | None = None,
+        source_in: CollectionOf[MediaSource] | None = None,
+        sort: CollectionOf[MediaSort] | None = None,
     ) -> Media:
         """
         Search for media on AniList based on the provided parameters.
@@ -200,15 +200,15 @@ class AniList:
             If the media is officially licensed or a self-published doujin release
         id_not : int, optional
             Filter by the media id
-        id_in : Iterable[int], optional
+        id_in : CollectionOf[int], optional
             Filter by the media id
-        id_not_in : Iterable[int], optional
+        id_not_in : CollectionOf[int], optional
             Filter by the media id
         id_mal_not : int, optional
             Filter by the media's MyAnimeList id
-        id_mal_in : Iterable[int], optional
+        id_mal_in : CollectionOf[int], optional
             Filter by the media's MyAnimeList id
-        id_mal_not_in : Iterable[int], optional
+        id_mal_not_in : CollectionOf[int], optional
             Filter by the media's MyAnimeList id
         start_date_greater : FuzzyDateInt, optional
             Filter by the start date of the media
@@ -222,17 +222,17 @@ class AniList:
             Filter by the end date of the media
         end_date_like : str, optional
             Filter by the end date of the media
-        format_in : Iterable[MediaFormat], optional
+        format_in : CollectionOf[MediaFormat], optional
             Filter by the media's format
         format_not : MediaFormat, optional
             Filter by the media's format
-        format_not_in : Iterable[MediaFormat], optional
+        format_not_in : CollectionOf[MediaFormat], optional
             Filter by the media's format
-        status_in : Iterable[MediaStatus], optional
+        status_in : CollectionOf[MediaStatus], optional
             Filter by the media's current release status
         status_not : MediaStatus, optional
             Filter by the media's current release status
-        status_not_in : Iterable[MediaStatus], optional
+        status_not_in : CollectionOf[MediaStatus], optional
             Filter by the media's current release status
         episodes_greater : int, optional
             Filter by amount of episodes the media has
@@ -250,21 +250,21 @@ class AniList:
             Filter by the media's volume count
         volumes_lesser : int, optional
             Filter by the media's volume count
-        genre_in : Iterable[str], optional
+        genre_in : CollectionOf[str], optional
             Filter by the media's genres
-        genre_not_in : Iterable[str], optional
+        genre_not_in : CollectionOf[str], optional
             Filter by the media's genres
-        tag_in : Iterable[str], optional
+        tag_in : CollectionOf[str], optional
             Filter by the media's tags
-        tag_not_in : Iterable[str], optional
+        tag_not_in : CollectionOf[str], optional
             Filter by the media's tags
-        tag_category_in : Iterable[str], optional
+        tag_category_in : CollectionOf[str], optional
             Filter by the media's tags with in a tag category
-        tag_category_not_in : Iterable[str], optional
+        tag_category_not_in : CollectionOf[str], optional
             Filter by the media's tags with in a tag category
-        licensed_by_in : Iterable[str], optional
+        licensed_by_in : CollectionOf[str], optional
             Filter media by sites name with a online streaming or reading license
-        licensed_by_id_in : Iterable[int], optional
+        licensed_by_id_in : CollectionOf[int], optional
             Filter media by sites id with a online streaming or reading license
         average_score_not : int, optional
             Filter by the media's average score
@@ -278,9 +278,9 @@ class AniList:
             Filter by the number of users with this media on their list
         popularity_lesser : int, optional
             Filter by the number of users with this media on their list
-        source_in : Iterable[MediaSource], optional
+        source_in : CollectionOf[MediaSource], optional
             Filter by the source type of the media
-        sort : Iterable[MediaSort], optional
+        sort : CollectionOf[MediaSort], optional
             The order the results will be returned in
 
         Raises

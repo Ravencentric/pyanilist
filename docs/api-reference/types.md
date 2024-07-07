@@ -2,4 +2,4 @@
     options:
         members: true
 ::: pyanilist._types.FuzzyDateInt
-::: pyanilist._types.Iterable
+::: pyanilist._types.CollectionOf

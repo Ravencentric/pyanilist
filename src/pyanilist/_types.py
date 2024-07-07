@@ -9,7 +9,7 @@ from typing_extensions import NamedTuple, TypeAlias, TypeVar, Union
 # to stop pydantic from converting them to ValidatorIterator
 # https://github.com/pydantic/pydantic/issues/9541
 T = TypeVar("T")
-Iterable: TypeAlias = Union[set[T], tuple[T, ...], list[T]]
+CollectionOf: TypeAlias = Union[set[T], tuple[T, ...], list[T]]
 
 
 class YearsActive(NamedTuple):
