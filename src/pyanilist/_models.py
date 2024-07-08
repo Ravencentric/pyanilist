@@ -23,8 +23,8 @@ from ._types import FuzzyDateInt, YearsActive
 
 class ParentModel(BaseModel):
     """
-    Parent Model that stores the global configuration
-    All models ahead will inherit from this
+    Parent Model that stores the global configuration.
+    All models ahead will inherit from this.
     """
 
     model_config = ConfigDict(
@@ -48,6 +48,9 @@ class MediaTitle(ParentModel):
 
     native: str | None = None
     """Official title in its native language"""
+
+    def __str__(self) -> str:
+        return self.english or self.romaji or self.native  # type: ignore
 
 
 class FuzzyDate(ParentModel):
@@ -96,6 +99,12 @@ class FuzzyDate(ParentModel):
         day = str(self.day).zfill(2) if self.day is not None else "00"
 
         return int(f"{year}{month}{day}")
+
+    def __str__(self) -> str:
+        return self.iso_format()
+
+    def __int__(self) -> int:
+        return self.as_int()
 
 
 class MediaTrailer(ParentModel):
