@@ -1,53 +1,50 @@
-[tool.poetry]
+[project]
 name = "pyanilist"
 version = "0.5.2"
-description = "Simple AniList API wrapper to fetch media data"
-authors = ["Ravencentric <me@ravencentric.cc>"]
-license = "Unlicense"
+description = "AniList API wrapper to fetch media data"
+authors = [{ name = "Ravencentric", email = "me@ravencentric.cc" }]
 readme = "README.md"
+license = "MIT"
+requires-python = ">=3.10"
 keywords = ["anilist", "anime", "python"]
-packages = [{include = "pyanilist", from = "src"}]
-homepage = "https://pyanilist.ravencentric.cc"
-repository = "https://github.com/Ravencentric/pyanilist"
-documentation = "https://pyanilist.ravencentric.cc"
 classifiers = [
-    "License :: OSI Approved :: The Unlicense (Unlicense)",
     "Operating System :: OS Independent",
-    "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
     "Typing :: Typed",
 ]
+dependencies = [
+    "backports-strenum>=1.3.1 ; python_full_version < '3.11'",
+    "boltons>=24.0.0",
+    "html2text>=2024.2.26",
+    "httpx>=0.27.2",
+    "nh3>=0.2.18",
+    "pycountry>=24.6.1",
+    "pydantic>=2.9.2",
+    "pydantic-extra-types>=2.9.0",
+    "stamina>=24.3.0",
+    "typing-extensions>=4.12.2",
+]
 
-[tool.poetry.dependencies]
-python = ">=3.9"
-pydantic = ">=2.8.2"
-typing-extensions =">=4.12.2"
-pydantic-extra-types =">=2.9.0"
-pycountry = ">=24.6.1"
-httpx = ">=0.27.0"
-boltons = ">=24.0.0"
-stamina = ">=24.2.0"
-nh3 = ">=0.2.17"
-html2text = ">=2024.2.26"
-importlib-metadata = { version = ">=8.0.0", python = "<3.10" }
-eval-type-backport = { version = ">=0.2.0", python = "<3.10" }
-backports-strenum = {version = ">=1.3.1", python = "<3.11"}
+[project.urls]
+Homepage = "https://pyanilist.ravencentric.cc"
+Documentation = "https://pyanilist.ravencentric.cc"
+Repository = "https://github.com/Ravencentric/pyanilist"
 
-[tool.poetry.group.dev.dependencies]
-ruff = "^0.5.1"
-mypy = "^1.10.1"
-types-boltons = "^24.0.0.20240423"
-pytest = "^8.2.2"
-pytest-asyncio = "^0.23.5.post1"
-pre-commit = "^3.7.1"
-coverage = "^7.5.4"
-
-[tool.poetry.group.docs.dependencies]
-mkdocs-material = "^9.5.28"
-mkdocstrings = {extras = ["python"], version = "^0.25.1"}
-mkdocs-autorefs = "^1.0.1"
+[tool.uv]
+dev-dependencies = [
+    "coverage>=7.6.2",
+    "mkdocs-autorefs>=1.2.0",
+    "mkdocs-material>=9.5.40",
+    "mkdocstrings[python]>=0.26.1",
+    "mypy>=1.11.2",
+    "pytest>=8.3.3",
+    "pytest-asyncio>=0.24.0",
+    "ruff>=0.6.9",
+    "types-boltons>=24.0.0.20240423",
+]
 
 [tool.ruff]
 line-length = 120
@@ -56,10 +53,13 @@ line-length = 120
 extend-select = ["I"]
 fixable = ["ALL"]
 
+[tool.ruff.lint.isort]
+required-imports = ["from __future__ import annotations"]
+
 [tool.mypy]
 strict = true
 pretty = true
-exclude = "/tests/"
+exclude = "tests/"
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
@@ -72,5 +72,5 @@ omit = [
 ]
 
 [build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+build-backend = "hatchling.build"
+requires = ["hatchling"]
