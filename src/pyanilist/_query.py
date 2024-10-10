@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 query_string = """
 query (
   $id: Int
