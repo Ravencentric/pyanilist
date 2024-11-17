@@ -38,19 +38,19 @@ dev = [
     "mkdocstrings[python]>=0.26.1",
     "mypy>=1.11.2",
     "pytest>=8.3.3",
-    "pytest-asyncio>=0.24.0",
     "ruff>=0.7.4",
     "types-boltons>=24.0.0.20240423",
     "docstring-parser>=0.16",
     "pytest-httpx>=0.33.0",
     "pytest-recording>=0.13.2",
+    "tomli>=2.1.0",
 ]
 
 [tool.ruff]
 line-length = 120
 
 [tool.ruff.lint]
-extend-select = ["I", "DTZ", "ASYNC", "RUF", "UP", "N", "D4"]
+extend-select = ["I", "DTZ", "RUF", "UP", "N", "D4"]
 fixable = ["ALL"]
 
 [tool.ruff.lint.extend-per-file-ignores]
@@ -64,10 +64,6 @@ strict = true
 pretty = true
 enable_error_code = ["ignore-without-code"]
 exclude = "tests/"
-
-[tool.pytest.ini_options]
-asyncio_mode = "auto"
-asyncio_default_fixture_loop_scope = "function"
 
 [tool.coverage.run]
 omit = [

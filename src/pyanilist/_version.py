@@ -1,8 +1,6 @@
 from __future__ import annotations
 
-from importlib.metadata import version
-
-from typing_extensions import NamedTuple
+from typing import NamedTuple
 
 
 class Version(NamedTuple):
@@ -11,5 +9,5 @@ class Version(NamedTuple):
     micro: int
 
 
-__version__ = version("pyanilist")
-__version_tuple__ = Version(*map(int, __version__.split(".")))
+__version__ = "0.5.2"
+__version_tuple__ = Version(0, 5, 2)

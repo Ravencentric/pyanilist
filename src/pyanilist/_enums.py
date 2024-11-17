@@ -5,7 +5,7 @@ from typing_extensions import Self
 from ._compat import StrEnum
 
 
-class BaseStrEnum(StrEnum):  # pragma: no cover
+class BaseStrEnum(StrEnum):
     """StrEnum with case-insensitive double-sided lookup."""
 
     @classmethod
