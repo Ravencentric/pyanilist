@@ -17,7 +17,7 @@
 ![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)
 
 ![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/Ravencentric/pyanilist/release.yml)
-![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/ravencentric/pyanilist/test.yml?label=tests)
+![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/ravencentric/pyanilist/tests.yml?label=tests)
 [![codecov](https://codecov.io/gh/Ravencentric/pyanilist/graph/badge.svg?token=B45ODO7TEY)](https://codecov.io/gh/Ravencentric/pyanilist)
 
 </div>

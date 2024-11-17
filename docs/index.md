@@ -20,7 +20,7 @@
 
 <p align="center">
 <img src="https://img.shields.io/github/actions/workflow/status/Ravencentric/pyanilist/release.yml?" alt="GitHub Workflow Status">
-<img src="https://img.shields.io/github/actions/workflow/status/Ravencentric/pyanilist/test.yml?label=tests" alt="GitHub Workflow Status">
+<img src="https://img.shields.io/github/actions/workflow/status/ravencentric/pyanilist/tests.yml?label=tests" alt="GitHub Workflow Status">
 <a href="https://codecov.io/gh/Ravencentric/pyanilist"><img src="https://codecov.io/gh/Ravencentric/pyanilist/graph/badge.svg?token=B45ODO7TEY" alt="Codecov"></a>
 </p>
 
