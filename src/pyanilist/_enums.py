@@ -1,11 +1,26 @@
 from __future__ import annotations
 
+from typing_extensions import Self
+
 from ._compat import StrEnum
 
 
-class BaseStrEnum(StrEnum):
+class BaseStrEnum(StrEnum): # pragma: no cover
+    """StrEnum with case-insensitive double-sided lookup"""
+
+    @classmethod
+    def _missing_(cls, value: object) -> Self:
+        errmsg = f"'{value}' is not a valid {cls.__name__}"
+
+        if isinstance(value, str):
+            for member in cls:
+                if (member.value.casefold() == value.casefold()) or (member.name.casefold() == value.casefold()):
+                    return member
+            raise ValueError(errmsg)
+        raise ValueError(errmsg)
+
     @property
-    def title(self) -> str:  # type: ignore
+    def title(self) -> str:  # type: ignore[override]
         """
         Title Cased value
         """
@@ -283,15 +298,50 @@ class MediaSort(BaseStrEnum):
     FAVOURITES_DESC = "FAVOURITES_DESC"
 
 
-__all__ = [
-    "CharacterRole",
-    "ExternalLinkType",
-    "MediaFormat",
-    "MediaRankType",
-    "MediaRelation",
-    "MediaSeason",
-    "MediaSort",
-    "MediaSource",
-    "MediaStatus",
-    "MediaType",
-]
+class RecommendationSort(BaseStrEnum):
+    """Recommendation sort enums"""
+
+    ID = "ID"
+    ID_DESC = "ID_DESC"
+    RATING = "RATING"
+    RATING_DESC = "RATING_DESC"
+
+
+class StudioSort(BaseStrEnum):
+    """Studio sort enums"""
+
+    ID = "ID"
+    ID_DESC = "ID_DESC"
+    NAME = "NAME"
+    NAME_DESC = "NAME_DESC"
+    SEARCH_MATCH = "SEARCH_MATCH"
+    FAVOURITES = "FAVOURITES"
+    FAVOURITES_DESC = "FAVOURITES_DESC"
+
+
+class StaffSort(BaseStrEnum):
+    """Staff sort enums"""
+
+    ID = "ID"
+    ID_DESC = "ID_DESC"
+    ROLE = "ROLE"
+    ROLE_DESC = "ROLE_DESC"
+    LANGUAGE = "LANGUAGE"
+    LANGUAGE_DESC = "LANGUAGE_DESC"
+    SEARCH_MATCH = "SEARCH_MATCH"
+    FAVOURITES = "FAVOURITES"
+    FAVOURITES_DESC = "FAVOURITES_DESC"
+    RELEVANCE = "RELEVANCE"
+
+
+class CharacterSort(BaseStrEnum):
+    """Character sort enums"""
+
+    ID = "ID"
+    ID_DESC = "ID_DESC"
+    ROLE = "ROLE"
+    ROLE_DESC = "ROLE_DESC"
+    SEARCH_MATCH = "SEARCH_MATCH"
+    FAVOURITES = "FAVOURITES"
+    FAVOURITES_DESC = "FAVOURITES_DESC"
+    RELEVANCE = "RELEVANCE"

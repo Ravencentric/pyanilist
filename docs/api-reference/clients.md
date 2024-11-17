@@ -1,2 +1,0 @@
-::: pyanilist.AniList
-::: pyanilist.AsyncAniList

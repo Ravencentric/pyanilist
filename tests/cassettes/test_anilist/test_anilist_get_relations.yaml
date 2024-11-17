@@ -1,0 +1,238 @@
+interactions:
+- request:
+    body: '{"query": "query Media($mediaId: Int!) {\n  Media(id: $mediaId) {\n    relations
+      {\n      edges {\n        relationType\n        node {\n          id\n        }\n      }\n    }\n  }\n}\n",
+      "variables": {"mediaId": 99426}}'
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      content-length:
+      - '221'
+      content-type:
+      - application/json
+      host:
+      - graphql.anilist.co
+      referer:
+      - https://anilist.co
+      user-agent:
+      - Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like
+        Gecko) Chrome/130.0.0.0 Safari/537.36
+    method: POST
+    uri: https://graphql.anilist.co
+  response:
+    body:
+      string: !!binary |
+        H4sIAAAAAAAAAwAAAP//qlZKSSxJVLKqVvJNTckEM4pScxJLMvPzikGc1JT01GIlq2iEcEhlQaqS
+        lZKji2NAiGOIp7+fko5SXn5KKkh1ZoqSlaGBoYmhaW1tbG1tbS0AAAD//wMA4reSul8AAAA=
+    headers:
+      Access-Control-Allow-Headers:
+      - Authorization,Accept,DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Content-Range,Range
+      Access-Control-Allow-Methods:
+      - GET, POST, OPTIONS
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Expose-Headers:
+      - X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Reset, Content-Length,
+        Content-Range
+      CF-RAY:
+      - 8e3b4d4b3e0f3c2e-BOM
+      Cache-Control:
+      - no-cache, private
+      Connection:
+      - keep-alive
+      Content-Encoding:
+      - gzip
+      Content-Type:
+      - application/json
+      Date:
+      - Sat, 16 Nov 2024 23:36:13 GMT
+      NEL:
+      - '{"success_fraction":0,"report_to":"cf-nel","max_age":604800}'
+      Report-To:
+      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v4?s=KV7NaiqHWQzoNBr3YfaQA3Mzn1fBselLG5Mm9dhtoGbGiYCE%2BZxt306s33nhQ0vVXdqAVeCuB23rB3sRD0DQE6kjdWu1m%2Bz6Uf1W81IcKunvVBkGLssVYRMLr9NDqbyLSTfyng%3D%3D"}],"group":"cf-nel","max_age":604800}'
+      Server:
+      - cloudflare
+      Set-Cookie:
+      - laravel_session=17a7RYKCSZ56fmUZRPvKJy2hkpkw4b9jLPDogLCy; expires=Sun, 17-Nov-2024
+        11:36:13 GMT; Max-Age=43200; path=/; httponly
+      Transfer-Encoding:
+      - chunked
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-RateLimit-Limit:
+      - '90'
+      X-RateLimit-Remaining:
+      - '61'
+      X-XSS-Protection:
+      - 1; mode=block
+      cf-cache-status:
+      - DYNAMIC
+      server-timing:
+      - cfL4;desc="?proto=TCP&rtt=37598&sent=4&recv=7&lost=0&retrans=0&sent_bytes=2838&recv_bytes=1183&delivery_rate=73601&cwnd=251&unsent_bytes=0&cid=3d5e74fdb48adc0f&ts=324&x=0"
+    status:
+      code: 200
+      message: OK
+- request:
+    body: '{"query": "query (\n  $id: Int\n  $idMal: Int\n  $startDate: FuzzyDateInt\n  $endDate:
+      FuzzyDateInt\n  $season: MediaSeason\n  $seasonYear: Int\n  $type: MediaType\n  $format:
+      MediaFormat\n  $status: MediaStatus\n  $episodes: Int\n  $chapters: Int\n  $duration:
+      Int\n  $volumes: Int\n  $isAdult: Boolean\n  $genre: String\n  $tag: String\n  $minimumTagRank:
+      Int\n  $tagCategory: String\n  $licensedBy: String\n  $licensedById: Int\n  $averageScore:
+      Int\n  $popularity: Int\n  $source: MediaSource\n  $countryOfOrigin: CountryCode\n  $isLicensed:
+      Boolean\n  $search: String\n  $id_not: Int\n  $id_in: [Int]\n  $id_not_in: [Int]\n  $idMal_not:
+      Int\n  $idMal_in: [Int]\n  $idMal_not_in: [Int]\n  $startDate_greater: FuzzyDateInt\n  $startDate_lesser:
+      FuzzyDateInt\n  $startDate_like: String\n  $endDate_greater: FuzzyDateInt\n  $endDate_lesser:
+      FuzzyDateInt\n  $endDate_like: String\n  $format_in: [MediaFormat]\n  $format_not:
+      MediaFormat\n  $format_not_in: [MediaFormat]\n  $status_in: [MediaStatus]\n  $status_not:
+      MediaStatus\n  $status_not_in: [MediaStatus]\n  $episodes_greater: Int\n  $episodes_lesser:
+      Int\n  $duration_greater: Int\n  $duration_lesser: Int\n  $chapters_greater:
+      Int\n  $chapters_lesser: Int\n  $volumes_greater: Int\n  $volumes_lesser: Int\n  $genre_in:
+      [String]\n  $genre_not_in: [String]\n  $tag_in: [String]\n  $tag_not_in: [String]\n  $tagCategory_in:
+      [String]\n  $tagCategory_not_in: [String]\n  $licensedBy_in: [String]\n  $licensedById_in:
+      [Int]\n  $averageScore_not: Int\n  $averageScore_greater: Int\n  $averageScore_lesser:
+      Int\n  $popularity_not: Int\n  $popularity_greater: Int\n  $popularity_lesser:
+      Int\n  $source_in: [MediaSource]\n  $sort: [MediaSort]\n) {\n  Media(\n    id:
+      $id\n    idMal: $idMal\n    startDate: $startDate\n    endDate: $endDate\n    season:
+      $season\n    seasonYear: $seasonYear\n    type: $type\n    format: $format\n    status:
+      $status\n    episodes: $episodes\n    chapters: $chapters\n    duration: $duration\n    volumes:
+      $volumes\n    isAdult: $isAdult\n    genre: $genre\n    tag: $tag\n    minimumTagRank:
+      $minimumTagRank\n    tagCategory: $tagCategory\n    licensedBy: $licensedBy\n    licensedById:
+      $licensedById\n    averageScore: $averageScore\n    popularity: $popularity\n    source:
+      $source\n    countryOfOrigin: $countryOfOrigin\n    isLicensed: $isLicensed\n    search:
+      $search\n    id_not: $id_not\n    id_in: $id_in\n    id_not_in: $id_not_in\n    idMal_not:
+      $idMal_not\n    idMal_in: $idMal_in\n    idMal_not_in: $idMal_not_in\n    startDate_greater:
+      $startDate_greater\n    startDate_lesser: $startDate_lesser\n    startDate_like:
+      $startDate_like\n    endDate_greater: $endDate_greater\n    endDate_lesser:
+      $endDate_lesser\n    endDate_like: $endDate_like\n    format_in: $format_in\n    format_not:
+      $format_not\n    format_not_in: $format_not_in\n    status_in: $status_in\n    status_not:
+      $status_not\n    status_not_in: $status_not_in\n    episodes_greater: $episodes_greater\n    episodes_lesser:
+      $episodes_lesser\n    duration_greater: $duration_greater\n    duration_lesser:
+      $duration_lesser\n    chapters_greater: $chapters_greater\n    chapters_lesser:
+      $chapters_lesser\n    volumes_greater: $volumes_greater\n    volumes_lesser:
+      $volumes_lesser\n    genre_in: $genre_in\n    genre_not_in: $genre_not_in\n    tag_in:
+      $tag_in\n    tag_not_in: $tag_not_in\n    tagCategory_in: $tagCategory_in\n    tagCategory_not_in:
+      $tagCategory_not_in\n    licensedBy_in: $licensedBy_in\n    licensedById_in:
+      $licensedById_in\n    averageScore_not: $averageScore_not\n    averageScore_greater:
+      $averageScore_greater\n    averageScore_lesser: $averageScore_lesser\n    popularity_not:
+      $popularity_not\n    popularity_greater: $popularity_greater\n    popularity_lesser:
+      $popularity_lesser\n    source_in: $source_in\n    sort: $sort\n  ) {\n    id\n    idMal\n    type\n    format\n    status\n    description\n    season\n    seasonYear\n    episodes\n    duration\n    chapters\n    volumes\n    countryOfOrigin\n    isLicensed\n    source\n    hashtag\n    updatedAt\n    bannerImage\n    genres\n    synonyms\n    averageScore\n    meanScore\n    popularity\n    isLocked\n    trending\n    favourites\n    isAdult\n    siteUrl\n    trailer
+      {\n      id\n      site\n      thumbnail\n    }\n    title {\n      romaji\n      english\n      native\n    }\n    tags
+      {\n      id\n      name\n      description\n      category\n      rank\n      isGeneralSpoiler\n      isMediaSpoiler\n      isAdult\n      userId\n    }\n    startDate
+      {\n      year\n      month\n      day\n    }\n    rankings {\n      id\n      rank\n      type\n      format\n      year\n      season\n      allTime\n      context\n    }\n    externalLinks
+      {\n      id\n      url\n      site\n      siteId\n      type\n      language\n      color\n      icon\n      notes\n      isDisabled\n    }\n    endDate
+      {\n      year\n      month\n      day\n    }\n    coverImage {\n      extraLarge\n      large\n      medium\n      color\n    }\n    nextAiringEpisode
+      {\n      timeUntilAiring\n      id\n      episode\n      airingAt\n    }\n    streamingEpisodes
+      {\n      title\n      thumbnail\n      url\n      site\n    }\n  }\n}\n", "variables":
+      {"id": 101415}}'
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      content-length:
+      - '5197'
+      content-type:
+      - application/json
+      cookie:
+      - laravel_session=17a7RYKCSZ56fmUZRPvKJy2hkpkw4b9jLPDogLCy
+      host:
+      - graphql.anilist.co
+      referer:
+      - https://anilist.co
+      user-agent:
+      - Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like
+        Gecko) Chrome/130.0.0.0 Safari/537.36
+    method: POST
+    uri: https://graphql.anilist.co
+  response:
+    body:
+      string: !!binary |
+        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
+        zXrO4fX19V8AAAD//wMAOtucDGASAAA=
+    headers:
+      Access-Control-Allow-Headers:
+      - Authorization,Accept,DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Content-Range,Range
+      Access-Control-Allow-Methods:
+      - GET, POST, OPTIONS
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Expose-Headers:
+      - X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Reset, Content-Length,
+        Content-Range
+      CF-RAY:
+      - 8e3b4d4d2e6b3c2e-BOM
+      Cache-Control:
+      - no-cache, private
+      Connection:
+      - keep-alive
+      Content-Encoding:
+      - gzip
+      Content-Type:
+      - application/json
+      Date:
+      - Sat, 16 Nov 2024 23:36:13 GMT
+      NEL:
+      - '{"success_fraction":0,"report_to":"cf-nel","max_age":604800}'
+      Report-To:
+      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v4?s=v%2FMsAv0IzhQvtlwOc9N3ZPfJ4XH7pB5T43cEUvfQ2EsgxMbxo4kFDAzAAooznHnA%2BrjJEBVey5h9eejU%2BA7s0XbSpYZFS%2BzhBaKlr%2FJ67sk2vR94PTDl0O6C1NKDmuYa4g9LBA%3D%3D"}],"group":"cf-nel","max_age":604800}'
+      Server:
+      - cloudflare
+      Set-Cookie:
+      - laravel_session=17a7RYKCSZ56fmUZRPvKJy2hkpkw4b9jLPDogLCy; expires=Sun, 17-Nov-2024
+        11:36:13 GMT; Max-Age=43200; path=/; httponly
+      Transfer-Encoding:
+      - chunked
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-RateLimit-Limit:
+      - '90'
+      X-RateLimit-Remaining:
+      - '60'
+      X-XSS-Protection:
+      - 1; mode=block
+      cf-cache-status:
+      - DYNAMIC
+      server-timing:
+      - cfL4;desc="?proto=TCP&rtt=37889&sent=12&recv=14&lost=0&retrans=0&sent_bytes=4992&recv_bytes=6812&delivery_rate=178231&cwnd=256&unsent_bytes=0&cid=3d5e74fdb48adc0f&ts=686&x=0"
+    status:
+      code: 200
+      message: OK
+version: 1

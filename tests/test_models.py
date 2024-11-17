@@ -10,19 +10,19 @@ def test_fuzzy_date() -> None:
     assert FuzzyDate().iso_format() == ""
 
     yyyymmdd = FuzzyDate(year=2023, month=1, day=4)
-    assert yyyymmdd.as_int() == int(yyyymmdd) == 20230104
+    assert yyyymmdd.to_int() == int(yyyymmdd) == 20230104
     assert yyyymmdd.iso_format() == str(yyyymmdd) == "2023-01-04"
 
     yyyymm = FuzzyDate(year=2023, month=1)
-    assert yyyymm.as_int() == int(yyyymm) == 20230100
+    assert yyyymm.to_int() == int(yyyymm) == 20230100
     assert yyyymm.iso_format() == str(yyyymm) == "2023-01"
 
     yyyy = FuzzyDate(year=2023)
-    assert yyyy.as_int() == int(yyyy) == 20230000
+    assert yyyy.to_int() == int(yyyy) == 20230000
     assert yyyy.iso_format() == str(yyyy) == "2023"
 
     empty = FuzzyDate()
-    assert empty.as_int() == int(empty) == 10000000
+    assert empty.to_int() == int(empty) == 10000000
     assert empty.iso_format() == str(empty) == ""
 
 

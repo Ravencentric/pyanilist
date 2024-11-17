@@ -43,16 +43,16 @@ pip install pyanilist
 ```py
 from pyanilist import AniList
 
-media = AniList().get("My Hero Academia")
-
-print(media.title.romaji)
-#> Boku no Hero Academia
-print(media.site_url)
-#> https://anilist.co/anime/21459
-print(media.episodes)
-#> 13
+with AniList() as anilist:
+    media = anilist.get_media("My Hero Academia")
+    print(media.title.romaji)
+    #> Boku no Hero Academia
+    print(media.site_url)
+    #> https://anilist.co/anime/21459
+    print(media.episodes)
+    #> 13
 ```
 
 ## License
 
-Distributed under the [Unlicense](https://choosealicense.com/licenses/unlicense/) License. See [UNLICENSE](https://github.com/Ravencentric/pyanilist/blob/main/UNLICENSE) for more information.
+Distributed under the [MIT](https://choosealicense.com/licenses/mit/) License. See [LICENSE](https://github.com/Ravencentric/pyanilist/blob/main/LICENSE) for more information.

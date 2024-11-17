@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-query_string = """
+MEDIA_QUERY = """\
 query (
   $id: Int
   $idMal: Int
@@ -20,7 +20,6 @@ query (
   $tag: String
   $minimumTagRank: Int
   $tagCategory: String
-  # $onList: Boolean
   $licensedBy: String
   $licensedById: Int
   $averageScore: Int
@@ -91,7 +90,6 @@ query (
     tag: $tag
     minimumTagRank: $minimumTagRank
     tagCategory: $tagCategory
-    # $onList: $onList
     licensedBy: $licensedBy
     licensedById: $licensedById
     averageScore: $averageScore
@@ -145,49 +143,21 @@ query (
   ) {
     id
     idMal
-    title {
-      romaji
-      english
-      native
-    }
     type
     format
     status
-    defaultDescription: description(asHtml: false)
-    htmlDescription: description(asHtml: true)
-    startDate {
-      year
-      month
-      day
-    }
-    endDate {
-      year
-      month
-      day
-    }
+    description
     season
     seasonYear
-    seasonInt
     episodes
     duration
     chapters
     volumes
     countryOfOrigin
     isLicensed
-    source(version: 3)
+    source
     hashtag
-    trailer {
-      id
-      site
-      thumbnail
-    }
     updatedAt
-    coverImage {
-      extraLarge
-      large
-      medium
-      color
-    }
     bannerImage
     genres
     synonyms
@@ -197,6 +167,18 @@ query (
     isLocked
     trending
     favourites
+    isAdult
+    siteUrl
+    trailer {
+      id
+      site
+      thumbnail
+    }
+    title {
+      romaji
+      english
+      native
+    }
     tags {
       id
       name
@@ -208,135 +190,112 @@ query (
       isAdult
       userId
     }
+    startDate {
+      year
+      month
+      day
+    }
+    rankings {
+      id
+      rank
+      type
+      format
+      year
+      season
+      allTime
+      context
+    }
+    externalLinks {
+      id
+      url
+      site
+      siteId
+      type
+      language
+      color
+      icon
+      notes
+      isDisabled
+    }
+    endDate {
+      year
+      month
+      day
+    }
+    coverImage {
+      extraLarge
+      large
+      medium
+      color
+    }
+    nextAiringEpisode {
+      timeUntilAiring
+      id
+      episode
+      airingAt
+    }
+    streamingEpisodes {
+      title
+      thumbnail
+      url
+      site
+    }
+  }
+}
+"""
+
+RECOMMENDATIONS_QUERY = """\
+query Media($mediaId: Int!, $sort: [RecommendationSort]) {
+  Media(id: $mediaId) {
+    recommendations(sort: $sort) {
+      nodes {
+        mediaRecommendation {
+          id
+        }
+      }
+    }
+  }
+}
+"""
+
+RELATIONS_QUERY = """\
+query Media($mediaId: Int!) {
+  Media(id: $mediaId) {
     relations {
       edges {
+        relationType
         node {
           id
-          idMal
-          title {
-            romaji
-            english
-            native
-          }
-          type
-          format
-          status
-          defaultDescription: description(asHtml: false)
-          htmlDescription: description(asHtml: true)
-          startDate {
-            year
-            month
-            day
-          }
-          endDate {
-            year
-            month
-            day
-          }
-          season
-          seasonYear
-          seasonInt
-          episodes
-          duration
-          chapters
-          volumes
-          countryOfOrigin
-          isLicensed
-          source(version: 3)
-          hashtag
-          trailer {
-            id
-            site
-            thumbnail
-          }
-          updatedAt
-          coverImage {
-            extraLarge
-            large
-            medium
-            color
-          }
-          bannerImage
-          genres
-          synonyms
-          averageScore
-          meanScore
-          popularity
-          isLocked
-          trending
+        }
+      }
+    }
+  }
+}
+"""
+
+STUDIOS_QUERY = """\
+query Media($mediaId: Int!, $sort: [StudioSort], $isMain: Boolean) {
+  Media(id: $mediaId) {
+    studios(sort: $sort, isMain: $isMain) {
+      edges {
+        isMain
+        node {
+          id
+          name
+          isAnimationStudio
+          siteUrl
           favourites
-          tags {
-            id
-            name
-            description
-            category
-            rank
-            isGeneralSpoiler
-            isMediaSpoiler
-            isAdult
-            userId
-          }
-          isAdult
-          nextAiringEpisode {
-            id
-            airingAt
-            timeUntilAiring
-            episode
-            mediaId
-          }
-          externalLinks {
-            id
-            url
-            site
-            siteId
-            type
-            language
-            color
-            icon
-            notes
-            isDisabled
-          }
-          streamingEpisodes {
-            title
-            thumbnail
-            url
-            site
-          }
-          siteUrl
         }
-        relationType(version: 2)
       }
     }
-    characters {
-      edges {
-        node {
-          id
-          name {
-            first
-            middle
-            last
-            full
-            native
-          }
-          image {
-            large
-            medium
-          }
-          description
-          gender
-          dateOfBirth {
-            year
-            month
-            day
-          }
-          age
-          bloodType
-          siteUrl
-        }
-        role
-      }
-    }
-    staff {
+  }
+}
+"""
+
+STAFFS_QUERY = """\
+query Media($mediaId: Int, $sort: [StaffSort]) {
+  Media(id: $mediaId) {
+    staff(sort: $sort) {
       edges {
         role
         node {
@@ -347,12 +306,12 @@ query (
             last
             full
             native
-            userPreferred
+            alternative
           }
           languageV2
           image {
-            large
             medium
+            large
           }
           description
           primaryOccupations
@@ -372,61 +331,99 @@ query (
           homeTown
           bloodType
           siteUrl
+          favourites
         }
       }
     }
-    studios {
+  }
+}
+"""
+
+AIRING_SCHEDULE_QUERY = """\
+query Media($mediaId: Int!, $notYetAired: Boolean) {
+  Media(id: $mediaId) {
+    airingSchedule(notYetAired: $notYetAired) {
+      nodes {
+        id
+        airingAt
+        timeUntilAiring
+        episode
+      }
+    }
+  }
+}
+"""
+
+CHARACTERS_QUERY = """\
+query Media($mediaId: Int, $sort: [CharacterSort], $role: CharacterRole) {
+  Media(id: $mediaId) {
+    characters(sort: $sort, role: $role) {
       edges {
         node {
           id
-          name
-          isAnimationStudio
+          name {
+            first
+            middle
+            last
+            full
+            native
+            alternative
+            alternativeSpoiler
+          }
+          image {
+            large
+            medium
+          }
+          description
+          gender
+          dateOfBirth {
+            year
+            month
+            day
+          }
+          age
+          bloodType
           siteUrl
           favourites
         }
-        isMain
+        role
+        voiceActors {
+          id
+          name {
+            first
+            middle
+            last
+            full
+            native
+            alternative
+          }
+          languageV2
+          image {
+            medium
+            large
+          }
+          description
+          primaryOccupations
+          gender
+          dateOfBirth {
+            year
+            month
+            day
+          }
+          dateOfDeath {
+            year
+            month
+            day
+          }
+          age
+          yearsActive
+          homeTown
+          bloodType
+          siteUrl
+          favourites
+        }
       }
     }
-    isAdult
-    nextAiringEpisode {
-      id
-      airingAt
-      timeUntilAiring
-      episode
-      mediaId
-      media {
-        id
-      }
-    }
-    externalLinks {
-      id
-      url
-      site
-      siteId
-      type
-      language
-      color
-      icon
-      notes
-      isDisabled
-    }
-    streamingEpisodes {
-      title
-      thumbnail
-      url
-      site
-    }
-    rankings {
-      id
-      rank
-      type
-      format
-      year
-      season
-      allTime
-      context
-    }
-    siteUrl
   }
 }
 """

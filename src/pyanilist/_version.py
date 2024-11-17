@@ -1,8 +1,8 @@
 from __future__ import annotations
 
-from typing_extensions import NamedTuple
+from importlib.metadata import version
 
-from ._compat import metadata
+from typing_extensions import NamedTuple
 
 
 class Version(NamedTuple):
@@ -11,12 +11,5 @@ class Version(NamedTuple):
     micro: int
 
 
-def _get_version() -> str:
-    """
-    Get the version of pyanilist
-    """
-    try:
-        return metadata.version("pyanilist")
-
-    except metadata.PackageNotFoundError:
-        return "0.0.0"
+__version__ = version("pyanilist")
+__version_tuple__ = Version(*map(int, __version__.split(".")))

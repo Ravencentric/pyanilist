@@ -1,0 +1,1 @@
+::: pyanilist.AniList

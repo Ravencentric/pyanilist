@@ -1,186 +1,137 @@
 from __future__ import annotations
 
+import datetime
+
+import pytest
+from pydantic_core import Url
+from pydantic_extra_types.color import Color
+
 from pyanilist import (
+    AiringSchedule,
     AniList,
-    CharacterRole,
+    FuzzyDate,
+    MediaCoverImage,
     MediaFormat,
+    MediaRelation,
     MediaSeason,
     MediaSource,
     MediaStatus,
+    MediaTitle,
+    MediaTrailer,
     MediaType,
+    RecommendationSort,
 )
 
 
-def test_anilist_anime() -> None:
-    media = AniList().get("Attack on titan", type=MediaType.ANIME)
-    assert media.title.romaji == "Shingeki no Kyojin"
-    assert media.start_date.year == 2013
-    assert media.start_date.iso_format() == "2013-04-07"
-    assert media.end_date.iso_format() == "2013-09-28"
-    assert media.source is MediaSource.MANGA
-    assert media.type is MediaType.ANIME
-    assert [(staff.name.full, staff.role) for staff in media.staff] == [
-        ("Tetsurou Araki", "Director"),
-        ("Yasuko Kobayashi", "Series Composition"),
-        ("Youko Hikasa", "Theme Song Performance (ED1)"),
-        ("Hiroyuki Sawano", "Music"),
-        ("Hironori Tanaka", "Key Animation (eps 7, 21)"),
-        ("Hajime Isayama", "Original Creator"),
-        ("Mika Kobayashi", "Insert Song Performance"),
-        ("Kyouji Asano", "Character Design"),
-        ("Aimee Blackschleger", "Insert Song Performance"),
-        ("Hiroyuki Tanaka", "Assistant Director"),
-        ("Hiroyuki Tanaka", "Episode Director (eps 1, 10, 18, 21, 24)"),
-        ("Cyua", "Insert Song Performance"),
-        ("Seiichi Nakatani", "Key Animation (ep 25)"),
-        ("Kouichi Arai", "Animation (ED1)"),
-        ("Hiromi Katou", "Key Animation (ep 25)"),
-        ("Mayu Fujimoto", "Key Animation (OP1, ep 1)"),
-        ("Kazuhiro Miwa", "Key Animation (ED2)"),
-        ("Hiroshi Seko", "Script (eps 3, 5-7, 10, 11, 15, 17, 18, 23)"),
-        ("Tomohiro Hirata", "Key Animation (ep 25)"),
-        ("Tomohiro Hirata", "Storyboard (eps 8, 19, 21, 25)"),
-        ("Naoki Kobayashi", "Key Animation (ep 9)"),
-        ("Toshirou Fujii", "Key Animation (ep 9)"),
-        ("Shouko Yasuda", "Key Animation (eps 3, 4, 11, 15)"),
-        ("Daizen Komatsuda", "Storyboard (ep 23)"),
-        ("You Moriyama", "Key Animation (OP1)"),
-    ]
-    assert media.site_url.__str__() == "https://anilist.co/anime/16498"
-
-
-def test_anilist_manga() -> None:
-    media = AniList().get("Attack on titan", type=MediaType.MANGA)
-    assert media.title.romaji == "Shingeki no Kyojin"
-    assert media.start_date.year == 2009
-    assert media.start_date.iso_format() == "2009-09-09"
-    assert media.end_date.iso_format() == "2021-04-09"
-    assert media.source is MediaSource.ORIGINAL
-    assert media.type is MediaType.MANGA
-    assert [(staff.name.full, staff.role) for staff in media.staff] == [
-        ("Hajime Isayama", "Story & Art"),
-        ("Kouta Sannomiya", "Assistant"),
-        ("Yuusuke Nomura", "Assistant"),
-        ("Ko Ransom", "Translator (English)"),
-        ("Erika Abreu", "Translator (Portuguese)"),
-        ("Kouhei Nagashii", "Assistant"),
-        ("Yuuji Kaba", "Assistant"),
-        ("Kyuu Takahata", "Assistant"),
-        ("Sylvain Chollet", "Translator (French)"),
-        ("Tatsuya Endou", "Assistant"),
-        ("Paweł Dybała", "Translator (Polish)"),
-        ("Shintarou Kawakubo", "Editing"),
-        ("Yifeng Zhang", "Translator (Chinese)"),
-        ("Claudia Peter", "Translator (German)"),
-    ]
-    assert media.site_url.__str__() == "https://anilist.co/manga/53390"
-
-
-def test_anilist_with_constraints() -> None:
-    media = AniList().get(
-        "My Hero Academia",
-        season=MediaSeason.SPRING,
-        season_year=2016,
-        type=MediaType.ANIME,
-        format=MediaFormat.TV,
-        status_in=[MediaStatus.FINISHED],
+@pytest.mark.vcr
+def test_anilist_get_media(anilist_client: AniList) -> None:
+    media = anilist_client.get_media(id=99426)
+    assert media.average_score == 84
+    assert media.banner_image == Url("https://s4.anilist.co/file/anilistcdn/media/anime/banner/99426-KsFVCSwVC3x3.jpg")
+    assert media.chapters is None
+    assert media.country_of_origin == "JP"
+    assert media.cover_image == MediaCoverImage(
+        extra_large=Url("https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx99426-5jWTUs719lQN.png"),
+        large=Url("https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/bx99426-5jWTUs719lQN.png"),
+        medium=Url("https://s4.anilist.co/file/anilistcdn/media/anime/cover/small/bx99426-5jWTUs719lQN.png"),
+        color=Color("#ffbb35"),
     )
-    assert media.title.romaji == "Boku no Hero Academia"
-    assert media.start_date.year == 2016
-    assert media.start_date.iso_format() == "2016-04-03"
-    assert media.end_date.iso_format() == "2016-06-26"
-    assert media.source is MediaSource.MANGA
+    assert media.description.startswith(
+        "Mari Tamaki is in her second year of high school and wants to start something."
+    )
+    assert media.duration == 24
+    assert media.end_date == FuzzyDate(year=2018, month=3, day=27)
+    assert media.episodes == 13
+    assert media.favourites == 8057
+    assert media.format is MediaFormat.TV
+    assert media.genres == ("Adventure", "Comedy", "Drama")
+    assert media.hashtag == "#よりもい"
+    assert media.id == 99426
+    assert media.id_mal == 35839
+    assert media.is_adult is False
+    assert media.is_licensed is True
+    assert media.is_locked is False
+    assert media.mean_score == 84
+    assert media.next_airing_episode == AiringSchedule(id=None, airing_at=None, time_until_airing=None, episode=None)
+    assert media.popularity == 139362
+    assert media.season is MediaSeason.WINTER
+    assert media.season_year == 2018
+    assert media.site_url == Url("https://anilist.co/anime/99426")
+    assert media.source is MediaSource.ORIGINAL
+    assert media.start_date == FuzzyDate(year=2018, month=1, day=2)
+    assert media.status is MediaStatus.FINISHED
+    assert media.synonyms == (
+        "Uchuu Yorimo Toui Basho",
+        "Sora yorimo Tooi Basho",
+        "Uchuu yori mo Tooi Basho",
+        "Yorimoi",
+        "מקום רחוק יותר מהיקום",
+        "ตามหัวใจไปสุดขอบฟ้า",
+        "ดินแดนที่ห่างไกลยิ่งกว่าอวกาศ",
+    )
+    assert media.title == MediaTitle(
+        romaji="Sora yori mo Tooi Basho", english="A Place Further Than the Universe", native="宇宙よりも遠い場所"
+    )
+    assert media.trailer == MediaTrailer(
+        id="tAYL5VNAJq0", site="youtube", thumbnail=Url("https://i.ytimg.com/vi/tAYL5VNAJq0/hqdefault.jpg")
+    )
     assert media.type is MediaType.ANIME
-    assert [(staff.name.full, staff.role) for staff in media.staff] == [
-        ("Kouhei Horikoshi", "Original Creator"),
-        ("Yousuke Kuroda", "Series Composition"),
-        ("Kenji Nagasaki", "Director"),
-        ("Yoshihiko Umakoshi", "Character Design"),
-        ("Yoshihiko Umakoshi", "Chief Animation Director"),
-        ("Yuuki Hayashi", "Music"),
-        ("Shigemi Ikeda", "Art Director"),
-        ("Yukiko Maruyama", "Art Director"),
-        ("Masafumi Mima", "Sound Director"),
-        ("Porno Graffitti", "Theme Song Performance (OP)"),
-        ("Brian the Sun", "Theme Song Performance (ED)"),
-        ("Ayana Nishino", "Animation Director (eps 2, 6, 9, 12)"),
-        ("Tomoko Fukunaga", "Key Animation (eps 1, 6, 11)"),
-        ("Kazuhiro Miwa", "Key Animation (OP, eps 1, 4, 11, 13)"),
-        ("Asuka Hayashi", "Key Animation (eps 5, 12)"),
-        ("Hakuyu Go", "Storyboard (OP, ep 12)"),
-        ("Hakuyu Go", "Key Animation (OP, eps 2, 12)"),
-        ("Hakuyu Go", "Episode Director (ep 12)"),
-        ("Hakuyu Go", "Design Assistance (ep 10)"),
-        ("Colleen Clinkenbeard", "ADR Director (English)"),
-        ("Satomi Nakamura", "Storyboard (ep 8)"),
-        ("Takashi Yamazaki", "Storyboard (ep 7)"),
-        ("Shinji Ishihira", "Storyboard (ep 10)"),
-        ("Katsuyuki Kodera", "Storyboard (eps 5, 9, 13)"),
-        ("Kenji Nagasaki", "Storyboard (OP, ED, eps 1, 2)"),
-    ]
-    assert media.site_url.__str__() == "https://anilist.co/anime/21459"
+    assert isinstance(media.updated_at, datetime.datetime)
+    assert media.volumes is None
 
 
-def test_anilist_id() -> None:
-    media = AniList().get(id=16498)
-    assert media.title.romaji == "Shingeki no Kyojin"
-    assert media.start_date.year == 2013
-    assert media.source is MediaSource.MANGA
-    assert media.type is MediaType.ANIME
-    assert media.start_date.iso_format() == "2013-04-07"
-    assert media.end_date.iso_format() == "2013-09-28"
-    assert [(staff.name.full, staff.role) for staff in media.staff] == [
-        ("Tetsurou Araki", "Director"),
-        ("Yasuko Kobayashi", "Series Composition"),
-        ("Youko Hikasa", "Theme Song Performance (ED1)"),
-        ("Hiroyuki Sawano", "Music"),
-        ("Hironori Tanaka", "Key Animation (eps 7, 21)"),
-        ("Hajime Isayama", "Original Creator"),
-        ("Mika Kobayashi", "Insert Song Performance"),
-        ("Kyouji Asano", "Character Design"),
-        ("Aimee Blackschleger", "Insert Song Performance"),
-        ("Hiroyuki Tanaka", "Assistant Director"),
-        ("Hiroyuki Tanaka", "Episode Director (eps 1, 10, 18, 21, 24)"),
-        ("Cyua", "Insert Song Performance"),
-        ("Seiichi Nakatani", "Key Animation (ep 25)"),
-        ("Kouichi Arai", "Animation (ED1)"),
-        ("Hiromi Katou", "Key Animation (ep 25)"),
-        ("Mayu Fujimoto", "Key Animation (OP1, ep 1)"),
-        ("Kazuhiro Miwa", "Key Animation (ED2)"),
-        ("Hiroshi Seko", "Script (eps 3, 5-7, 10, 11, 15, 17, 18, 23)"),
-        ("Tomohiro Hirata", "Key Animation (ep 25)"),
-        ("Tomohiro Hirata", "Storyboard (eps 8, 19, 21, 25)"),
-        ("Naoki Kobayashi", "Key Animation (ep 9)"),
-        ("Toshirou Fujii", "Key Animation (ep 9)"),
-        ("Shouko Yasuda", "Key Animation (eps 3, 4, 11, 15)"),
-        ("Daizen Komatsuda", "Storyboard (ep 23)"),
-        ("You Moriyama", "Key Animation (OP1)"),
-    ]
-    assert media.site_url.__str__() == "https://anilist.co/anime/16498"
+@pytest.mark.vcr
+def test_anilist_get_recommendations(anilist_client: AniList) -> None:
+    recommendations = tuple(anilist_client.get_recommendations(99426, sort=RecommendationSort.RATING_DESC))
+    assert recommendations[0].title.english == "Laid-Back Camp"
+    assert recommendations[1].title.english == "K-ON!"
+
+@pytest.mark.vcr
+def test_anilist_get_relations(anilist_client: AniList) -> None:
+    relations = tuple(anilist_client.get_relations(99426))
+    assert relations[0].relation_type is MediaRelation.ADAPTATION
+
+@pytest.mark.vcr
+def test_anilist_get_studios(anilist_client: AniList) -> None:
+    studios = tuple(anilist_client.get_studios(99426))
+    assert studios[0].id == 11
+    assert studios[0].is_animation_studio is True
+    assert studios[0].is_main is True
+    assert studios[0].name == "MADHOUSE"
+    assert studios[1].id == 108
+    assert studios[1].is_animation_studio is False
+    assert studios[1].is_main is False
+    assert studios[1].name == "Media Factory"
 
 
-def test_anilist_description() -> None:
-    media = AniList().get(id=106794)
-    assert media.title.english == "Bloom Into You Anthology"
-    assert media.start_date.year == 2018
-    assert media.source is MediaSource.MANGA
-    assert media.type is MediaType.MANGA
-    # TODO: FIX THESE TESTS!
-    # assert media.description.default == get_description(id=106794, ext="default")
-    # assert media.description.html == get_description(id=106794, ext="html")
-    # assert media.description.markdown == get_description(id=106794, ext="markdown")
-    # assert media.description.text == get_description(id=106794, ext="text")
-    assert media.site_url.__str__() == "https://anilist.co/manga/106794"
+@pytest.mark.vcr
+def test_anilist_get_staffs(anilist_client: AniList) -> None:
+    staffs = tuple(anilist_client.get_staffs(99426))
+    assert staffs[0].site_url == Url("https://anilist.co/staff/105579")
+    assert staffs[1].site_url == Url("https://anilist.co/staff/107198")
+    assert staffs[2].site_url == Url("https://anilist.co/staff/101187")
 
 
-def test_anilist_characters() -> None:
-    media = AniList().get(id=20954)
-    assert media.title.english == "A Silent Voice"
-    assert media.start_date.year == 2016
-    assert media.source is MediaSource.MANGA
-    assert media.type is MediaType.ANIME
-    assert [character.name.full for character in media.characters if character.role is CharacterRole.MAIN] == [
-        "Shouya Ishida",
-        "Shouko Nishimiya",
-    ]
-    assert media.site_url.__str__() == "https://anilist.co/anime/20954"
+@pytest.mark.vcr
+def test_anilist_get_airing_schedule(anilist_client: AniList) -> None:
+    airing_schedules = tuple(anilist_client.get_airing_schedule(99426))
+    assert airing_schedules[0].episode == 1
+    assert airing_schedules[1].episode == 2
+    assert airing_schedules[2].episode == 3
+    assert airing_schedules[3].episode == 4
+    assert airing_schedules[4].episode == 5
+    assert airing_schedules[5].episode == 6
+    assert airing_schedules[6].episode == 7
+    assert airing_schedules[7].episode == 8
+    assert airing_schedules[8].episode == 9
+    assert airing_schedules[9].episode == 10
+    assert airing_schedules[10].episode == 11
+    assert airing_schedules[11].episode == 12
+    assert airing_schedules[12].episode == 13
+
+
+@pytest.mark.vcr
+def test_anilist_get_characters(anilist_client: AniList) -> None:
+    characters = tuple(anilist_client.get_characters(99426))
+    assert characters[0].name.full == "Mari Tamaki"
+    assert characters[-1].name.full == "Honami Yasumoto"

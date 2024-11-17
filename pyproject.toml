@@ -17,14 +17,11 @@ classifiers = [
 ]
 dependencies = [
     "backports-strenum>=1.3.1 ; python_full_version < '3.11'",
-    "boltons>=24.0.0",
-    "html2text>=2024.2.26",
+    "boltons>=24.1.0",
     "httpx>=0.27.2",
-    "nh3>=0.2.18",
     "pycountry>=24.6.1",
     "pydantic>=2.9.2",
-    "pydantic-extra-types>=2.9.0",
-    "stamina>=24.3.0",
+    "pydantic-extra-types>=2.10.0",
     "typing-extensions>=4.12.2",
 ]
 
@@ -33,8 +30,8 @@ Homepage = "https://pyanilist.ravencentric.cc"
 Documentation = "https://pyanilist.ravencentric.cc"
 Repository = "https://github.com/Ravencentric/pyanilist"
 
-[tool.uv]
-dev-dependencies = [
+[dependency-groups]
+dev = [
     "coverage>=7.6.2",
     "mkdocs-autorefs>=1.2.0",
     "mkdocs-material>=9.5.40",
@@ -42,16 +39,22 @@ dev-dependencies = [
     "mypy>=1.11.2",
     "pytest>=8.3.3",
     "pytest-asyncio>=0.24.0",
-    "ruff>=0.6.9",
+    "ruff>=0.7.4",
     "types-boltons>=24.0.0.20240423",
+    "docstring-parser>=0.16",
+    "pytest-httpx>=0.33.0",
+    "pytest-recording>=0.13.2",
 ]
 
 [tool.ruff]
 line-length = 120
 
 [tool.ruff.lint]
-extend-select = ["I"]
+extend-select = ["I", "DTZ", "ASYNC", "RUF", "UP", "N"]
 fixable = ["ALL"]
+
+[tool.ruff.lint.extend-per-file-ignores]
+"tests/*" = ["D"]
 
 [tool.ruff.lint.isort]
 required-imports = ["from __future__ import annotations"]
@@ -59,16 +62,23 @@ required-imports = ["from __future__ import annotations"]
 [tool.mypy]
 strict = true
 pretty = true
+enable_error_code = ["ignore-without-code"]
 exclude = "tests/"
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
 
 [tool.coverage.run]
 omit = [
     "src/pyanilist/_version.py",
     "src/pyanilist/_compat.py",
     "tests/*"
+]
+
+[tool.coverage.report]
+exclude_also = [
+  "if TYPE_CHECKING:", # Only used for type-hints
 ]
 
 [build-system]
