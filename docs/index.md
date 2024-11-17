@@ -4,7 +4,7 @@
     <img src="https://raw.githubusercontent.com/Ravencentric/pyanilist/main/docs/assets/logo.png" alt="Logo" width="400">
   </a>
   <p align="center">
-    Simple AniList API wrapper to fetch media data
+    AniList API wrapper to fetch media data
     <br/>
     <br/>
   </p>
@@ -24,11 +24,6 @@
 <a href="https://codecov.io/gh/Ravencentric/pyanilist"><img src="https://codecov.io/gh/Ravencentric/pyanilist/graph/badge.svg?token=B45ODO7TEY" alt="Codecov"></a>
 </p>
 
-
-## About
-
-- Supports both sync and async.
-- Only supports querying the `Media` type.
 
 ## Installation
 

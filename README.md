@@ -4,7 +4,7 @@
     <img src="https://raw.githubusercontent.com/Ravencentric/pyanilist/main/docs/assets/logo.png" alt="Logo" width="400">
   </a>
   <p align="center">
-    Simple AniList API wrapper to fetch media data
+    AniList API wrapper to fetch media data
   </p>
 </p>
 
@@ -24,15 +24,9 @@
 
 ## Table Of Contents
 
-* [About](#about)
 * [Installation](#installation)
 * [Docs](#docs)
 * [License](#license)
-
-## About
-
-- Supports both sync and async.
-- Only supports querying the `Media` type.
 
 ## Installation
 
