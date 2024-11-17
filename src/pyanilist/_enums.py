@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing_extensions import Self
 
-from ._compat import StrEnum
+from pyanilist._compat import StrEnum
 
 
 class BaseStrEnum(StrEnum):

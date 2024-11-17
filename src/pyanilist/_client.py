@@ -6,7 +6,7 @@ from typing import Any
 from httpx import Client
 from typing_extensions import Self, assert_never
 
-from ._enums import (
+from pyanilist._enums import (
     CharacterRole,
     CharacterSort,
     MediaFormat,
@@ -19,8 +19,8 @@ from ._enums import (
     StaffSort,
     StudioSort,
 )
-from ._models import AiringSchedule, Character, Media, RelatedMedia, Staff, Studio
-from ._query import (
+from pyanilist._models import AiringSchedule, Character, Media, RelatedMedia, Staff, Studio
+from pyanilist._query import (
     AIRING_SCHEDULE_QUERY,
     CHARACTERS_QUERY,
     MEDIA_QUERY,
@@ -29,8 +29,8 @@ from ._query import (
     STAFFS_QUERY,
     STUDIOS_QUERY,
 )
-from ._utils import remove_null_fields, resolve_media_id, to_anilist_case
-from ._version import __version__
+from pyanilist._utils import remove_null_fields, resolve_media_id, to_anilist_case
+from pyanilist._version import __version__
 
 
 class AniList:

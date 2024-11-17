@@ -7,7 +7,7 @@ from pydantic.alias_generators import to_camel
 from pydantic_extra_types.color import Color
 from pydantic_extra_types.country import CountryAlpha2 as CountryCode
 
-from ._enums import (
+from pyanilist._enums import (
     CharacterRole,
     ExternalLinkType,
     MediaFormat,
@@ -18,7 +18,7 @@ from ._enums import (
     MediaStatus,
     MediaType,
 )
-from ._types import UTCDateTime, YearsActive
+from pyanilist._types import UTCDateTime, YearsActive
 
 
 class ParentModel(BaseModel):

@@ -2,8 +2,8 @@ from __future__ import annotations
 
 from httpx import HTTPStatusError
 
-from ._client import AniList
-from ._enums import (
+from pyanilist._client import AniList
+from pyanilist._enums import (
     CharacterRole,
     CharacterSort,
     ExternalLinkType,
@@ -19,7 +19,7 @@ from ._enums import (
     StaffSort,
     StudioSort,
 )
-from ._models import (
+from pyanilist._models import (
     AiringSchedule,
     Character,
     CharacterImage,
@@ -39,8 +39,8 @@ from ._models import (
     StaffName,
     Studio,
 )
-from ._types import YearsActive
-from ._version import __version__, __version_tuple__
+from pyanilist._types import YearsActive
+from pyanilist._version import __version__, __version_tuple__
 
 __all__ = [
     # Client

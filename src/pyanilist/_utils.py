@@ -6,7 +6,7 @@ from typing import TYPE_CHECKING, Any
 from boltons.iterutils import remap
 
 if TYPE_CHECKING:
-    from ._models import Media
+    from pyanilist._models import Media
 
 
 def remove_null_fields(dictionary: dict[str, Any]) -> dict[str, Any]:
