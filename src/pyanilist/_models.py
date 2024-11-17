@@ -139,7 +139,7 @@ class MediaCoverImage(ParentModel):
 
     def __str__(self) -> str:
         """Stringify."""
-        return str(self.extra_large) or str(self.large) or str(self.medium)
+        return str(self.extra_large or self.large or self.medium or "")
 
 
 class MediaTag(ParentModel):
@@ -284,7 +284,7 @@ class StaffName(ParentModel):
 
     def __str__(self) -> str:
         """Stringify."""
-        return str(self.full)
+        return self.full or ""
 
 
 class StaffImage(ParentModel):
@@ -298,7 +298,7 @@ class StaffImage(ParentModel):
 
     def __str__(self) -> str:
         """Stringify."""
-        return str(self.large) or str(self.medium)
+        return str(self.large or self.medium or "")
 
 
 class Staff(ParentModel):
@@ -387,7 +387,7 @@ class CharacterName(ParentModel):
 
     def __str__(self) -> str:
         """Stringify."""
-        return str(self.full)
+        return self.full or ""
 
 
 class CharacterImage(ParentModel):
@@ -401,7 +401,7 @@ class CharacterImage(ParentModel):
 
     def __str__(self) -> str:
         """Stringify."""
-        return str(self.large) or str(self.medium)
+        return str(self.large or self.medium or "")
 
 
 class Character(ParentModel):

@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from pyanilist import FuzzyDate, MediaTitle
+from pyanilist import CharacterImage, CharacterName, FuzzyDate, MediaCoverImage, MediaTitle, StaffImage, StaffName
 
 
 def test_fuzzy_date() -> None:
@@ -30,3 +30,27 @@ def test_media_title() -> None:
     assert str(MediaTitle(romaji="romaji", english="english", native="native")) == "english"
     assert str(MediaTitle(romaji="romaji", native="native")) == "romaji"
     assert str(MediaTitle(native="native")) == "native"
+
+def test_media_cover_image() -> None:
+    assert str(MediaCoverImage()) == ""
+    assert str(MediaCoverImage(extra_large="https://example.com/image.png", large="https://example.com/image2.png")) == "https://example.com/image.png"
+    assert str(MediaCoverImage(large="https://example.com/image2.png")) == "https://example.com/image2.png"
+
+def test_staff_name() -> None:
+    assert str(StaffName()) == ""
+    assert str(StaffName(full="Example")) == "Example"
+
+def test_staff_image() -> None:
+    assert str(StaffImage()) == ""
+    assert str(StaffImage(large="https://example.com/image.png", medium="https://example.com/image2.png")) == "https://example.com/image.png"
+    assert str(StaffImage(medium="https://example.com/image2.png")) == "https://example.com/image2.png"
+
+
+def test_character_name() -> None:
+    assert str(CharacterName()) == ""
+    assert str(CharacterName(full="Example")) == "Example"
+
+def test_character_image() -> None:
+    assert str(CharacterImage()) == ""
+    assert str(CharacterImage(large="https://example.com/image.png", medium="https://example.com/image2.png")) == "https://example.com/image.png"
+    assert str(CharacterImage(medium="https://example.com/image2.png")) == "https://example.com/image2.png"
