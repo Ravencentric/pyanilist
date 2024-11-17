@@ -326,7 +326,7 @@ class AniList:
         """
         variables: dict[str, Any] = {"mediaId": resolve_media_id(media)}
 
-        match sort: # pragma: no cover
+        match sort:  # pragma: no cover
             case RecommendationSort():
                 variables["sort"] = [sort]
             case Iterable():
@@ -389,7 +389,7 @@ class AniList:
         """
         variables: dict[str, Any] = {"mediaId": resolve_media_id(media)}
 
-        match sort: # pragma: no cover
+        match sort:  # pragma: no cover
             case StudioSort():
                 variables["sort"] = [sort]
             case Iterable():
@@ -399,7 +399,7 @@ class AniList:
             case _:
                 assert_never(sort)
 
-        if is_main is not None: # pragma: no cover
+        if is_main is not None:  # pragma: no cover
             variables["isMain"] = is_main
 
         studios = self._post(query=STUDIOS_QUERY, variables=variables)["studios"]["edges"]
@@ -428,7 +428,7 @@ class AniList:
         """
         variables: dict[str, Any] = {"mediaId": resolve_media_id(media)}
 
-        match sort: # pragma: no cover
+        match sort:  # pragma: no cover
             case StaffSort():
                 variables["sort"] = [sort]
             case Iterable():
@@ -465,7 +465,7 @@ class AniList:
         """
         variables: dict[str, Any] = {"mediaId": resolve_media_id(media)}
 
-        if not_yet_aired is not None: # pragma: no cover
+        if not_yet_aired is not None:  # pragma: no cover
             variables["notYetAired"] = not_yet_aired
 
         schedules = self._post(query=AIRING_SCHEDULE_QUERY, variables=variables)["airingSchedule"]["nodes"]
@@ -497,7 +497,7 @@ class AniList:
         """
         variables: dict[str, Any] = {"mediaId": resolve_media_id(media)}
 
-        match sort: # pragma: no cover
+        match sort:  # pragma: no cover
             case CharacterSort():
                 variables["sort"] = [sort]
             case Iterable():
@@ -507,7 +507,7 @@ class AniList:
             case _:
                 assert_never(sort)
 
-        if role is not None: # pragma: no cover
+        if role is not None:  # pragma: no cover
             variables["role"] = role
 
         characters = self._post(query=CHARACTERS_QUERY, variables=variables)["characters"]["edges"]

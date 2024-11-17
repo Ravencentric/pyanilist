@@ -42,7 +42,7 @@ jobs:
 
       - name: Run tests and generate coverage
         run: |
-          uv run coverage run -m pytest -vv
+          uv run coverage run -m pytest --block-network -vv
           uv run coverage xml
 
       - name: Build

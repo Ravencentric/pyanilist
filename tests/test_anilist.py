@@ -86,10 +86,12 @@ def test_anilist_get_recommendations(anilist_client: AniList) -> None:
     assert recommendations[0].title.english == "Laid-Back Camp"
     assert recommendations[1].title.english == "K-ON!"
 
+
 @pytest.mark.vcr
 def test_anilist_get_relations(anilist_client: AniList) -> None:
     relations = tuple(anilist_client.get_relations(99426))
     assert relations[0].relation_type is MediaRelation.ADAPTATION
+
 
 @pytest.mark.vcr
 def test_anilist_get_studios(anilist_client: AniList) -> None:
