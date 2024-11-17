@@ -137,6 +137,10 @@ class MediaCoverImage(ParentModel):
     color: Color | None = None
     """Average #hex color of cover image"""
 
+    def __str__(self) -> str:
+        """Stringify."""
+        return str(self.extra_large) or str(self.large) or str(self.medium)
+
 
 class MediaTag(ParentModel):
     """A tag that describes a theme or element of the media."""
@@ -278,6 +282,10 @@ class StaffName(ParentModel):
     alternative: tuple[str, ...] = tuple()
     """Other names the staff member might be referred to as (pen names)"""
 
+    def __str__(self) -> str:
+        """Stringify."""
+        return str(self.full)
+
 
 class StaffImage(ParentModel):
     """Staff's image."""
@@ -287,6 +295,10 @@ class StaffImage(ParentModel):
 
     medium: HttpUrl | None = None
     """The person's image of media at medium size"""
+
+    def __str__(self) -> str:
+        """Stringify."""
+        return str(self.large) or str(self.medium)
 
 
 class Staff(ParentModel):
@@ -373,6 +385,10 @@ class CharacterName(ParentModel):
     alternative_spoiler: tuple[str, ...] = tuple()
     """Other names the character might be referred to as but are spoilers"""
 
+    def __str__(self) -> str:
+        """Stringify."""
+        return str(self.full)
+
 
 class CharacterImage(ParentModel):
     """Character's image."""
@@ -382,6 +398,10 @@ class CharacterImage(ParentModel):
 
     medium: HttpUrl | None = None
     """The character's image of media at medium size"""
+
+    def __str__(self) -> str:
+        """Stringify."""
+        return str(self.large) or str(self.medium)
 
 
 class Character(ParentModel):
@@ -573,5 +593,5 @@ class Media(ParentModel):
 class RelatedMedia(Media):
     """Subclass of `Media` with an additional `relation_type` property."""
 
-    relation_type: MediaRelation
+    relation_type: MediaRelation | None = None
     """The type of relation to the parent media."""
