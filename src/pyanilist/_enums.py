@@ -6,7 +6,7 @@ from ._compat import StrEnum
 
 
 class BaseStrEnum(StrEnum):  # pragma: no cover
-    """StrEnum with case-insensitive double-sided lookup"""
+    """StrEnum with case-insensitive double-sided lookup."""
 
     @classmethod
     def _missing_(cls, value: object) -> Self:
@@ -22,7 +22,7 @@ class BaseStrEnum(StrEnum):  # pragma: no cover
     @property
     def title(self) -> str:  # type: ignore[override]
         """
-        Title Cased value
+        Title Cased value.
         """
 
         # These don't get the desired results with .title()
@@ -221,7 +221,7 @@ class MediaRelation(BaseStrEnum):
 
 
 class ExternalLinkType(BaseStrEnum):
-    """External Link Type"""
+    """External Link Type."""
 
     INFO = "INFO"
     """Informational site"""
@@ -234,7 +234,7 @@ class ExternalLinkType(BaseStrEnum):
 
 
 class CharacterRole(BaseStrEnum):
-    """The role the character plays in the media"""
+    """The role the character plays in the media."""
 
     MAIN = "MAIN"
     """A primary character role in the media"""
@@ -247,7 +247,7 @@ class CharacterRole(BaseStrEnum):
 
 
 class MediaRankType(BaseStrEnum):
-    """The type of ranking"""
+    """The type of ranking."""
 
     RATED = "RATED"
     """Ranking is based on the media's ratings/score"""
@@ -257,7 +257,7 @@ class MediaRankType(BaseStrEnum):
 
 
 class MediaSort(BaseStrEnum):
-    """Media sort enums"""
+    """Media sort enums."""
 
     ID = "ID"
     ID_DESC = "ID_DESC"
@@ -299,7 +299,7 @@ class MediaSort(BaseStrEnum):
 
 
 class RecommendationSort(BaseStrEnum):
-    """Recommendation sort enums"""
+    """Recommendation sort enums."""
 
     ID = "ID"
     ID_DESC = "ID_DESC"
@@ -308,7 +308,7 @@ class RecommendationSort(BaseStrEnum):
 
 
 class StudioSort(BaseStrEnum):
-    """Studio sort enums"""
+    """Studio sort enums."""
 
     ID = "ID"
     ID_DESC = "ID_DESC"
@@ -320,7 +320,7 @@ class StudioSort(BaseStrEnum):
 
 
 class StaffSort(BaseStrEnum):
-    """Staff sort enums"""
+    """Staff sort enums."""
 
     ID = "ID"
     ID_DESC = "ID_DESC"
@@ -335,7 +335,7 @@ class StaffSort(BaseStrEnum):
 
 
 class CharacterSort(BaseStrEnum):
-    """Character sort enums"""
+    """Character sort enums."""
 
     ID = "ID"
     ID_DESC = "ID_DESC"

@@ -13,7 +13,7 @@ UTCDateTime = Annotated[datetime, AfterValidator(lambda dt: dt.astimezone(timezo
 class YearsActive(NamedTuple):
     """
     Simple Named Tuple for
-    [`Staff.years_active`][pyanilist._models.Staff.years_active]
+    [`Staff.years_active`][pyanilist._models.Staff.years_active].
     """
 
     start_year: int | None = None

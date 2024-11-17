@@ -43,6 +43,7 @@ class AniList:
             The URL of the AniList API. Default is `https://graphql.anilist.co`.
         client : Client | None, optional
             An [`httpx.Client`](https://www.python-httpx.org/api/#client) instance used to make requests to AniList.
+
         """
         self._api_url = api_url
         self._client = Client(headers={"Referer": "https://anilist.co"}) if client is None else client
@@ -58,7 +59,7 @@ class AniList:
         self._client.close()
 
     def _post(self, *, query: str, variables: dict[str, Any]) -> dict[str, Any]:
-        """Utiliy function to POST to Anilist"""
+        """Utiliy function to POST to Anilist."""
         response = self._client.post(self._api_url, json=dict(query=query, variables=variables))
         return response.raise_for_status().json()["data"]["Media"]  # type: ignore[no-any-return]
 
@@ -295,6 +296,7 @@ class AniList:
         -------
         Media
             A Media object representing the retrieved media information.
+
         """
 
         variables = locals()
@@ -323,6 +325,7 @@ class AniList:
         Yields
         ------
         Media
+
         """
         variables: dict[str, Any] = {"mediaId": resolve_media_id(media)}
 
@@ -353,6 +356,7 @@ class AniList:
         Yields
         ------
         RelatedMedia
+
         """
         relations = self._post(query=RELATIONS_QUERY, variables={"mediaId": resolve_media_id(media)})["relations"][
             "edges"
@@ -386,6 +390,7 @@ class AniList:
         Yields
         ------
         Studio
+
         """
         variables: dict[str, Any] = {"mediaId": resolve_media_id(media)}
 
@@ -425,6 +430,7 @@ class AniList:
         Yields
         ------
         Staff
+
         """
         variables: dict[str, Any] = {"mediaId": resolve_media_id(media)}
 
@@ -462,6 +468,7 @@ class AniList:
         Yields
         ------
         AiringSchedule
+
         """
         variables: dict[str, Any] = {"mediaId": resolve_media_id(media)}
 
@@ -494,6 +501,7 @@ class AniList:
         Yields
         ------
         Character
+
         """
         variables: dict[str, Any] = {"mediaId": resolve_media_id(media)}
 

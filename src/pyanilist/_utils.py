@@ -25,7 +25,7 @@ def to_anilist_case(var: str) -> str:
     """
     Anilist doesn't stick to a single casing.
     Most of it is camelCase but then there's some made up stuff in there too.
-    So can do nothing but create a mapping from snake_case to anilistCase
+    So can do nothing but create a mapping from snake_case to anilistCase.
 
     Parameters
     ----------
@@ -36,6 +36,7 @@ def to_anilist_case(var: str) -> str:
     -------
     str
         Same thing but in anilist's case.
+
     """
     casemap = {
         "id": "id",
@@ -113,7 +114,7 @@ def to_anilist_case(var: str) -> str:
 
 def resolve_media_id(media: int | str | Media) -> int:
     """
-    Resolve the media id
+    Resolve the media id.
 
     Parameters
     ----------
@@ -124,6 +125,7 @@ def resolve_media_id(media: int | str | Media) -> int:
     -------
     int
         Integer ID of the media
+
     """
     if isinstance(media, str):
         pattern = r"https:\/\/anilist.co\/(anime|manga)\/(\d+)"

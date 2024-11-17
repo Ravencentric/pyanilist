@@ -51,7 +51,7 @@ class MediaTitle(ParentModel):
     """Official title in its native language"""
 
     def __str__(self) -> str:
-        """Stringify"""
+        """Stringify."""
         return self.english or self.romaji or self.native  # type: ignore[return-value]
 
 
@@ -69,7 +69,7 @@ class FuzzyDate(ParentModel):
 
     def iso_format(self) -> str:
         """
-        Returns the date formatted as an ISO 8601 string.
+        Return the date formatted as an ISO 8601 string.
 
         If year, month, and day are available, the format is "YYYY-MM-DD".
         If only year and month are available, the format is "YYYY-MM".
@@ -101,11 +101,11 @@ class FuzzyDate(ParentModel):
         return int(f"{year}{month}{day}")
 
     def __str__(self) -> str:
-        """Stringify"""
+        """Stringify."""
         return self.iso_format()
 
     def __int__(self) -> int:
-        """Support `int(FuzzyDate())`"""
+        """Support `int(FuzzyDate())`."""
         return self.to_int()
 
 
@@ -236,7 +236,7 @@ class MediaStreamingEpisode(ParentModel):
 
 
 class Studio(ParentModel):
-    """Animation or production company"""
+    """Animation or production company."""
 
     id: int | None = None
     """The id of the studio"""
@@ -258,7 +258,7 @@ class Studio(ParentModel):
 
 
 class StaffName(ParentModel):
-    """The names of the staff member"""
+    """The names of the staff member."""
 
     first: str | None = None
     """The person's given name"""
@@ -280,7 +280,7 @@ class StaffName(ParentModel):
 
 
 class StaffImage(ParentModel):
-    """Staff's image"""
+    """Staff's image."""
 
     large: HttpUrl | None = None
     """The person's image of media at its largest size"""
@@ -290,7 +290,7 @@ class StaffImage(ParentModel):
 
 
 class Staff(ParentModel):
-    """Voice actors or production staff"""
+    """Voice actors or production staff."""
 
     id: int | None = None
     """The id of the staff member"""
@@ -350,7 +350,7 @@ class Staff(ParentModel):
 
 
 class CharacterName(ParentModel):
-    """The names of the character"""
+    """The names of the character."""
 
     first: str | None = None
     """The character's given name"""
@@ -375,7 +375,7 @@ class CharacterName(ParentModel):
 
 
 class CharacterImage(ParentModel):
-    """Character's image"""
+    """Character's image."""
 
     large: HttpUrl | None = None
     """The character's image of media at its largest size"""
@@ -385,7 +385,7 @@ class CharacterImage(ParentModel):
 
 
 class Character(ParentModel):
-    """A character that features in an anime or manga"""
+    """A character that features in an anime or manga."""
 
     id: int
     """The id of the character"""
@@ -425,7 +425,7 @@ class Character(ParentModel):
 
 
 class MediaRank(ParentModel):
-    """The ranking of a media in a particular time span and format compared to other media"""
+    """The ranking of a media in a particular time span and format compared to other media."""
 
     id: int | None = None
     """The id of the rank"""
@@ -571,7 +571,7 @@ class Media(ParentModel):
 
 
 class RelatedMedia(Media):
-    """Subclass of `Media` with an additional `relation_type` property"""
+    """Subclass of `Media` with an additional `relation_type` property."""
 
     relation_type: MediaRelation
     """The type of relation to the parent media."""
