@@ -16,6 +16,7 @@ on:
       - 'tests/**'
       - '.github/workflows/test.yml'
   workflow_dispatch:
+  workflow_call:
 
 defaults:
   run:

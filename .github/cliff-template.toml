@@ -25,9 +25,9 @@ body = """
 		  {% endif %}\
 		  {% if '```' in commit.message %}\
 		    {{ commit.message | upper_first }}\n\
-		    ([{{ commit.id | truncate(length=7, end="") }}](REPOSITORY_URL/commit/{{ commit.id }}))  - ({{ commit.author.name }})\
+		    [`{{ commit.id | truncate(length=7, end="") }}`](REPOSITORY_URL/commit/{{ commit.id }})  - {{ commit.author.name }}\
           {% else %}\
-			{{ commit.message | upper_first  }} ([{{ commit.id | truncate(length=7, end="") }}](REPOSITORY_URL/commit/{{ commit.id }}))  - ({{ commit.author.name }})\
+			{{ commit.message | upper_first  }} [`{{ commit.id | truncate(length=7, end="") }}`](REPOSITORY_URL/commit/{{ commit.id }})  - {{ commit.author.name }}\
           {% endif %}\
 		{% if commit.breaking %}\
 			{% for breakingChange in commit.footers %}\

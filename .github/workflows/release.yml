@@ -5,9 +5,17 @@ on:
     tags:
       - 'v*.*.*'
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
+  tests:
+    name: Tests
+    uses: ./.github/workflows/tests.yml
   release:
     name: Release
+    needs: [tests]
     environment:
       name: release
       url: https://pypi.org/project/pyanilist/
