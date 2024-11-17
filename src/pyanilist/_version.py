@@ -9,5 +9,5 @@ class Version(NamedTuple):
     micro: int
 
 
-__version__ = "0.5.2"
-__version_tuple__ = Version(0, 5, 2)
+__version__ = "0.6.0"
+__version_tuple__ = Version(0, 6, 0)
