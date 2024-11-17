@@ -30,6 +30,7 @@ from ._query import (
     STUDIOS_QUERY,
 )
 from ._utils import remove_null_fields, resolve_media_id, to_anilist_case
+from ._version import __version__
 
 
 class AniList:
@@ -40,13 +41,17 @@ class AniList:
         Parameters
         ----------
         api_url : str, optional
-            The URL of the AniList API. Default is `https://graphql.anilist.co`.
+            The URL of the AniList API.
         client : Client | None, optional
             An [`httpx.Client`](https://www.python-httpx.org/api/#client) instance used to make requests to AniList.
 
         """
         self._api_url = api_url
-        self._client = Client(headers={"Referer": "https://anilist.co"}) if client is None else client
+        self._client = (
+            Client(headers={"Referer": "https://anilist.co", "user-agent": f"pyanilist/{__version__}"})
+            if client is None
+            else client
+        )
 
     def __enter__(self) -> Self:
         return self

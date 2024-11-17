@@ -32,18 +32,18 @@ Repository = "https://github.com/Ravencentric/pyanilist"
 
 [dependency-groups]
 dev = [
-    "coverage>=7.6.2",
-    "mkdocs-autorefs>=1.2.0",
-    "mkdocs-material>=9.5.40",
-    "mkdocstrings[python]>=0.26.1",
-    "mypy>=1.11.2",
-    "pytest>=8.3.3",
-    "ruff>=0.7.4",
-    "types-boltons>=24.0.0.20240423",
+    "coverage>=7.6.7",
     "docstring-parser>=0.16",
+    "mkdocs-autorefs>=1.2.0",
+    "mkdocs-material>=9.5.44",
+    "mkdocstrings[python]>=0.27.0",
+    "mypy>=1.13.0",
+    "pytest>=8.3.3",
     "pytest-httpx>=0.33.0",
     "pytest-recording>=0.13.2",
+    "ruff>=0.7.4",
     "tomli>=2.1.0",
+    "types-boltons>=24.1.0.20241113",
 ]
 
 [tool.ruff]
