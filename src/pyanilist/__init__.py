@@ -1,11 +1,11 @@
 from __future__ import annotations
 
 from httpx import HTTPStatusError
-from pydantic import ValidationError
 
-from ._clients import AniList, AsyncAniList
+from ._client import AniList
 from ._enums import (
     CharacterRole,
+    CharacterSort,
     ExternalLinkType,
     MediaFormat,
     MediaRankType,
@@ -15,6 +15,9 @@ from ._enums import (
     MediaSource,
     MediaStatus,
     MediaType,
+    RecommendationSort,
+    StaffSort,
+    StudioSort,
 )
 from ._models import (
     AiringSchedule,
@@ -24,31 +27,27 @@ from ._models import (
     FuzzyDate,
     Media,
     MediaCoverImage,
-    MediaDescription,
     MediaExternalLink,
     MediaRank,
     MediaStreamingEpisode,
     MediaTag,
     MediaTitle,
     MediaTrailer,
-    Relation,
+    RelatedMedia,
     Staff,
     StaffImage,
     StaffName,
     Studio,
 )
-from ._types import FuzzyDateInt, YearsActive
-from ._version import Version, _get_version
-
-__version__ = _get_version()
-__version_tuple__ = Version(*map(int, __version__.split(".")))
+from ._types import YearsActive
+from ._version import __version__, __version_tuple__
 
 __all__ = [
-    # Clients
-    "AsyncAniList",
+    # Client
     "AniList",
     # Enums
     "CharacterRole",
+    "CharacterSort",
     "ExternalLinkType",
     "MediaFormat",
     "MediaRankType",
@@ -58,9 +57,11 @@ __all__ = [
     "MediaSource",
     "MediaStatus",
     "MediaType",
+    "RecommendationSort",
+    "StaffSort",
+    "StudioSort",
     # Types
     "YearsActive",
-    "FuzzyDateInt",
     # Models
     "AiringSchedule",
     "Character",
@@ -69,19 +70,20 @@ __all__ = [
     "FuzzyDate",
     "Media",
     "MediaCoverImage",
-    "MediaDescription",
     "MediaExternalLink",
     "MediaRank",
     "MediaStreamingEpisode",
     "MediaTag",
     "MediaTitle",
     "MediaTrailer",
-    "Relation",
+    "RelatedMedia",
     "Staff",
     "StaffImage",
     "StaffName",
     "Studio",
     # Exceptions
     "HTTPStatusError",
-    "ValidationError",
+    # Version
+    "__version__",
+    "__version_tuple__",
 ]

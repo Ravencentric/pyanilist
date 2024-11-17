@@ -1,9 +1,16 @@
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
+
 import pytest
-import stamina
+
+from pyanilist import AniList
+
+if TYPE_CHECKING:
+    from typing_extensions import Generator
 
 
-@pytest.fixture(autouse=True, scope="session")
-def deactivate_retries() -> None:
-    stamina.set_active(False)
+@pytest.fixture
+def anilist_client() -> Generator[AniList]:
+    with AniList() as anilist:
+        yield anilist

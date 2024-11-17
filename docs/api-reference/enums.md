@@ -1,31 +1,42 @@
-::: pyanilist._enums.BaseStrEnum
-::: pyanilist._enums.CharacterRole
+::: pyanilist.CharacterRole
     options:
         members: true
-::: pyanilist._enums.ExternalLinkType
+::: pyanilist.CharacterSort
     options:
         members: true
-::: pyanilist._enums.MediaFormat
+::: pyanilist.ExternalLinkType
     options:
         members: true
-::: pyanilist._enums.MediaRankType
+::: pyanilist.MediaFormat
     options:
         members: true
-::: pyanilist._enums.MediaRelation
+::: pyanilist.MediaRankType
     options:
         members: true
-::: pyanilist._enums.MediaSeason
+::: pyanilist.MediaRelation
     options:
         members: true
-::: pyanilist._enums.MediaSort
+::: pyanilist.MediaSeason
     options:
         members: true
-::: pyanilist._enums.MediaSource
+::: pyanilist.MediaSort
     options:
         members: true
-::: pyanilist._enums.MediaStatus
+::: pyanilist.MediaSource
     options:
         members: true
-::: pyanilist._enums.MediaType
+::: pyanilist.MediaStatus
+    options:
+        members: true
+::: pyanilist.MediaType
+    options:
+        members: true
+::: pyanilist.RecommendationSort
+    options:
+        members: true
+::: pyanilist.StaffSort
+    options:
+        members: true
+::: pyanilist.StudioSort
     options:
         members: true

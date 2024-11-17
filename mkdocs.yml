@@ -77,8 +77,7 @@ nav:
   - Home: index.md
   - Examples: examples.md
   - API Reference:
-      - Clients: api-reference/clients.md
+      - Client: api-reference/client.md
       - Models: api-reference/models.md
       - Enums: api-reference/enums.md
       - Types: api-reference/types.md
-      - Exceptions: api-reference/exceptions.md

@@ -1,71 +1,9 @@
 from __future__ import annotations
 
-from pyanilist._utils import (
-    flatten,
-    markdown_formatter,
-    remove_null_fields,
-    sanitize_description,
-    text_formatter,
-    to_anilist_case,
-)
+import pytest
 
-
-def test_flatten() -> None:
-    data = {
-        "characters": {
-            "edges": [
-                {
-                    "node": {
-                        "id": 45887,
-                        "name": {
-                            "first": "Sasha",
-                            "middle": None,
-                            "last": "Blouse",
-                            "full": "Sasha Blouse",
-                            "native": "サシャ・ブラウス",
-                        },
-                        "image": {
-                            "large": "https://s4.anilist.co/file/anilistcdn/character/large/b45887-QPtJH0KwqthW.jpg",
-                            "medium": "https://s4.anilist.co/file/anilistcdn/character/medium/b45887-QPtJH0KwqthW.jpg",
-                        },
-                        "description": "__Initial Height:__ 168cm\n__Affiliations__: Survey Corps",
-                        "gender": "Female",
-                        "dateOfBirth": {"year": None, "month": 7, "day": 26},
-                        "age": "16-",
-                        "bloodType": None,
-                        "siteUrl": "https://anilist.co/character/45887",
-                    },
-                    "role": "SUPPORTING",
-                },
-            ]
-        }
-    }
-
-    characters = data["characters"]
-    flattened = flatten(characters, "role")  # type: ignore
-    assert flattened == [
-        {
-            "id": 45887,
-            "name": {
-                "first": "Sasha",
-                "middle": None,
-                "last": "Blouse",
-                "full": "Sasha Blouse",
-                "native": "サシャ・ブラウス",
-            },
-            "image": {
-                "large": "https://s4.anilist.co/file/anilistcdn/character/large/b45887-QPtJH0KwqthW.jpg",
-                "medium": "https://s4.anilist.co/file/anilistcdn/character/medium/b45887-QPtJH0KwqthW.jpg",
-            },
-            "description": "__Initial Height:__ 168cm\n__Affiliations__: Survey Corps",
-            "gender": "Female",
-            "dateOfBirth": {"year": None, "month": 7, "day": 26},
-            "age": "16-",
-            "bloodType": None,
-            "siteUrl": "https://anilist.co/character/45887",
-            "role": "SUPPORTING",
-        }
-    ]
+from pyanilist import Media
+from pyanilist._utils import remove_null_fields, resolve_media_id, to_anilist_case
 
 
 def test_remove_null_fields() -> None:
@@ -99,18 +37,6 @@ def test_remove_null_fields() -> None:
             }
         }
     }
-
-
-# fmt: off
-def test_formatters() -> None:
-    assert sanitize_description("<unknown><br>hi<br />") == "<br>hi<br>"
-    assert markdown_formatter("<p>Hello, <a href='https://www.google.com/earth/'>world</a>!") == "Hello, [world](https://www.google.com/earth/)!"
-    assert text_formatter("<p>Hello, <a href='https://www.google.com/earth/'>world</a>!") == "Hello, world!"
-    assert sanitize_description(None) is None
-    assert sanitize_description(None) is None
-    assert markdown_formatter(None) is None
-    assert text_formatter(None) is None
-# fmt: on
 
 
 def test_query_variables_constructor() -> None:
@@ -187,3 +113,13 @@ def test_query_variables_constructor() -> None:
 
     for key, value in casemap.items():
         assert to_anilist_case(key) == value
+
+
+def test_resolve_media_id() -> None:
+    assert resolve_media_id(Media(id=170942, site_url="https://anilist.co/anime/170942/Blue-Box/")) == 170942
+    assert resolve_media_id(170942) == 170942
+    assert resolve_media_id("https://anilist.co/anime/170942/Blue-Box/") == 170942
+    assert resolve_media_id("https://anilist.co/manga/132182") == 132182
+
+    with pytest.raises(ValueError):
+        resolve_media_id("https://anilist.co/character/191241/Chinatsu-Kano")

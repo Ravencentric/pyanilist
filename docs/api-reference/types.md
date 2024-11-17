@@ -1,5 +1,3 @@
-::: pyanilist._types.YearsActive
+::: pyanilist.YearsActive
     options:
         members: true
-::: pyanilist._types.FuzzyDateInt
-::: pyanilist._types.CollectionOf

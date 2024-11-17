@@ -1,4 +1,4 @@
-"""Compatibility module to for older python versions"""
+"""Compatibility module to for older python versions."""
 
 from __future__ import annotations
 
@@ -9,9 +9,5 @@ if sys.version_info >= (3, 11):
 else:
     from backports.strenum import StrEnum
 
-if sys.version_info >= (3, 10):
-    from importlib import metadata
-else:
-    import importlib_metadata as metadata
 
-__all__ = ["metadata", "StrEnum"]
+__all__ = ("StrEnum",)

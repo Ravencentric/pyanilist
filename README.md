@@ -4,7 +4,7 @@
     <img src="https://raw.githubusercontent.com/Ravencentric/pyanilist/main/docs/assets/logo.png" alt="Logo" width="400">
   </a>
   <p align="center">
-    Simple AniList API wrapper to fetch media data
+    AniList API wrapper to fetch media data
   </p>
 </p>
 
@@ -24,15 +24,9 @@
 
 ## Table Of Contents
 
-* [About](#about)
 * [Installation](#installation)
 * [Docs](#docs)
 * [License](#license)
-
-## About
-
-- Supports both sync and async.
-- Only supports querying the `Media` type.
 
 ## Installation
 
@@ -47,14 +41,14 @@ pip install pyanilist
 ```py
 from pyanilist import AniList
 
-media = AniList().get("My Hero Academia")
-
-print(media.title.romaji)
-#> Boku no Hero Academia
-print(media.site_url)
-#> https://anilist.co/anime/21459
-print(media.episodes)
-#> 13
+with AniList() as anilist:
+    media = anilist.get_media("My Hero Academia")
+    print(media.title.romaji)
+    #> Boku no Hero Academia
+    print(media.site_url)
+    #> https://anilist.co/anime/21459
+    print(media.episodes)
+    #> 13
 ```
 
 ## Docs
@@ -63,4 +57,4 @@ Checkout the complete documentation [here](https://pyanilist.ravencentric.cc).
 
 ## License
 
-Distributed under the [Unlicense](https://choosealicense.com/licenses/unlicense/) License. See [UNLICENSE](https://github.com/Ravencentric/pyanilist/blob/main/UNLICENSE) for more information.
+Distributed under the [MIT](https://choosealicense.com/licenses/mit/) License. See [LICENSE](https://github.com/Ravencentric/pyanilist/blob/main/LICENSE) for more information.
