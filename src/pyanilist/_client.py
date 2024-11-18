@@ -34,7 +34,7 @@ from pyanilist._version import __version__
 
 
 class AniList:
-    def __init__(self, api_url: str = "https://graphql.anilist.co", client: Client | None = None) -> None:
+    def __init__(self, api_url: str = "https://graphql.anilist.co", *, client: Client | None = None) -> None:
         """
         AniList API client.
 
@@ -315,7 +315,7 @@ class AniList:
         return Media.model_validate(remove_null_fields(media))
 
     def get_recommendations(
-        self, media: int | str | Media, sort: Iterable[RecommendationSort] | RecommendationSort | None = None
+        self, media: int | str | Media, *, sort: Iterable[RecommendationSort] | RecommendationSort | None = None
     ) -> Iterator[Media]:
         """
         Retrieve recommended media based on a given `Media` object or ID.
@@ -377,6 +377,7 @@ class AniList:
     def get_studios(
         self,
         media: int | str | Media,
+        *,
         sort: Iterable[StudioSort] | StudioSort | None = None,
         is_main: bool | None = None,
     ) -> Iterator[Studio]:
@@ -420,6 +421,7 @@ class AniList:
     def get_staffs(
         self,
         media: int | str | Media,
+        *,
         sort: Iterable[StaffSort] | StaffSort | None = None,
     ) -> Iterator[Staff]:
         """
@@ -457,6 +459,7 @@ class AniList:
     def get_airing_schedule(
         self,
         media: int | str | Media,
+        *,
         not_yet_aired: bool | None = None,
     ) -> Iterator[AiringSchedule]:
         """
@@ -488,6 +491,7 @@ class AniList:
     def get_characters(
         self,
         media: int | str | Media,
+        *,
         sort: Iterable[CharacterSort] | CharacterSort | None = None,
         role: CharacterRole | None = None,
     ) -> Iterator[Character]:
