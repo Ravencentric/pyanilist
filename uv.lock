@@ -758,7 +758,7 @@ wheels = [
 
 [[package]]
 name = "pyanilist"
-version = "0.6.0"
+version = "0.6.1"
 source = { editable = "." }
 dependencies = [
     { name = "backports-strenum", marker = "python_full_version < '3.11'" },
