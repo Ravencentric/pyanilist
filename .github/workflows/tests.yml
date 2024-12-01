@@ -40,7 +40,7 @@ jobs:
 
       - name: Install uv
         id: setup-uv
-        uses: astral-sh/setup-uv@v3
+        uses: astral-sh/setup-uv@v4
 
       - name: Install the project dependencies
         run: uv sync --python ${{ matrix.python-version }}
