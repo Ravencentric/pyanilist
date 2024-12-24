@@ -40,9 +40,9 @@ from pyanilist._models import (
     Studio,
 )
 from pyanilist._types import YearsActive
-from pyanilist._version import __version__, __version_tuple__
+from pyanilist._version import __version__
 
-__all__ = [
+__all__ = (
     # Client
     "AniList",
     # Enums
@@ -85,5 +85,4 @@ __all__ = [
     "HTTPStatusError",
     # Version
     "__version__",
-    "__version_tuple__",
-]
+)

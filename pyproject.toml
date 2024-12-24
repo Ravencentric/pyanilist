@@ -16,12 +16,12 @@ classifiers = [
     "Typing :: Typed",
 ]
 dependencies = [
-    "backports-strenum>=1.3.1 ; python_full_version < '3.11'",
     "boltons>=24.1.0",
     "httpx>=0.27.2",
     "pycountry>=24.6.1",
     "pydantic>=2.9.2",
     "pydantic-extra-types>=2.10.0",
+    "stringenum>=0.6.0",
     "typing-extensions>=4.12.2",
 ]
 
@@ -64,6 +64,14 @@ strict = true
 pretty = true
 enable_error_code = ["ignore-without-code"]
 exclude = "tests/"
+
+[tool.pytest.ini_options]
+addopts = ["-ra", "--showlocals", "--strict-markers", "--strict-config"]
+filterwarnings = ["error"]
+log_cli_level = "info"
+testpaths = [
+  "tests",
+]
 
 [tool.coverage.run]
 omit = [

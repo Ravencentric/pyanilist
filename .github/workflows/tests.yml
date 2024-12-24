@@ -22,6 +22,9 @@ defaults:
   run:
     shell: bash
 
+env:
+  UV_LOCKED: 1
+
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.sha }}
   cancel-in-progress: true
@@ -40,10 +43,12 @@ jobs:
 
       - name: Install uv
         id: setup-uv
-        uses: astral-sh/setup-uv@v4
+        uses: astral-sh/setup-uv@v5
+        with:
+          python-version: ${{ matrix.python-version }}
 
       - name: Install the project dependencies
-        run: uv sync --python ${{ matrix.python-version }}
+        run: uv sync
 
       - name: Run tests and generate coverage
         run: |

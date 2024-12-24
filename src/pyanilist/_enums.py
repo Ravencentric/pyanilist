@@ -1,23 +1,10 @@
 from __future__ import annotations
 
-from typing_extensions import Self
-
-from pyanilist._compat import StrEnum
+from stringenum import DoubleSidedCaseInsensitiveStrEnum
 
 
-class BaseStrEnum(StrEnum):
+class BaseStrEnum(DoubleSidedCaseInsensitiveStrEnum):
     """StrEnum with case-insensitive double-sided lookup."""
-
-    @classmethod
-    def _missing_(cls, value: object) -> Self:
-        errmsg = f"'{value}' is not a valid {cls.__name__}"
-
-        if isinstance(value, str):
-            for member in cls:
-                if (member.value.casefold() == value.casefold()) or (member.name.casefold() == value.casefold()):
-                    return member
-            raise ValueError(errmsg)
-        raise ValueError(errmsg)
 
     @property
     def title(self) -> str:  # type: ignore[override]

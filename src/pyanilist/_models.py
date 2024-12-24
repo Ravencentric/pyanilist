@@ -50,9 +50,16 @@ class MediaTitle(ParentModel):
     native: str | None = None
     """Official title in its native language."""
 
-    def __str__(self) -> str:
-        """Stringify."""
+    def to_str(self) -> str:
+        """
+        Return the media title as a string in the following order of preference:
+        English, Romaji, or native.
+        """
         return self.english or self.romaji or self.native  # type: ignore[return-value]
+
+    def __str__(self) -> str:
+        """Stringify. Identical to `to_str()`."""
+        return self.to_str()
 
 
 class FuzzyDate(ParentModel):
@@ -101,11 +108,11 @@ class FuzzyDate(ParentModel):
         return int(f"{year}{month}{day}")
 
     def __str__(self) -> str:
-        """Stringify."""
+        """Stringify. Identical to `iso_format()`."""
         return self.iso_format()
 
     def __int__(self) -> int:
-        """Support `int(FuzzyDate())`."""
+        """Support `int(FuzzyDate())`. Identical to `to_int()`."""
         return self.to_int()
 
 
@@ -137,9 +144,16 @@ class MediaCoverImage(ParentModel):
     color: Color | None = None
     """Average #hex color of cover image"""
 
-    def __str__(self) -> str:
-        """Stringify."""
+    def to_str(self) -> str:
+        """
+        Return the media cover image URL as a string in the following order of preference:
+        Extra Large, Large, or Medium.
+        """
         return str(self.extra_large or self.large or self.medium or "")
+
+    def __str__(self) -> str:
+        """Stringify. Identical to `to_str()`."""
+        return self.to_str()
 
 
 class MediaTag(ParentModel):
@@ -282,9 +296,16 @@ class StaffName(ParentModel):
     alternative: tuple[str, ...] = tuple()
     """Other names the staff member might be referred to as (pen names)."""
 
+    def to_str(self) -> str:
+        """
+        Return the staff name as a string in the following order of preference:
+        Full, First, or Native.
+        """
+        return self.full or self.first or self.native or ""
+
     def __str__(self) -> str:
-        """Stringify."""
-        return self.full or ""
+        """Stringify. Identical to `to_str()`."""
+        return self.to_str()
 
 
 class StaffImage(ParentModel):
@@ -296,9 +317,16 @@ class StaffImage(ParentModel):
     medium: HttpUrl | None = None
     """The person's image of media at medium size."""
 
-    def __str__(self) -> str:
-        """Stringify."""
+    def to_str(self) -> str:
+        """
+        Return the staff image URL as a string in the following order of preference:
+        Large or Medium.
+        """
         return str(self.large or self.medium or "")
+
+    def __str__(self) -> str:
+        """Stringify. Identical to `to_str()`."""
+        return self.to_str()
 
 
 class Staff(ParentModel):
@@ -385,9 +413,16 @@ class CharacterName(ParentModel):
     alternative_spoiler: tuple[str, ...] = tuple()
     """Other names the character might be referred to as but are spoilers."""
 
+    def to_str(self) -> str:
+        """
+        Return the character name as a string in the following order of preference:
+        Full, First, or Native.
+        """
+        return self.full or self.first or self.native or ""
+
     def __str__(self) -> str:
-        """Stringify."""
-        return self.full or ""
+        """Stringify. Identical to `to_str()`."""
+        return self.to_str()
 
 
 class CharacterImage(ParentModel):
@@ -399,9 +434,16 @@ class CharacterImage(ParentModel):
     medium: HttpUrl | None = None
     """The character's image of media at medium size."""
 
-    def __str__(self) -> str:
-        """Stringify."""
+    def to_str(self) -> str:
+        """
+        Return the character image URL as a string in the following order of preference:
+        Large or Medium.
+        """
         return str(self.large or self.medium or "")
+
+    def __str__(self) -> str:
+        """Stringify. Identical to `to_str()`."""
+        return self.to_str()
 
 
 class Character(ParentModel):
