@@ -266,6 +266,104 @@ query Media($mediaId: Int!) {
         relationType
         node {
           id
+          idMal
+          type
+          format
+          status
+          description
+          season
+          seasonYear
+          episodes
+          duration
+          chapters
+          volumes
+          countryOfOrigin
+          isLicensed
+          source
+          hashtag
+          updatedAt
+          bannerImage
+          genres
+          synonyms
+          averageScore
+          meanScore
+          popularity
+          isLocked
+          trending
+          favourites
+          isAdult
+          siteUrl
+          trailer {
+            id
+            site
+            thumbnail
+          }
+          title {
+            romaji
+            english
+            native
+          }
+          tags {
+            id
+            name
+            description
+            category
+            rank
+            isGeneralSpoiler
+            isMediaSpoiler
+            isAdult
+            userId
+          }
+          startDate {
+            year
+            month
+            day
+          }
+          rankings {
+            id
+            rank
+            type
+            format
+            year
+            season
+            allTime
+            context
+          }
+          externalLinks {
+            id
+            url
+            site
+            siteId
+            type
+            language
+            color
+            icon
+            notes
+            isDisabled
+          }
+          endDate {
+            year
+            month
+            day
+          }
+          coverImage {
+            extraLarge
+            large
+            medium
+            color
+          }
+          nextAiringEpisode {
+            timeUntilAiring
+            id
+            episode
+            airingAt
+          }
+          streamingEpisodes {
+            title
+            thumbnail
+            url
+            site
+          }
         }
       }
     }

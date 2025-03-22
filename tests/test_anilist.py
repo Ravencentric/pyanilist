@@ -12,7 +12,6 @@ from pyanilist import (
     FuzzyDate,
     MediaCoverImage,
     MediaFormat,
-    MediaRelation,
     MediaSeason,
     MediaSource,
     MediaStatus,
@@ -89,8 +88,23 @@ def test_anilist_get_recommendations(anilist_client: AniList) -> None:
 
 @pytest.mark.vcr
 def test_anilist_get_relations(anilist_client: AniList) -> None:
-    relations = tuple(anilist_client.get_relations(99426))
-    assert relations[0].relation_type is MediaRelation.ADAPTATION
+    relations = anilist_client.get_relations(16498)
+    titles = []
+    for relation in relations:
+        titles.append(f"{relation.title} ({relation.relation_type})")
+    assert titles == [
+        "Attack on Titan (ADAPTATION)",
+        "Attack on Titan Part I: Crimson Bow and Arrow (ALTERNATIVE)",
+        "Attack on Titan Part II: Wings of Freedom (ALTERNATIVE)",
+        "Attack on Titan Season 2 (SEQUEL)",
+        "Attack on Titan: Junior High (SPIN_OFF)",
+        "Attack on Titan OVA (SIDE_STORY)",
+        "Attack on Titan ~Chronicle~ (SUMMARY)",
+        "Attack on Titan: No Regrets (PREQUEL)",
+        "Attack on Titan: Lost Girls (SIDE_STORY)",
+        "Attack on Titan Picture Drama (OTHER)",
+        "Chiyuki no Fashion Check (CHARACTER)",
+    ]
 
 
 @pytest.mark.vcr

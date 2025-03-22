@@ -369,10 +369,9 @@ class AniList:
 
         for relation in relations:
             relation_type = relation["relationType"]
-            media_id = int(relation["node"]["id"])
-            media = self.get_media(id=media_id)
+            node = remove_null_fields(relation["node"])
 
-            yield RelatedMedia(relation_type=relation_type, **media.model_dump())
+            yield RelatedMedia(relation_type=relation_type, **node)
 
     def get_studios(
         self,
