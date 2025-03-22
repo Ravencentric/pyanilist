@@ -1,7 +1,7 @@
 [project]
 name = "pyanilist"
 version = "0.6.2"
-description = "A Python wrapper for the AniList API"
+description = "A Python wrapper for the AniList API."
 authors = [{ name = "Ravencentric", email = "me@ravencentric.cc" }]
 readme = "README.md"
 license = "MIT"
@@ -26,24 +26,28 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage = "https://pyanilist.ravencentric.cc"
 Documentation = "https://pyanilist.ravencentric.cc"
 Repository = "https://github.com/Ravencentric/pyanilist"
 
 [dependency-groups]
-dev = [
-    "coverage>=7.6.7",
+docs = [
+    "mkdocs-autorefs>=1.4.1",
+    "mkdocs-material>=9.6.9",
+    "mkdocstrings[python]>=0.29.0",
+]
+lint = ["mypy>=1.15.0", "ruff>=0.11.2", "types-boltons>=25.0.0.20250304"]
+test = [
+    "coverage>=7.7.1",
     "docstring-parser>=0.16",
-    "mkdocs-autorefs>=1.2.0",
-    "mkdocs-material>=9.5.44",
-    "mkdocstrings[python]>=0.27.0",
-    "mypy>=1.13.0",
-    "pytest>=8.3.3",
-    "pytest-httpx>=0.33.0",
+    "pytest>=8.3.5",
+    "pytest-httpx>=0.34.0",
     "pytest-recording>=0.13.2",
-    "ruff>=0.7.4",
     "tomli>=2.1.0",
-    "types-boltons>=24.1.0.20241113",
+]
+dev = [
+    { include-group = "tests" },
+    { include-group = "docs" },
+    { include-group = "lints" },
 ]
 
 [tool.ruff]
@@ -63,26 +67,19 @@ required-imports = ["from __future__ import annotations"]
 strict = true
 pretty = true
 enable_error_code = ["ignore-without-code"]
-exclude = "tests/"
 
 [tool.pytest.ini_options]
 addopts = ["-ra", "--showlocals", "--strict-markers", "--strict-config"]
 filterwarnings = ["error"]
-log_cli_level = "info"
-testpaths = [
-  "tests",
-]
+log_cli_level = "INFO"
+testpaths = ["tests"]
 
 [tool.coverage.run]
-omit = [
-    "src/pyanilist/_version.py",
-    "src/pyanilist/_compat.py",
-    "tests/*"
-]
+omit = ["src/pyanilist/_version.py", "src/pyanilist/_compat.py", "tests/*"]
 
 [tool.coverage.report]
 exclude_also = [
-  "if TYPE_CHECKING:", # Only used for type-hints
+    "if TYPE_CHECKING:", # Only used for type-hints
 ]
 
 [build-system]
