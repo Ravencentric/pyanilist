@@ -4,8 +4,6 @@ from datetime import timedelta
 
 from pydantic import AliasGenerator, BaseModel, ConfigDict
 from pydantic.alias_generators import to_camel
-from pydantic_extra_types.color import Color
-from pydantic_extra_types.country import CountryAlpha2 as CountryCode
 
 from pyanilist._enums import (
     CharacterRole,
@@ -140,7 +138,7 @@ class MediaCoverImage(ParentModel):
     medium: str | None = None
     """The cover image url of the media at medium size"""
 
-    color: Color | None = None
+    color: str | None = None
     """Average #hex color of cover image"""
 
     def to_str(self) -> str:
@@ -223,7 +221,7 @@ class MediaExternalLink(ParentModel):
     language: str | None = None
     """Language the site content is in. See Staff language field for values."""
 
-    color: Color | None = None
+    color: str | None = None
     """Average #hex color."""
 
     icon: str | None = None
@@ -552,7 +550,7 @@ class Media(ParentModel):
     volumes: int | None = None
     """The amount of volumes the manga has when complete."""
 
-    country_of_origin: CountryCode | None = None
+    country_of_origin: str | None = None
     """Where the media was created. (ISO 3166-1 alpha-2)."""
 
     is_licensed: bool | None = None

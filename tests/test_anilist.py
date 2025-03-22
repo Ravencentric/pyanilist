@@ -3,7 +3,6 @@ from __future__ import annotations
 import datetime
 
 import pytest
-from pydantic_extra_types.color import Color
 
 from pyanilist import (
     AiringSchedule,
@@ -32,7 +31,7 @@ def test_anilist_get_media(anilist_client: AniList) -> None:
         extra_large="https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx99426-5jWTUs719lQN.png",
         large="https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/bx99426-5jWTUs719lQN.png",
         medium="https://s4.anilist.co/file/anilistcdn/media/anime/cover/small/bx99426-5jWTUs719lQN.png",
-        color=Color("#ffbb35"),
+        color="#ffbb35",
     )
     assert isinstance(media.description, str)
     assert media.description.startswith(
