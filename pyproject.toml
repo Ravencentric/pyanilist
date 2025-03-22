@@ -45,9 +45,9 @@ test = [
     "tomli>=2.1.0",
 ]
 dev = [
-    { include-group = "tests" },
     { include-group = "docs" },
-    { include-group = "lints" },
+    { include-group = "lint" },
+    { include-group = "test" },
 ]
 
 [tool.ruff]

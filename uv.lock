@@ -819,12 +819,12 @@ docs = [
     { name = "mkdocs-material" },
     { name = "mkdocstrings", extra = ["python"] },
 ]
-lints = [
+lint = [
     { name = "mypy" },
     { name = "ruff" },
     { name = "types-boltons" },
 ]
-tests = [
+test = [
     { name = "coverage" },
     { name = "docstring-parser" },
     { name = "pytest" },
@@ -864,12 +864,12 @@ docs = [
     { name = "mkdocs-material", specifier = ">=9.6.9" },
     { name = "mkdocstrings", extras = ["python"], specifier = ">=0.29.0" },
 ]
-lints = [
+lint = [
     { name = "mypy", specifier = ">=1.15.0" },
     { name = "ruff", specifier = ">=0.11.2" },
     { name = "types-boltons", specifier = ">=25.0.0.20250304" },
 ]
-tests = [
+test = [
     { name = "coverage", specifier = ">=7.7.1" },
     { name = "docstring-parser", specifier = ">=0.16" },
     { name = "pytest", specifier = ">=8.3.5" },

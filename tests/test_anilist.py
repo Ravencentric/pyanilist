@@ -3,7 +3,6 @@ from __future__ import annotations
 import datetime
 
 import pytest
-from pydantic_core import Url
 from pydantic_extra_types.color import Color
 
 from pyanilist import (
@@ -26,15 +25,16 @@ from pyanilist import (
 def test_anilist_get_media(anilist_client: AniList) -> None:
     media = anilist_client.get_media(id=99426)
     assert media.average_score == 84
-    assert media.banner_image == Url("https://s4.anilist.co/file/anilistcdn/media/anime/banner/99426-KsFVCSwVC3x3.jpg")
+    assert media.banner_image == "https://s4.anilist.co/file/anilistcdn/media/anime/banner/99426-KsFVCSwVC3x3.jpg"
     assert media.chapters is None
     assert media.country_of_origin == "JP"
     assert media.cover_image == MediaCoverImage(
-        extra_large=Url("https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx99426-5jWTUs719lQN.png"),
-        large=Url("https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/bx99426-5jWTUs719lQN.png"),
-        medium=Url("https://s4.anilist.co/file/anilistcdn/media/anime/cover/small/bx99426-5jWTUs719lQN.png"),
+        extra_large="https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx99426-5jWTUs719lQN.png",
+        large="https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/bx99426-5jWTUs719lQN.png",
+        medium="https://s4.anilist.co/file/anilistcdn/media/anime/cover/small/bx99426-5jWTUs719lQN.png",
         color=Color("#ffbb35"),
     )
+    assert isinstance(media.description, str)
     assert media.description.startswith(
         "Mari Tamaki is in her second year of high school and wants to start something."
     )
@@ -55,7 +55,7 @@ def test_anilist_get_media(anilist_client: AniList) -> None:
     assert media.popularity == 139362
     assert media.season is MediaSeason.WINTER
     assert media.season_year == 2018
-    assert media.site_url == Url("https://anilist.co/anime/99426")
+    assert media.site_url == "https://anilist.co/anime/99426"
     assert media.source is MediaSource.ORIGINAL
     assert media.start_date == FuzzyDate(year=2018, month=1, day=2)
     assert media.status is MediaStatus.FINISHED
@@ -72,7 +72,7 @@ def test_anilist_get_media(anilist_client: AniList) -> None:
         romaji="Sora yori mo Tooi Basho", english="A Place Further Than the Universe", native="宇宙よりも遠い場所"
     )
     assert media.trailer == MediaTrailer(
-        id="tAYL5VNAJq0", site="youtube", thumbnail=Url("https://i.ytimg.com/vi/tAYL5VNAJq0/hqdefault.jpg")
+        id="tAYL5VNAJq0", site="youtube", thumbnail="https://i.ytimg.com/vi/tAYL5VNAJq0/hqdefault.jpg"
     )
     assert media.type is MediaType.ANIME
     assert isinstance(media.updated_at, datetime.datetime)
@@ -123,9 +123,9 @@ def test_anilist_get_studios(anilist_client: AniList) -> None:
 @pytest.mark.vcr
 def test_anilist_get_staffs(anilist_client: AniList) -> None:
     staffs = tuple(anilist_client.get_staffs(99426))
-    assert staffs[0].site_url == Url("https://anilist.co/staff/105579")
-    assert staffs[1].site_url == Url("https://anilist.co/staff/107198")
-    assert staffs[2].site_url == Url("https://anilist.co/staff/101187")
+    assert staffs[0].site_url == "https://anilist.co/staff/105579"
+    assert staffs[1].site_url =="https://anilist.co/staff/107198"
+    assert staffs[2].site_url =="https://anilist.co/staff/101187"
 
 
 @pytest.mark.vcr

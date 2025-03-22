@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from datetime import timedelta
 
-from pydantic import AliasGenerator, BaseModel, ConfigDict, HttpUrl
+from pydantic import AliasGenerator, BaseModel, ConfigDict
 from pydantic.alias_generators import to_camel
 from pydantic_extra_types.color import Color
 from pydantic_extra_types.country import CountryAlpha2 as CountryCode
@@ -125,20 +125,20 @@ class MediaTrailer(ParentModel):
     site: str | None = None
     """The site the video is hosted by (Currently either youtube or dailymotion)."""
 
-    thumbnail: HttpUrl | None = None
+    thumbnail: str | None = None
     """The url for the thumbnail image of the video."""
 
 
 class MediaCoverImage(ParentModel):
     """The cover images of the media."""
 
-    extra_large: HttpUrl | None = None
+    extra_large: str | None = None
     """The cover image url of the media at its largest size. If this size isn't available, large will be provided instead."""
 
-    large: HttpUrl | None = None
+    large: str | None = None
     """The cover image url of the media at a large size"""
 
-    medium: HttpUrl | None = None
+    medium: str | None = None
     """The cover image url of the media at medium size"""
 
     color: Color | None = None
@@ -209,7 +209,7 @@ class MediaExternalLink(ParentModel):
     id: int | None = None
     """The id of the external link."""
 
-    url: HttpUrl | None = None
+    url: str | None = None
     """The url of the external link or base url of link source."""
 
     site: str | None = None
@@ -227,7 +227,7 @@ class MediaExternalLink(ParentModel):
     color: Color | None = None
     """Average #hex color."""
 
-    icon: HttpUrl | None = None
+    icon: str | None = None
     """The icon image url of the site. Not available for all links. Transparent PNG 64x64."""
 
     notes: str | None = None
@@ -243,10 +243,10 @@ class MediaStreamingEpisode(ParentModel):
     title: str | None = None
     """Title of the episode."""
 
-    thumbnail: HttpUrl | None = None
+    thumbnail: str | None = None
     """Url of episode image thumbnail."""
 
-    url: HttpUrl | None = None
+    url: str | None = None
     """The url of the episode."""
 
     site: str | None = None
@@ -265,7 +265,7 @@ class Studio(ParentModel):
     is_animation_studio: bool | None = None
     """If the studio is an animation studio or a different kind of company."""
 
-    site_url: HttpUrl | None = None
+    site_url: str | None = None
     """The url for the studio page on the AniList website."""
 
     favourites: int | None = None
@@ -311,10 +311,10 @@ class StaffName(ParentModel):
 class StaffImage(ParentModel):
     """Staff's image."""
 
-    large: HttpUrl | None = None
+    large: str | None = None
     """The person's image of media at its largest size."""
 
-    medium: HttpUrl | None = None
+    medium: str | None = None
     """The person's image of media at medium size."""
 
     def to_str(self) -> str:
@@ -379,7 +379,7 @@ class Staff(ParentModel):
     blood_type: str | None = None
     """The persons blood type."""
 
-    site_url: HttpUrl | None = None
+    site_url: str | None = None
     """The url for the staff page on the AniList website."""
 
     role: str | None = None
@@ -428,10 +428,10 @@ class CharacterName(ParentModel):
 class CharacterImage(ParentModel):
     """Character's image."""
 
-    large: HttpUrl | None = None
+    large: str | None = None
     """The character's image of media at its largest size."""
 
-    medium: HttpUrl | None = None
+    medium: str | None = None
     """The character's image of media at medium size."""
 
     def to_str(self) -> str:
@@ -473,7 +473,7 @@ class Character(ParentModel):
     blood_type: str | None = None
     """The character's blood type."""
 
-    site_url: HttpUrl | None = None
+    site_url: str | None = None
     """The url for the character page on the AniList website."""
 
     favourites: int | None = None
@@ -568,7 +568,7 @@ class Media(ParentModel):
     updated_at: UTCDateTime | None = None
     """When the media's data was last updated."""
 
-    banner_image: HttpUrl | None = None
+    banner_image: str | None = None
     """The banner image of the media."""
 
     genres: tuple[str, ...] = tuple()
@@ -598,7 +598,7 @@ class Media(ParentModel):
     is_adult: bool | None = None
     """If the media is intended only for 18+ adult audiences."""
 
-    site_url: HttpUrl
+    site_url: str
     """The url for the media page on the AniList website."""
 
     trailer: MediaTrailer = MediaTrailer()
