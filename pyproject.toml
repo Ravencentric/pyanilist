@@ -21,7 +21,6 @@ dependencies = [
     "pycountry>=24.6.1",
     "pydantic>=2.9.2",
     "pydantic-extra-types>=2.10.0",
-    "stringenum>=0.6.0",
     "typing-extensions>=4.12.2",
 ]
 
