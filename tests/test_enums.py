@@ -41,4 +41,4 @@ def test_enum_value_error() -> None:
         CharacterRole("blahblah")
 
     with pytest.raises(ValueError):
-        CharacterRole(1) # type: ignore[arg-type]
+        CharacterRole(1)  # type: ignore[arg-type]

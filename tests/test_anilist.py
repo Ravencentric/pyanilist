@@ -124,8 +124,8 @@ def test_anilist_get_studios(anilist_client: AniList) -> None:
 def test_anilist_get_staffs(anilist_client: AniList) -> None:
     staffs = tuple(anilist_client.get_staffs(99426))
     assert staffs[0].site_url == "https://anilist.co/staff/105579"
-    assert staffs[1].site_url =="https://anilist.co/staff/107198"
-    assert staffs[2].site_url =="https://anilist.co/staff/101187"
+    assert staffs[1].site_url == "https://anilist.co/staff/107198"
+    assert staffs[2].site_url == "https://anilist.co/staff/101187"
 
 
 @pytest.mark.vcr
