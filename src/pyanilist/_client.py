@@ -1,10 +1,9 @@
 from __future__ import annotations
 
 from collections.abc import Iterable, Iterator
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 from httpx import Client
-from typing_extensions import Self, assert_never
 
 from pyanilist._enums import (
     CharacterRole,
@@ -31,6 +30,9 @@ from pyanilist._query import (
 )
 from pyanilist._utils import remove_null_fields, resolve_media_id, to_anilist_case
 from pyanilist._version import __version__
+
+if TYPE_CHECKING:
+    from typing_extensions import Self
 
 
 class AniList:
@@ -342,7 +344,8 @@ class AniList:
             case None:
                 pass
             case _:
-                assert_never(sort)
+                msg = f"Invalid sort type: {type(sort).__name__}"
+                raise TypeError(msg)
 
         recs = self._post(query=RECOMMENDATIONS_QUERY, variables=variables)["recommendations"]["nodes"]
 
@@ -407,7 +410,8 @@ class AniList:
             case None:
                 pass
             case _:
-                assert_never(sort)
+                msg = f"Invalid sort type: {type(sort).__name__}"
+                raise TypeError(msg)
 
         if is_main is not None:  # pragma: no cover
             variables["isMain"] = is_main
@@ -448,7 +452,8 @@ class AniList:
             case None:
                 pass
             case _:
-                assert_never(sort)
+                msg = f"Invalid sort type: {type(sort).__name__}"
+                raise TypeError(msg)
 
         staffs = self._post(query=STAFFS_QUERY, variables=variables)["staff"]["edges"]
 
@@ -521,7 +526,8 @@ class AniList:
             case None:
                 pass
             case _:
-                assert_never(sort)
+                msg = f"Invalid sort type: {type(sort).__name__}"
+                raise TypeError(msg)
 
         if role is not None:  # pragma: no cover
             variables["role"] = role

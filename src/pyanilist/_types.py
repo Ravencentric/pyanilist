@@ -1,10 +1,9 @@
 from __future__ import annotations
 
 from datetime import datetime, timezone
-from typing import Annotated
+from typing import Annotated, NamedTuple
 
 from pydantic import AfterValidator
-from typing_extensions import NamedTuple
 
 UTCDateTime = Annotated[datetime, AfterValidator(lambda dt: dt.astimezone(timezone.utc))]
 """datetime.datetime that's always in UTC."""

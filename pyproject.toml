@@ -19,7 +19,6 @@ dependencies = [
     "boltons>=24.1.0",
     "httpx>=0.27.2",
     "pydantic>=2.9.2",
-    "typing-extensions>=4.12.2",
 ]
 
 [project.urls]
