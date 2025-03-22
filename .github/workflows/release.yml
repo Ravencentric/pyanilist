@@ -21,7 +21,7 @@ jobs:
     name: Release
     environment:
       name: pypi
-      url: https://pypi.org/project/privatebin/
+      url: https://pypi.org/project/pyanilist/
     permissions:
       id-token: write
       contents: write
