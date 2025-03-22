@@ -65,10 +65,10 @@ class AniList:
 
     def _post(self, *, query: str, variables: dict[str, Any]) -> dict[str, Any]:
         """Utiliy function to POST to Anilist."""
-        response = self._client.post(self._api_url, json=dict(query=query, variables=variables))
+        response = self._client.post(self._api_url, json={"query": query, "variables": variables})
         return response.raise_for_status().json()["data"]["Media"]  # type: ignore[no-any-return]
 
-    def get_media(
+    def get_media(  # noqa: PLR0913
         self,
         search: str | None = None,
         *,

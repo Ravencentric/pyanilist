@@ -86,14 +86,13 @@ class FuzzyDate(ParentModel):
         if self.year and self.month and self.day:
             return f"{self.year}-{self.month:02}-{self.day:02}"
 
-        elif self.year and self.month:
+        if self.year and self.month:
             return f"{self.year}-{self.month:02}"
 
-        elif self.year:
+        if self.year:
             return f"{self.year}"
 
-        else:
-            return ""
+        return ""
 
     def to_int(self) -> int:
         """
@@ -293,7 +292,7 @@ class StaffName(ParentModel):
     native: str | None = None
     """The person's full name in their native language."""
 
-    alternative: tuple[str, ...] = tuple()
+    alternative: tuple[str, ...] = ()
     """Other names the staff member might be referred to as (pen names)."""
 
     def to_str(self) -> str:
@@ -355,7 +354,7 @@ class Staff(ParentModel):
     description: str | None = None
     """A general description of the staff member."""
 
-    primary_occupations: tuple[str, ...] = tuple()
+    primary_occupations: tuple[str, ...] = ()
     """The person's primary occupations."""
 
     gender: str | None = None
@@ -407,10 +406,10 @@ class CharacterName(ParentModel):
     native: str | None = None
     """The character's full name in their native language."""
 
-    alternative: tuple[str, ...] = tuple()
+    alternative: tuple[str, ...] = ()
     """Other names the character might be referred to as."""
 
-    alternative_spoiler: tuple[str, ...] = tuple()
+    alternative_spoiler: tuple[str, ...] = ()
     """Other names the character might be referred to as but are spoilers."""
 
     def to_str(self) -> str:
@@ -482,7 +481,7 @@ class Character(ParentModel):
     role: CharacterRole | None = None
     """The character's role in the media."""
 
-    voice_actors: tuple[Staff, ...] = tuple()
+    voice_actors: tuple[Staff, ...] = ()
     """The voice actors of the character."""
 
 
@@ -571,10 +570,10 @@ class Media(ParentModel):
     banner_image: str | None = None
     """The banner image of the media."""
 
-    genres: tuple[str, ...] = tuple()
+    genres: tuple[str, ...] = ()
     """The genres of the media."""
 
-    synonyms: tuple[str, ...] = tuple()
+    synonyms: tuple[str, ...] = ()
     """Alternative titles of the media."""
 
     average_score: int | None = None
@@ -607,16 +606,16 @@ class Media(ParentModel):
     title: MediaTitle = MediaTitle()
     """The official titles of the media in various languages."""
 
-    tags: tuple[MediaTag, ...] = tuple()
+    tags: tuple[MediaTag, ...] = ()
     """List of tags that describes elements and themes of the media."""
 
     start_date: FuzzyDate = FuzzyDate()
     """The first official release date of the media."""
 
-    rankings: tuple[MediaRank, ...] = tuple()
+    rankings: tuple[MediaRank, ...] = ()
     """The ranking of the media in a particular time span and format compared to other media."""
 
-    external_links: tuple[MediaExternalLink, ...] = tuple()
+    external_links: tuple[MediaExternalLink, ...] = ()
     """External links to another site related to the media."""
 
     end_date: FuzzyDate = FuzzyDate()
@@ -628,7 +627,7 @@ class Media(ParentModel):
     next_airing_episode: AiringSchedule = AiringSchedule()
     """The media's next episode airing schedule."""
 
-    streaming_episodes: tuple[MediaStreamingEpisode, ...] = tuple()
+    streaming_episodes: tuple[MediaStreamingEpisode, ...] = ()
     """Data and links to legal streaming episodes on external sites."""
 
 

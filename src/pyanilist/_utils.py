@@ -136,5 +136,4 @@ def resolve_media_id(media: int | str | Media) -> int:
             raise ValueError(msg)
 
         return int(match.group(2))
-    else:
-        return media if isinstance(media, int) else media.id
+    return media if isinstance(media, int) else media.id
