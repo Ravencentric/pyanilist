@@ -7,6 +7,7 @@ import pytest
 from pyanilist import (
     AiringSchedule,
     AniList,
+    CharacterRole,
     CharacterSort,
     FuzzyDate,
     MediaCoverImage,
@@ -123,6 +124,12 @@ def test_anilist_get_studios(anilist_client: AniList) -> None:
 
 
 @pytest.mark.vcr
+def test_anilist_get_studios_with_is_main(anilist_client: AniList) -> None:
+    studios = tuple(anilist_client.get_studios(99426, is_main=True))
+    assert [studio.name for studio in studios] == ["MADHOUSE"]
+
+
+@pytest.mark.vcr
 def test_anilist_get_staffs(anilist_client: AniList) -> None:
     staffs = tuple(anilist_client.get_staffs(99426, sort=StaffSort.ID))
     assert [staff.id for staff in staffs] == [
@@ -173,6 +180,12 @@ def test_anilist_get_airing_schedule(anilist_client: AniList) -> None:
 
 
 @pytest.mark.vcr
+def test_anilist_get_airing_schedule_with_not_yet_aired(anilist_client: AniList) -> None:
+    airing_schedules = tuple(anilist_client.get_airing_schedule(99426, not_yet_aired=True))
+    assert tuple(airing_schedules) == ()
+
+
+@pytest.mark.vcr
 def test_anilist_get_characters(anilist_client: AniList) -> None:
     characters = tuple(anilist_client.get_characters(99426, sort=CharacterSort.ID))
     assert [char.name.full for char in characters] == [
@@ -194,4 +207,15 @@ def test_anilist_get_characters(anilist_client: AniList) -> None:
         "Takako Kobuchizawa",
         "Kimari no Haha",
         "Honami Yasumoto",
+    ]
+
+
+@pytest.mark.vcr
+def test_anilist_get_characters_with_role(anilist_client: AniList) -> None:
+    characters = tuple(anilist_client.get_characters(99426, role=CharacterRole.MAIN))
+    assert [char.name.full for char in characters] == [
+        "Mari Tamaki",
+        "Shirase Kobuchizawa",
+        "Hinata Miyake",
+        "Yuzuki Shiraishi",
     ]

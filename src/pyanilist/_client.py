@@ -398,7 +398,7 @@ class AniList:
         if sort_key := get_sort_key(sort, StudioSort):
             variables["sort"] = sort_key
 
-        if is_main is not None:  # pragma: no cover
+        if is_main is not None:
             variables["isMain"] = is_main
 
         studios = self._post(query=STUDIOS_QUERY, variables=variables)["studios"]["edges"]
@@ -461,7 +461,7 @@ class AniList:
         """
         variables: dict[str, Any] = {"mediaId": resolve_media_id(media)}
 
-        if not_yet_aired is not None:  # pragma: no cover
+        if not_yet_aired is not None:
             variables["notYetAired"] = not_yet_aired
 
         schedules = self._post(query=AIRING_SCHEDULE_QUERY, variables=variables)["airingSchedule"]["nodes"]
@@ -498,7 +498,7 @@ class AniList:
         if sort_key := get_sort_key(sort, CharacterSort):
             variables["sort"] = sort_key
 
-        if role is not None:  # pragma: no cover
+        if role is not None:
             variables["role"] = role
 
         characters = self._post(query=CHARACTERS_QUERY, variables=variables)["characters"]["edges"]

@@ -1,8 +1,7 @@
 interactions:
 - request:
-    body: '{"query":"query Media($mediaId: Int!, $sort: [StudioSort], $isMain: Boolean)
-      {\n  Media(id: $mediaId) {\n    studios(sort: $sort, isMain: $isMain) {\n      edges
-      {\n        isMain\n        node {\n          id\n          name\n          isAnimationStudio\n          siteUrl\n          favourites\n        }\n      }\n    }\n  }\n}\n","variables":{"mediaId":99426,"sort":["ID"]}}'
+    body: '{"query":"query Media($mediaId: Int!, $notYetAired: Boolean) {\n  Media(id:
+      $mediaId) {\n    airingSchedule(notYetAired: $notYetAired) {\n      nodes {\n        id\n        airingAt\n        timeUntilAiring\n        episode\n      }\n    }\n  }\n}\n","variables":{"mediaId":99426,"notYetAired":true}}'
     headers:
       accept:
       - '*/*'
@@ -11,7 +10,7 @@ interactions:
       connection:
       - keep-alive
       content-length:
-      - '378'
+      - '300'
       content-type:
       - application/json
       host:
@@ -25,12 +24,8 @@ interactions:
   response:
     body:
       string: !!binary |
-        H4sIAAAAAAAAAwAAAP//rNJNa4QwEAbgvyJztnU1u0Zyk21LL9KDXSjUHkKS7Q5oUkxcEMl/L9oP
-        QQr24G1gyJtnJhlAcseBDVAoiVNhXSfR2LFU8l1ZYK8DoC04amCu7VQI2kg19lECi+MQNG8UMCjy
-        u8enU3kPIaDNNTbcodHllPdz1KJTp7YGBhfnPiyroiriGmu07laYKvq6vYriGEI486vpWnQjIqaH
-        hHofzpYzr+0Ss8tmzThQ8MCFM23/N+k74d+mXbZAJdmqKE1nkbmi2EaSpgsJIWuShMy7yZ9vXjaB
-        JGS5ksPqI1FCfyGl0X1QdBZFcDRN02kUE8duoqOELnT7NVy6T+YPfWw7LS59a+p6E88YvgTtUu/f
-        vPf+EwAA//8DANqFoIeLAwAA
+        H4sIAAAAAAAAAwAAAP//qlZKSSxJVLKqVvJNTckEMxIzizLz0oOTM1JTSnNSQSJ5+SmpxUpW0bG1
+        tbW1AAAAAP//AwAKguzGMgAAAA==
     headers:
       Access-Control-Allow-Headers:
       - Authorization,Accept,DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Content-Range,Range
@@ -44,7 +39,7 @@ interactions:
       CF-Cache-Status:
       - DYNAMIC
       CF-Ray:
-      - 924a0ad1fd543a2c-BOM
+      - 924a0ae14f32423c-BOM
       Cache-Control:
       - no-cache, private
       Connection:
@@ -54,16 +49,16 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Sun, 23 Mar 2025 01:09:15 GMT
+      - Sun, 23 Mar 2025 01:09:17 GMT
       NEL:
       - '{"success_fraction":0,"report_to":"cf-nel","max_age":604800}'
       Report-To:
-      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v4?s=4KHlKLpHRAIJqsQ1kdpaewae%2BFxAkLusmQbBH8ov1Wn8izZUd4rWe%2BKYypbSpqVTXdGfDXo9DBDFtFjXVosA%2Bf9uyu3GEMNLVWjw4JklMi8ArVUSTeClm75SsPSyzrzrMUmvJQ%3D%3D"}],"group":"cf-nel","max_age":604800}'
+      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v4?s=NZinlu%2BAdc%2B3xlH1tisGrN5Fvb5ecPRPruhTBKcFh4eQxJARPX0NFyQjcB0MMfBIieJhcqQkwLaGTcWheeolXSJAHQMDOMIBc%2FSFCs9O1AsKPWG%2FdXENRHuC4D9tAoHkwiF3KQ%3D%3D"}],"group":"cf-nel","max_age":604800}'
       Server:
       - cloudflare
       Set-Cookie:
-      - laravel_session=vYk26W95MuNPK39y4BjCiQ3nLzlqrZiPqhoHVYlj; expires=Sun, 23-Mar-2025
-        13:09:15 GMT; Max-Age=43200; path=/; httponly
+      - laravel_session=rbc9FnVBrH0aNbJ0BdCVXML02Plxj0wngMyz4RtV; expires=Sun, 23-Mar-2025
+        13:09:17 GMT; Max-Age=43200; path=/; httponly
       Transfer-Encoding:
       - chunked
       Vary:
@@ -75,11 +70,11 @@ interactions:
       X-RateLimit-Limit:
       - '90'
       X-RateLimit-Remaining:
-      - '89'
+      - '87'
       X-XSS-Protection:
       - 1; mode=block
       server-timing:
-      - cfL4;desc="?proto=TCP&rtt=32441&min_rtt=32385&rtt_var=12257&sent=4&recv=7&lost=0&retrans=0&sent_bytes=2837&recv_bytes=1244&delivery_rate=88924&cwnd=250&unsent_bytes=0&cid=e4b916debfe85cb6&ts=352&x=0"
+      - cfL4;desc="?proto=TCP&rtt=32411&min_rtt=32354&rtt_var=12247&sent=4&recv=7&lost=0&retrans=0&sent_bytes=2838&recv_bytes=1166&delivery_rate=88986&cwnd=251&unsent_bytes=0&cid=dcaa43ac328a1de8&ts=376&x=0"
     status:
       code: 200
       message: OK
