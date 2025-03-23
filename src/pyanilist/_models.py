@@ -32,7 +32,6 @@ class ParentModel(BaseModel):
         ),
         frozen=True,
         populate_by_name=True,
-        extra="forbid",
     )
 
 
