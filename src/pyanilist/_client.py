@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-from collections.abc import Iterable, Iterator
 from typing import TYPE_CHECKING, Any
 
 from httpx import Client
@@ -28,10 +27,12 @@ from pyanilist._query import (
     STAFFS_QUERY,
     STUDIOS_QUERY,
 )
-from pyanilist._utils import remove_null_fields, resolve_media_id, to_anilist_case
+from pyanilist._utils import get_sort_key, remove_null_fields, resolve_media_id, to_anilist_case
 from pyanilist._version import __version__
 
 if TYPE_CHECKING:
+    from collections.abc import Iterable, Iterator
+
     from typing_extensions import Self
 
 
@@ -336,16 +337,8 @@ class AniList:
         """
         variables: dict[str, Any] = {"mediaId": resolve_media_id(media)}
 
-        match sort:  # pragma: no cover
-            case RecommendationSort():
-                variables["sort"] = [sort]
-            case Iterable():
-                variables["sort"] = sort
-            case None:
-                pass
-            case _:
-                msg = f"Invalid sort type: {type(sort).__name__}"
-                raise TypeError(msg)
+        if sort_key := get_sort_key(sort, RecommendationSort):
+            variables["sort"] = sort_key
 
         recs = self._post(query=RECOMMENDATIONS_QUERY, variables=variables)["recommendations"]["nodes"]
 
@@ -402,16 +395,8 @@ class AniList:
         """
         variables: dict[str, Any] = {"mediaId": resolve_media_id(media)}
 
-        match sort:  # pragma: no cover
-            case StudioSort():
-                variables["sort"] = [sort]
-            case Iterable():
-                variables["sort"] = sort
-            case None:
-                pass
-            case _:
-                msg = f"Invalid sort type: {type(sort).__name__}"
-                raise TypeError(msg)
+        if sort_key := get_sort_key(sort, StudioSort):
+            variables["sort"] = sort_key
 
         if is_main is not None:  # pragma: no cover
             variables["isMain"] = is_main
@@ -444,16 +429,8 @@ class AniList:
         """
         variables: dict[str, Any] = {"mediaId": resolve_media_id(media)}
 
-        match sort:  # pragma: no cover
-            case StaffSort():
-                variables["sort"] = [sort]
-            case Iterable():
-                variables["sort"] = sort
-            case None:
-                pass
-            case _:
-                msg = f"Invalid sort type: {type(sort).__name__}"
-                raise TypeError(msg)
+        if sort_key := get_sort_key(sort, StaffSort):
+            variables["sort"] = sort_key
 
         staffs = self._post(query=STAFFS_QUERY, variables=variables)["staff"]["edges"]
 
@@ -518,16 +495,8 @@ class AniList:
         """
         variables: dict[str, Any] = {"mediaId": resolve_media_id(media)}
 
-        match sort:  # pragma: no cover
-            case CharacterSort():
-                variables["sort"] = [sort]
-            case Iterable():
-                variables["sort"] = sort
-            case None:
-                pass
-            case _:
-                msg = f"Invalid sort type: {type(sort).__name__}"
-                raise TypeError(msg)
+        if sort_key := get_sort_key(sort, CharacterSort):
+            variables["sort"] = sort_key
 
         if role is not None:  # pragma: no cover
             variables["role"] = role

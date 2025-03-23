@@ -2,8 +2,8 @@ from __future__ import annotations
 
 import pytest
 
-from pyanilist import Media
-from pyanilist._utils import remove_null_fields, resolve_media_id, to_anilist_case
+from pyanilist import Media, RecommendationSort
+from pyanilist._utils import get_sort_key, remove_null_fields, resolve_media_id, to_anilist_case
 
 
 def test_remove_null_fields() -> None:
@@ -123,3 +123,16 @@ def test_resolve_media_id() -> None:
 
     with pytest.raises(ValueError):
         resolve_media_id("https://anilist.co/character/191241/Chinatsu-Kano")
+
+
+def test_get_sort_key() -> None:
+    assert get_sort_key([], RecommendationSort) is None
+    assert get_sort_key(None, RecommendationSort) is None
+    assert get_sort_key(RecommendationSort.RATING, RecommendationSort) == (RecommendationSort.RATING,)
+    assert get_sort_key([RecommendationSort.RATING, RecommendationSort.ID], RecommendationSort) == (
+        RecommendationSort.RATING,
+        RecommendationSort.ID,
+    )
+
+    with pytest.raises(TypeError):
+        get_sort_key(object(), RecommendationSort)

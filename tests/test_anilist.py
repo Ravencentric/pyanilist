@@ -7,6 +7,7 @@ import pytest
 from pyanilist import (
     AiringSchedule,
     AniList,
+    CharacterSort,
     FuzzyDate,
     MediaCoverImage,
     MediaFormat,
@@ -17,6 +18,8 @@ from pyanilist import (
     MediaTrailer,
     MediaType,
     RecommendationSort,
+    StaffSort,
+    StudioSort,
 )
 
 
@@ -108,7 +111,7 @@ def test_anilist_get_relations(anilist_client: AniList) -> None:
 
 @pytest.mark.vcr
 def test_anilist_get_studios(anilist_client: AniList) -> None:
-    studios = tuple(anilist_client.get_studios(99426))
+    studios = tuple(anilist_client.get_studios(99426, sort=StudioSort.ID))
     assert studios[0].id == 11
     assert studios[0].is_animation_studio is True
     assert studios[0].is_main is True
@@ -121,10 +124,34 @@ def test_anilist_get_studios(anilist_client: AniList) -> None:
 
 @pytest.mark.vcr
 def test_anilist_get_staffs(anilist_client: AniList) -> None:
-    staffs = tuple(anilist_client.get_staffs(99426))
-    assert staffs[0].site_url == "https://anilist.co/staff/105579"
-    assert staffs[1].site_url == "https://anilist.co/staff/107198"
-    assert staffs[2].site_url == "https://anilist.co/staff/101187"
+    staffs = tuple(anilist_client.get_staffs(99426, sort=StaffSort.ID))
+    assert [staff.id for staff in staffs] == [
+        95185,
+        95869,
+        95885,
+        101064,
+        101187,
+        101187,
+        101187,
+        101465,
+        101465,
+        101759,
+        103074,
+        104500,
+        105579,
+        105579,
+        105579,
+        106297,
+        106457,
+        106638,
+        107198,
+        107198,
+        107357,
+        111459,
+        116505,
+        118427,
+        118616,
+    ]
 
 
 @pytest.mark.vcr
@@ -147,6 +174,24 @@ def test_anilist_get_airing_schedule(anilist_client: AniList) -> None:
 
 @pytest.mark.vcr
 def test_anilist_get_characters(anilist_client: AniList) -> None:
-    characters = tuple(anilist_client.get_characters(99426))
-    assert characters[0].name.full == "Mari Tamaki"
-    assert characters[-1].name.full == "Honami Yasumoto"
+    characters = tuple(anilist_client.get_characters(99426, sort=CharacterSort.ID))
+    assert [char.name.full for char in characters] == [
+        "Mari Tamaki",
+        "Shirase Kobuchizawa",
+        "Hinata Miyake",
+        "Yuzuki Shiraishi",
+        "Kanae Maekawa",
+        "Yumiko Samejima",
+        "Tamiko Shiraishi",
+        "Megumi Takahashi",
+        "Rin Tamaki",
+        "Gin Toudou",
+        "Toshio Zaizen",
+        "Chiaki Mukai",
+        "Nobue Todoroki",
+        "Yume Sasaki",
+        "Dai Himi",
+        "Takako Kobuchizawa",
+        "Kimari no Haha",
+        "Honami Yasumoto",
+    ]

@@ -1,12 +1,15 @@
 from __future__ import annotations
 
 import re
-from typing import TYPE_CHECKING, Any
+from collections.abc import Iterable
+from typing import TYPE_CHECKING, Any, TypeVar
 
 from boltons.iterutils import remap
 
 if TYPE_CHECKING:
     from pyanilist._models import Media
+
+T = TypeVar("T")
 
 
 def remove_null_fields(dictionary: dict[str, Any]) -> dict[str, Any]:
@@ -137,3 +140,44 @@ def resolve_media_id(media: int | str | Media) -> int:
 
         return int(match.group(2))
     return media if isinstance(media, int) else media.id
+
+
+def get_sort_key(sort: Iterable[T] | T | None, typ: type[T]) -> tuple[T, ...] | None:
+    """
+    Process a sort variable and returns a tuple suitable for AniList's `sort` parameter.
+    This lets us accept a wider range of inputs for the `sort` parameter, while still
+    normalizing it to a tuple (or `None`).
+
+    Parameters
+    ----------
+    sort : Iterable[T] | T | None
+        The sort variable to process. Can be a single item of type `T`,
+        an iterable of items of type `T`, or None.
+    typ : Type[T]
+        The expected type of the sort variable when a single item is provided.
+
+    Returns
+    -------
+    tuple[T, ...] | None
+        - None if `sort` is None.
+        - A tuple containing a single item of type `T` if `sort` is an instance of `typ`.
+        - A tuple containing all items from `sort` if `sort` is an iterable.
+
+    Raises
+    ------
+    TypeError
+        If `sort` is not None, not an instance of `typ`, and not an iterable.
+
+    """
+    if not sort:
+        # Normalize falsy inputs (None, [], etc.) to None
+        return None
+
+    if isinstance(sort, typ):
+        return (sort,)
+
+    if isinstance(sort, Iterable):
+        return tuple(sort)
+
+    msg = f"Invalid sort key: {type(sort).__name__}"
+    raise TypeError(msg)

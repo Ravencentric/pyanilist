@@ -1,9 +1,8 @@
 interactions:
 - request:
-    body: '{"query": "query Media($mediaId: Int!, $sort: [StudioSort], $isMain: Boolean)
+    body: '{"query":"query Media($mediaId: Int!, $sort: [StudioSort], $isMain: Boolean)
       {\n  Media(id: $mediaId) {\n    studios(sort: $sort, isMain: $isMain) {\n      edges
-      {\n        isMain\n        node {\n          id\n          name\n          isAnimationStudio\n          siteUrl\n          favourites\n        }\n      }\n    }\n  }\n}\n",
-      "variables": {"mediaId": 99426}}'
+      {\n        isMain\n        node {\n          id\n          name\n          isAnimationStudio\n          siteUrl\n          favourites\n        }\n      }\n    }\n  }\n}\n","variables":{"mediaId":99426,"sort":["ID"]}}'
     headers:
       accept:
       - '*/*'
@@ -12,7 +11,7 @@ interactions:
       connection:
       - keep-alive
       content-length:
-      - '368'
+      - '378'
       content-type:
       - application/json
       host:
@@ -20,19 +19,18 @@ interactions:
       referer:
       - https://anilist.co
       user-agent:
-      - Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like
-        Gecko) Chrome/130.0.0.0 Safari/537.36
+      - pyanilist/0.6.2
     method: POST
     uri: https://graphql.anilist.co
   response:
     body:
       string: !!binary |
-        H4sIAAAAAAAAA6zSy2qEMBQG4FcZztrW8TJxJjuZtnQjXdiBQu0ixEzngCYllwGRvHvRXgQp2IW7
-        AyF/vvycHmpmGdAeClHjOBjralRmGEX9LgzQ1x7QFAwlUKudCECqWgznWAONogAkawVQKPK7x6dT
-        eQ8BoMkltsyikuWY93PVoBUn3QCFi7UfhlZhFTKJDRp7y1UVfr1ehVEEAZzZVTmNdkBE5LDLvA8m
-        y5k1Zo7Z7ifN8KHNA+NW6e5v0nfCv03b/QwVkyVRnEyi/PnmZRVInMwhu3ixGkKmatQV+TqVEDKT
-        JNGSJEuyX0mpZLcpnEG+Oaq2dRL5yDGr6LIkm+nSJRxJ42mhj9pJfum0appVPEP4vK5D6v2b995/
-        AgAA//8DAI1ZPTqLAwAA
+        H4sIAAAAAAAAAwAAAP//rNJLa4QwEAfwryJztvWR9UFusm3pRXqwC4XaQ4jZ7oAmxSQLIvnuRfsQ
+        pGAP3gbC/PObYUZomGFARyhFg3OhjW1Q6akUzbvQQF9HQF0ylEBNb4UPUjViescGaBT5IFkngEJZ
+        3D0+nap78AF1IbFjBpWs5ryfVo1GnPoWKFyM+dC0DuqASWxRm1uu6uDr9zqIIvDhzK7K9mgmRJQl
+        0cE5f7GcWavXmDBfNNNA3gPjRvXD36TvhH+bwnyFivNNUZouInVFvo8kTVcSQrYkMVl2UzzfvOwC
+        icl6JUm2BclI9guplBy80mrk3lF1nZXIZ47eRZeRbKXbvKD0EC8Hfeyt5JehV227i2cKX4PCxLk3
+        55z7BAAA//8DALmXoA6LAwAA
     headers:
       Access-Control-Allow-Headers:
       - Authorization,Accept,DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Content-Range,Range
@@ -43,8 +41,10 @@ interactions:
       Access-Control-Expose-Headers:
       - X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Reset, Content-Length,
         Content-Range
-      CF-RAY:
-      - 8e3b4d717ddff36b-BOM
+      CF-Cache-Status:
+      - DYNAMIC
+      CF-Ray:
+      - 9249fbc79d3285ab-BOM
       Cache-Control:
       - no-cache, private
       Connection:
@@ -54,18 +54,20 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Sat, 16 Nov 2024 23:36:19 GMT
+      - Sun, 23 Mar 2025 00:58:59 GMT
       NEL:
       - '{"success_fraction":0,"report_to":"cf-nel","max_age":604800}'
       Report-To:
-      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v4?s=Rkn9c%2BSByuvAe5ScpZkZkjTZiT8%2BsRbdJixoKc%2FTPa5tAivlX39hqxTDYpdxBnwPpCGuNbW6dzEDNbiJZSZfp8Xy3Eme6iV8Jtl9ZGGju7OL6k2qUpf7T8DDcK3R5Pjl6n9GqQ%3D%3D"}],"group":"cf-nel","max_age":604800}'
+      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v4?s=7XTC5E7g85QtRzjEziKw2pxRPz7iaOOh3xQDUQIJgL1CRvG%2FUiaU3k9Lptmh51mooZj4G7LqH3snoBOBZvZ0BwiJxrAvYfQs8%2FM7glimQo21qUUE6ZmZwxXICN0mPfPS3m%2FscQ%3D%3D"}],"group":"cf-nel","max_age":604800}'
       Server:
       - cloudflare
       Set-Cookie:
-      - laravel_session=JOJvsQiD77WWWMUsImtSOIGIkeLO9jWBKtlniRCG; expires=Sun, 17-Nov-2024
-        11:36:19 GMT; Max-Age=43200; path=/; httponly
+      - laravel_session=grFTkVg3rO0vy7VTgFtHIW1BgtjQuFfVUO8q7SI0; expires=Sun, 23-Mar-2025
+        12:58:59 GMT; Max-Age=43200; path=/; httponly
       Transfer-Encoding:
       - chunked
+      Vary:
+      - Accept-Encoding
       X-Content-Type-Options:
       - nosniff
       X-Frame-Options:
@@ -73,13 +75,11 @@ interactions:
       X-RateLimit-Limit:
       - '90'
       X-RateLimit-Remaining:
-      - '59'
+      - '89'
       X-XSS-Protection:
       - 1; mode=block
-      cf-cache-status:
-      - DYNAMIC
       server-timing:
-      - cfL4;desc="?proto=TCP&rtt=37292&sent=5&recv=7&lost=0&retrans=0&sent_bytes=2839&recv_bytes=1330&delivery_rate=78018&cwnd=208&unsent_bytes=0&cid=87bec9db6fb06deb&ts=567&x=0"
+      - cfL4;desc="?proto=TCP&rtt=35521&min_rtt=35204&rtt_var=13428&sent=4&recv=7&lost=0&retrans=0&sent_bytes=2839&recv_bytes=1244&delivery_rate=82945&cwnd=248&unsent_bytes=0&cid=a295120030b16bf8&ts=407&x=0"
     status:
       code: 200
       message: OK
