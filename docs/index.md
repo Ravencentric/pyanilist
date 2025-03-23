@@ -14,8 +14,7 @@
 <a href="https://pypi.org/project/pyanilist/"><img src="https://img.shields.io/pypi/v/pyanilist" alt="PyPI - Version" ></a>
 <img src="https://img.shields.io/pypi/pyversions/pyanilist" alt="PyPI - Python Version">
 <img src="https://img.shields.io/github/license/Ravencentric/pyanilist" alt="License">
-<img src="https://www.mypy-lang.org/static/mypy_badge.svg" alt="Checked with mypy">
-<img src="https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json" alt="Ruff">
+<img src="https://img.shields.io/pypi/types/pyanilist" alt="PyPI - Types" >
 </p>
 
 <p align="center">
