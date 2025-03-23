@@ -6,7 +6,7 @@ authors = [{ name = "Ravencentric", email = "me@ravencentric.cc" }]
 readme = "README.md"
 license = "MIT"
 requires-python = ">=3.10"
-keywords = ["anilist", "anime", "python"]
+keywords = ["anilist", "anime"]
 classifiers = [
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3.10",

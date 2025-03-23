@@ -4,7 +4,7 @@
     <img src="https://raw.githubusercontent.com/Ravencentric/pyanilist/main/docs/assets/logo.png" alt="Logo" width="400">
   </a>
   <p align="center">
-    A Python wrapper for the AniList API
+    A Python wrapper for the AniList API.
     <br/>
     <br/>
   </p>
