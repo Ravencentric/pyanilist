@@ -1,5 +1,107 @@
 from __future__ import annotations
 
+MEDIA_FIELDS = """\
+    id
+    idMal
+    type
+    format
+    status
+    description
+    season
+    seasonYear
+    episodes
+    duration
+    chapters
+    volumes
+    countryOfOrigin
+    isLicensed
+    source
+    hashtag
+    updatedAt
+    bannerImage
+    genres
+    synonyms
+    averageScore
+    meanScore
+    popularity
+    isLocked
+    trending
+    favourites
+    isAdult
+    siteUrl
+    trailer {
+      id
+      site
+      thumbnail
+    }
+    title {
+      romaji
+      english
+      native
+    }
+    tags {
+      id
+      name
+      description
+      category
+      rank
+      isGeneralSpoiler
+      isMediaSpoiler
+      isAdult
+      userId
+    }
+    startDate {
+      year
+      month
+      day
+    }
+    rankings {
+      id
+      rank
+      type
+      format
+      year
+      season
+      allTime
+      context
+    }
+    externalLinks {
+      id
+      url
+      site
+      siteId
+      type
+      language
+      color
+      icon
+      notes
+      isDisabled
+    }
+    endDate {
+      year
+      month
+      day
+    }
+    coverImage {
+      extraLarge
+      large
+      medium
+      color
+    }
+    nextAiringEpisode {
+      timeUntilAiring
+      id
+      episode
+      airingAt
+    }
+    streamingEpisodes {
+      title
+      thumbnail
+      url
+      site
+    }
+""".strip()
+
 MEDIA_QUERY = """\
 query (
   $id: Int
@@ -141,108 +243,10 @@ query (
     source_in: $source_in
     sort: $sort
   ) {
-    id
-    idMal
-    type
-    format
-    status
-    description
-    season
-    seasonYear
-    episodes
-    duration
-    chapters
-    volumes
-    countryOfOrigin
-    isLicensed
-    source
-    hashtag
-    updatedAt
-    bannerImage
-    genres
-    synonyms
-    averageScore
-    meanScore
-    popularity
-    isLocked
-    trending
-    favourites
-    isAdult
-    siteUrl
-    trailer {
-      id
-      site
-      thumbnail
-    }
-    title {
-      romaji
-      english
-      native
-    }
-    tags {
-      id
-      name
-      description
-      category
-      rank
-      isGeneralSpoiler
-      isMediaSpoiler
-      isAdult
-      userId
-    }
-    startDate {
-      year
-      month
-      day
-    }
-    rankings {
-      id
-      rank
-      type
-      format
-      year
-      season
-      allTime
-      context
-    }
-    externalLinks {
-      id
-      url
-      site
-      siteId
-      type
-      language
-      color
-      icon
-      notes
-      isDisabled
-    }
-    endDate {
-      year
-      month
-      day
-    }
-    coverImage {
-      extraLarge
-      large
-      medium
-      color
-    }
-    nextAiringEpisode {
-      timeUntilAiring
-      id
-      episode
-      airingAt
-    }
-    streamingEpisodes {
-      title
-      thumbnail
-      url
-      site
-    }
+    ${MEDIA_FIELDS}
   }
 }
-"""
+""".replace("${MEDIA_FIELDS}", MEDIA_FIELDS)
 
 RECOMMENDATIONS_QUERY = """\
 query Media($mediaId: Int!, $sort: [RecommendationSort]) {
@@ -250,13 +254,13 @@ query Media($mediaId: Int!, $sort: [RecommendationSort]) {
     recommendations(sort: $sort) {
       nodes {
         mediaRecommendation {
-          id
+          ${MEDIA_FIELDS}
         }
       }
     }
   }
 }
-"""
+""".replace("${MEDIA_FIELDS}", MEDIA_FIELDS)
 
 RELATIONS_QUERY = """\
 query Media($mediaId: Int!) {
@@ -265,111 +269,13 @@ query Media($mediaId: Int!) {
       edges {
         relationType
         node {
-          id
-          idMal
-          type
-          format
-          status
-          description
-          season
-          seasonYear
-          episodes
-          duration
-          chapters
-          volumes
-          countryOfOrigin
-          isLicensed
-          source
-          hashtag
-          updatedAt
-          bannerImage
-          genres
-          synonyms
-          averageScore
-          meanScore
-          popularity
-          isLocked
-          trending
-          favourites
-          isAdult
-          siteUrl
-          trailer {
-            id
-            site
-            thumbnail
-          }
-          title {
-            romaji
-            english
-            native
-          }
-          tags {
-            id
-            name
-            description
-            category
-            rank
-            isGeneralSpoiler
-            isMediaSpoiler
-            isAdult
-            userId
-          }
-          startDate {
-            year
-            month
-            day
-          }
-          rankings {
-            id
-            rank
-            type
-            format
-            year
-            season
-            allTime
-            context
-          }
-          externalLinks {
-            id
-            url
-            site
-            siteId
-            type
-            language
-            color
-            icon
-            notes
-            isDisabled
-          }
-          endDate {
-            year
-            month
-            day
-          }
-          coverImage {
-            extraLarge
-            large
-            medium
-            color
-          }
-          nextAiringEpisode {
-            timeUntilAiring
-            id
-            episode
-            airingAt
-          }
-          streamingEpisodes {
-            title
-            thumbnail
-            url
-            site
-          }
+          ${MEDIA_FIELDS}
         }
       }
     }
   }
 }
-"""
+""".replace("${MEDIA_FIELDS}", MEDIA_FIELDS)
 
 STUDIOS_QUERY = """\
 query Media($mediaId: Int!, $sort: [StudioSort], $isMain: Boolean) {

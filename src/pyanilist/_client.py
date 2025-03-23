@@ -350,7 +350,7 @@ class AniList:
         recs = self._post(query=RECOMMENDATIONS_QUERY, variables=variables)["recommendations"]["nodes"]
 
         for rec in recs:
-            yield self.get_media(id=int(rec["mediaRecommendation"]["id"]))
+            yield Media.model_validate(remove_null_fields(rec["mediaRecommendation"]))
 
     def get_relations(self, media: int | str | Media) -> Iterator[RelatedMedia]:
         """
