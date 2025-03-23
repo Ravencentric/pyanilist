@@ -45,7 +45,7 @@ jobs:
 
       - name: Generate a changelog
         run: >-
-          uvx git-cliff --config github-keepachangelog 
+          uvx git-cliff --config .github/cliff-template.toml 
           --github-repo ${{ github.repository }}
           --github-token ${{ github.token }}
           --latest --strip all --output "CHANGELOG.md"
