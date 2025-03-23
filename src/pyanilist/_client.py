@@ -367,7 +367,7 @@ class AniList:
             relation_type = relation["relationType"]
             node = remove_null_fields(relation["node"])
 
-            yield RelatedMedia(relation_type=relation_type, **node)
+            yield RelatedMedia.model_validate({"relationType": relation_type, **node})
 
     def get_studios(
         self,
