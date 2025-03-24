@@ -90,6 +90,14 @@ def test_anilist_get_recommendations(anilist_client: AniList) -> None:
 
 
 @pytest.mark.vcr
+def test_anilist_get_recommendations_with_null_rec(anilist_client: AniList) -> None:
+    # See: https://github.com/Ravencentric/pyanilist/issues/29
+    recommendations = tuple(anilist_client.get_recommendations(20889, sort=RecommendationSort.RATING_DESC))
+    assert recommendations[0].title.english == "My Teen Romantic Comedy SNAFU"
+    assert recommendations[1].title.english == "Makeine: Too Many Losing Heroines!"
+
+
+@pytest.mark.vcr
 def test_anilist_get_relations(anilist_client: AniList) -> None:
     relations = anilist_client.get_relations(16498)
     titles = []
