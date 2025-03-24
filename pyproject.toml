@@ -1,6 +1,6 @@
 [project]
 name = "pyanilist"
-version = "0.7.0"
+version = "0.7.1"
 description = "A Python wrapper for the AniList API."
 authors = [{ name = "Ravencentric", email = "me@ravencentric.cc" }]
 readme = "README.md"
