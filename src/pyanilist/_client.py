@@ -343,7 +343,11 @@ class AniList:
         recs = self._post(query=RECOMMENDATIONS_QUERY, variables=variables)["recommendations"]["nodes"]
 
         for rec in recs:
-            yield Media.model_validate(remove_null_fields(rec["mediaRecommendation"]))
+            media_node = rec["mediaRecommendation"]
+            if media_node:
+                # AniList can return a `null` media recommendation node.
+                # See: https://github.com/Ravencentric/pyanilist/issues/29
+                yield Media.model_validate(remove_null_fields(media_node))
 
     def get_relations(self, media: int | str | Media) -> Iterator[RelatedMedia]:
         """
