@@ -48,7 +48,7 @@ jobs:
           uvx git-cliff --config .github/cliff-template.toml 
           --github-repo ${{ github.repository }}
           --github-token ${{ github.token }}
-          --latest --strip all --output "CHANGELOG.md"
+          --latest --output "CHANGELOG.md"
 
       - name: Create Release
         run: gh release create ${{ github.ref_name }} -F "CHANGELOG.md" --fail-on-no-commits
