@@ -343,11 +343,10 @@ class AniList:
         recs = self._post(query=RECOMMENDATIONS_QUERY, variables=variables)["recommendations"]["nodes"]
 
         for rec in recs:
-            media_node = rec["mediaRecommendation"]
-            if media_node:
-                # AniList can return a `null` media recommendation node.
+            if node := rec["mediaRecommendation"]:
+                # AniList can return a `null` node.
                 # See: https://github.com/Ravencentric/pyanilist/issues/29
-                yield Media.model_validate(remove_null_fields(media_node))
+                yield Media.model_validate(remove_null_fields(node))
 
     def get_relations(self, media: int | str | Media) -> Iterator[RelatedMedia]:
         """
@@ -369,9 +368,12 @@ class AniList:
 
         for relation in relations:
             relation_type = relation["relationType"]
-            node = remove_null_fields(relation["node"])
+            node = relation["node"]
 
-            yield RelatedMedia.model_validate({"relationType": relation_type, **node})
+            if node:
+                # AniList can return a `null` node.
+                # See: https://github.com/Ravencentric/pyanilist/issues/29
+                yield RelatedMedia.model_validate({"relationType": relation_type, **remove_null_fields(node)})
 
     def get_studios(
         self,
@@ -408,7 +410,10 @@ class AniList:
         studios = self._post(query=STUDIOS_QUERY, variables=variables)["studios"]["edges"]
 
         for studio in studios:
-            yield Studio.model_validate({"isMain": studio["isMain"], **studio["node"]})
+            if node := studio["node"]:
+                # AniList can return a `null` node.
+                # See: https://github.com/Ravencentric/pyanilist/issues/29
+                yield Studio.model_validate({"isMain": studio["isMain"], **node})
 
     def get_staffs(
         self,
@@ -439,7 +444,10 @@ class AniList:
         staffs = self._post(query=STAFFS_QUERY, variables=variables)["staff"]["edges"]
 
         for staff in staffs:
-            yield Staff.model_validate({"role": staff["role"], **staff["node"]})
+            if node := staff["node"]:
+                # AniList can return a `null` node.
+                # See: https://github.com/Ravencentric/pyanilist/issues/29
+                yield Staff.model_validate({"role": staff["role"], **node})
 
     def get_airing_schedule(
         self,
@@ -471,7 +479,11 @@ class AniList:
         schedules = self._post(query=AIRING_SCHEDULE_QUERY, variables=variables)["airingSchedule"]["nodes"]
 
         for schedule in schedules:
-            yield AiringSchedule.model_validate(schedule)
+            if any(value is not None for value in schedule.values()):
+                # Make sure we only return something when there's atleast
+                # one non-None value. There's not much point in returning
+                # an empty AiringSchedule.
+                yield AiringSchedule.model_validate(schedule)
 
     def get_characters(
         self,
@@ -508,6 +520,11 @@ class AniList:
         characters = self._post(query=CHARACTERS_QUERY, variables=variables)["characters"]["edges"]
 
         for character in characters:
-            yield Character.model_validate(
-                {"role": character["role"], "voiceActors": character["voiceActors"], **character["node"]}
-            )
+            role = character["role"]
+            voice_actors = character["voiceActors"]
+            node = character["node"]
+
+            if node:
+                # AniList can return a `null` node.
+                # See: https://github.com/Ravencentric/pyanilist/issues/29
+                yield Character.model_validate({"role": role, "voiceActors": voice_actors, **node})
