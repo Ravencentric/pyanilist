@@ -18,7 +18,7 @@ interactions:
       referer:
       - https://anilist.co
       user-agent:
-      - pyanilist/0.6.2
+      - pyanilist/0.7.2
     method: POST
     uri: https://graphql.anilist.co
   response:
@@ -39,7 +39,7 @@ interactions:
       CF-Cache-Status:
       - DYNAMIC
       CF-Ray:
-      - 924a0ae14f32423c-BOM
+      - 92d487907bd246ea-BOM
       Cache-Control:
       - no-cache, private
       Connection:
@@ -49,16 +49,16 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Sun, 23 Mar 2025 01:09:17 GMT
+      - Tue, 08 Apr 2025 20:31:39 GMT
       NEL:
       - '{"success_fraction":0,"report_to":"cf-nel","max_age":604800}'
       Report-To:
-      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v4?s=NZinlu%2BAdc%2B3xlH1tisGrN5Fvb5ecPRPruhTBKcFh4eQxJARPX0NFyQjcB0MMfBIieJhcqQkwLaGTcWheeolXSJAHQMDOMIBc%2FSFCs9O1AsKPWG%2FdXENRHuC4D9tAoHkwiF3KQ%3D%3D"}],"group":"cf-nel","max_age":604800}'
+      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v4?s=%2FAFYqrHunfj9l09vGqO2DTRE%2BCT%2F6UUihyQe%2FjciE8Wg8UuWxLKEi3dYyTD9hs9DZz21ql4StxIIWR1bIzTrUiVIPgsfzbiZ1tsULUaMBmsHcePp4KjPZxO88%2BwS4Wp6RdfQSg%3D%3D"}],"group":"cf-nel","max_age":604800}'
       Server:
       - cloudflare
       Set-Cookie:
-      - laravel_session=rbc9FnVBrH0aNbJ0BdCVXML02Plxj0wngMyz4RtV; expires=Sun, 23-Mar-2025
-        13:09:17 GMT; Max-Age=43200; path=/; httponly
+      - laravel_session=DC5pTSQslCxApaW9x5TTN7p91cDDg8e6JnUmbAZS; expires=Wed, 09-Apr-2025
+        08:31:39 GMT; Max-Age=43200; path=/; httponly
       Transfer-Encoding:
       - chunked
       Vary:
@@ -70,11 +70,11 @@ interactions:
       X-RateLimit-Limit:
       - '90'
       X-RateLimit-Remaining:
-      - '87'
+      - '82'
       X-XSS-Protection:
       - 1; mode=block
       server-timing:
-      - cfL4;desc="?proto=TCP&rtt=32411&min_rtt=32354&rtt_var=12247&sent=4&recv=7&lost=0&retrans=0&sent_bytes=2838&recv_bytes=1166&delivery_rate=88986&cwnd=251&unsent_bytes=0&cid=dcaa43ac328a1de8&ts=376&x=0"
+      - cfL4;desc="?proto=TCP&rtt=33319&min_rtt=32948&rtt_var=13098&sent=4&recv=7&lost=0&retrans=0&sent_bytes=2836&recv_bytes=1166&delivery_rate=81294&cwnd=250&unsent_bytes=0&cid=b0c7daba2bdf2ac0&ts=344&x=0"
     status:
       code: 200
       message: OK

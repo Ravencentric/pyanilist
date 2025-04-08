@@ -19,18 +19,18 @@ interactions:
       referer:
       - https://anilist.co
       user-agent:
-      - pyanilist/0.6.2
+      - pyanilist/0.7.2
     method: POST
     uri: https://graphql.anilist.co
   response:
     body:
       string: !!binary |
-        H4sIAAAAAAAAAwAAAP//rNJNa4QwEAbgvyJztnU1u0Zyk21LL9KDXSjUHkKS7Q5oUkxcEMl/L9oP
-        QQr24G1gyJtnJhlAcseBDVAoiVNhXSfR2LFU8l1ZYK8DoC04amCu7VQI2kg19lECi+MQNG8UMCjy
-        u8enU3kPIaDNNTbcodHllPdz1KJTp7YGBhfnPiyroiriGmu07laYKvq6vYriGEI486vpWnQjIqaH
-        hHofzpYzr+0Ss8tmzThQ8MCFM23/N+k74d+mXbZAJdmqKE1nkbmi2EaSpgsJIWuShMy7yZ9vXjaB
-        JGS5ksPqI1FCfyGl0X1QdBZFcDRN02kUE8duoqOELnT7NVy6T+YPfWw7LS59a+p6E88YvgTtUu/f
-        vPf+EwAA//8DANqFoIeLAwAA
+        H4sIAAAAAAAAAwAAAP//qlZKSSxJVLKqVvJNTckEM4pLSlMy84uVAAAAAP//rNJNa4QwEAbgvyJz
+        tnVjdhPJTbYtvUgPdqFQewjqdgc0KUlckCX/vbj9EELBHjwP884zw4gLtM17a0G8XgBtIVGBcGZo
+        Y1C6aac6NiAIiUHJvgUBRX73+HQo7yEGtLnCXjrUqrzm/bRadO3BdCDg5NyHFVVSJVJhh9bd1rpK
+        vqZXCSEQw1Ge9WDQTQjCd2zjfTxbjrKzIWaTzZppoehB1k6b8W/Sd8K/TZssQKXZooixWaTPWK8j
+        YSyQULokSel8m/z55mUVSErDk+z4EoRT/gsptRqjYrBYR3vd94PC+sqxq+g45YFuu4Rj23R+6L0Z
+        VH0aje66VTxTeAgiqfdv3nv/CQAA//8DAJ5xwtqLAwAA
     headers:
       Access-Control-Allow-Headers:
       - Authorization,Accept,DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Content-Range,Range
@@ -44,7 +44,7 @@ interactions:
       CF-Cache-Status:
       - DYNAMIC
       CF-Ray:
-      - 924a0ad1fd543a2c-BOM
+      - 92d4877b2bc847c4-BOM
       Cache-Control:
       - no-cache, private
       Connection:
@@ -54,16 +54,16 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Sun, 23 Mar 2025 01:09:15 GMT
+      - Tue, 08 Apr 2025 20:31:36 GMT
       NEL:
       - '{"success_fraction":0,"report_to":"cf-nel","max_age":604800}'
       Report-To:
-      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v4?s=4KHlKLpHRAIJqsQ1kdpaewae%2BFxAkLusmQbBH8ov1Wn8izZUd4rWe%2BKYypbSpqVTXdGfDXo9DBDFtFjXVosA%2Bf9uyu3GEMNLVWjw4JklMi8ArVUSTeClm75SsPSyzrzrMUmvJQ%3D%3D"}],"group":"cf-nel","max_age":604800}'
+      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v4?s=RoJW77rgfE9mBVPeBlcGi3P0cN5ZsZZx%2BbE2PSQRWbWGdSG2%2Fyakfh4xoXWsh%2BltTrYDfXRQUAS7d02NI4JE87E18Llz8kblEHmcxCufdv16IaZRQnJgVK4LMFO1TUEpZdc8CA%3D%3D"}],"group":"cf-nel","max_age":604800}'
       Server:
       - cloudflare
       Set-Cookie:
-      - laravel_session=vYk26W95MuNPK39y4BjCiQ3nLzlqrZiPqhoHVYlj; expires=Sun, 23-Mar-2025
-        13:09:15 GMT; Max-Age=43200; path=/; httponly
+      - laravel_session=MU7KTUrp1gsIoSaeQWFxA5jtscKn9VMo8NpLZ8bA; expires=Wed, 09-Apr-2025
+        08:31:36 GMT; Max-Age=43200; path=/; httponly
       Transfer-Encoding:
       - chunked
       Vary:
@@ -75,11 +75,11 @@ interactions:
       X-RateLimit-Limit:
       - '90'
       X-RateLimit-Remaining:
-      - '89'
+      - '86'
       X-XSS-Protection:
       - 1; mode=block
       server-timing:
-      - cfL4;desc="?proto=TCP&rtt=32441&min_rtt=32385&rtt_var=12257&sent=4&recv=7&lost=0&retrans=0&sent_bytes=2837&recv_bytes=1244&delivery_rate=88924&cwnd=250&unsent_bytes=0&cid=e4b916debfe85cb6&ts=352&x=0"
+      - cfL4;desc="?proto=TCP&rtt=33483&min_rtt=32373&rtt_var=14360&sent=5&recv=7&lost=0&retrans=0&sent_bytes=2834&recv_bytes=1244&delivery_rate=70777&cwnd=251&unsent_bytes=0&cid=443556633eda33eb&ts=351&x=0"
     status:
       code: 200
       message: OK

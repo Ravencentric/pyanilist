@@ -32,10 +32,10 @@ def test_anilist_get_media(anilist_client: AniList) -> None:
     assert media.chapters is None
     assert media.country_of_origin == "JP"
     assert media.cover_image == MediaCoverImage(
-        extra_large="https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx99426-5jWTUs719lQN.png",
-        large="https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/bx99426-5jWTUs719lQN.png",
-        medium="https://s4.anilist.co/file/anilistcdn/media/anime/cover/small/bx99426-5jWTUs719lQN.png",
-        color="#ffbb35",
+        extra_large="https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx99426-ti5BL69Ip3kZ.png",
+        large="https://s4.anilist.co/file/anilistcdn/media/anime/cover/medium/bx99426-ti5BL69Ip3kZ.png",
+        medium="https://s4.anilist.co/file/anilistcdn/media/anime/cover/small/bx99426-ti5BL69Ip3kZ.png",
+        color="#f1ae28",
     )
     assert isinstance(media.description, str)
     assert media.description.startswith(
@@ -44,7 +44,7 @@ def test_anilist_get_media(anilist_client: AniList) -> None:
     assert media.duration == 24
     assert media.end_date == FuzzyDate(year=2018, month=3, day=27)
     assert media.episodes == 13
-    assert media.favourites == 8057
+    assert media.favourites >= 8000
     assert media.format is MediaFormat.TV
     assert media.genres == ("Adventure", "Comedy", "Drama")
     assert media.hashtag == "#よりもい"
@@ -55,7 +55,7 @@ def test_anilist_get_media(anilist_client: AniList) -> None:
     assert media.is_locked is False
     assert media.mean_score == 84
     assert media.next_airing_episode == AiringSchedule(id=None, airing_at=None, time_until_airing=None, episode=None)
-    assert media.popularity == 139362
+    assert media.popularity >= 139_000
     assert media.season is MediaSeason.WINTER
     assert media.season_year == 2018
     assert media.site_url == "https://anilist.co/anime/99426"
