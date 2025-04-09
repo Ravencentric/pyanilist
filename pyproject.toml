@@ -82,6 +82,7 @@ required-imports = ["from __future__ import annotations"]
 [tool.mypy]
 strict = true
 pretty = true
+files = ["src/**/*.py", "tests/**/*.py"]
 enable_error_code = ["ignore-without-code"]
 
 [tool.pytest.ini_options]

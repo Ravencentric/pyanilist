@@ -44,6 +44,7 @@ def test_anilist_get_media(anilist_client: AniList) -> None:
     assert media.duration == 24
     assert media.end_date == FuzzyDate(year=2018, month=3, day=27)
     assert media.episodes == 13
+    assert isinstance(media.favourites, int)
     assert media.favourites >= 8000
     assert media.format is MediaFormat.TV
     assert media.genres == ("Adventure", "Comedy", "Drama")
@@ -55,6 +56,7 @@ def test_anilist_get_media(anilist_client: AniList) -> None:
     assert media.is_locked is False
     assert media.mean_score == 84
     assert media.next_airing_episode == AiringSchedule(id=None, airing_at=None, time_until_airing=None, episode=None)
+    assert isinstance(media.popularity, int)
     assert media.popularity >= 139_000
     assert media.season is MediaSeason.WINTER
     assert media.season_year == 2018
