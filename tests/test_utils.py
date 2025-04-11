@@ -121,8 +121,14 @@ def test_resolve_media_id() -> None:
     assert resolve_media_id("https://anilist.co/anime/170942/Blue-Box/") == 170942
     assert resolve_media_id("https://anilist.co/manga/132182") == 132182
 
-    with pytest.raises(ValueError):
+    with pytest.raises(
+        ValueError,
+        match="Invalid media URL. Expected a URL like 'https://anilist.co/anime/{id}', but got 'https://anilist.co/character/191241/Chinatsu-Kano'.",
+    ):
         resolve_media_id("https://anilist.co/character/191241/Chinatsu-Kano")
+
+    with pytest.raises(TypeError, match="Expected media to be an int, str, or Media object, but got NoneType."):
+        resolve_media_id(None)  # type: ignore[arg-type]
 
 
 def test_get_sort_key() -> None:

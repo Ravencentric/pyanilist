@@ -2,12 +2,11 @@ from __future__ import annotations
 
 import re
 from collections.abc import Iterable
-from typing import TYPE_CHECKING, Any, TypeVar
+from typing import Any, TypeVar
 
 from boltons.iterutils import remap
 
-if TYPE_CHECKING:
-    from pyanilist._models import Media
+from pyanilist._models import Media
 
 T = TypeVar("T")
 
@@ -131,15 +130,22 @@ def resolve_media_id(media: int | str | Media) -> int:
 
     """
     if isinstance(media, str):
-        pattern = r"https:\/\/anilist.co\/(anime|manga)\/(\d+)"
-        match = re.match(pattern, media, re.IGNORECASE)
+        pattern = r"^https:\/\/anilist.co\/(anime|manga)\/(\d+)"
+        match = re.match(pattern, media.strip(), flags=re.IGNORECASE)
 
         if match is None:
-            msg = f"Invalid media URL. Expected a URL like 'https://anilist.co/anime/{{id}}', got {media!r}."
+            msg = f"Invalid media URL. Expected a URL like 'https://anilist.co/anime/{{id}}', but got {media!r}."
             raise ValueError(msg)
 
         return int(match.group(2))
-    return media if isinstance(media, int) else media.id
+    if isinstance(media, Media):
+        return media.id
+
+    if isinstance(media, int):
+        return media
+
+    msg = f"Expected media to be an int, str, or Media object, but got {type(media).__name__}."
+    raise TypeError(msg)
 
 
 def get_sort_key(sort: Iterable[T] | T | None, typ: type[T]) -> tuple[T, ...] | None:
@@ -153,7 +159,7 @@ def get_sort_key(sort: Iterable[T] | T | None, typ: type[T]) -> tuple[T, ...] | 
     sort : Iterable[T] | T | None
         The sort variable to process. Can be a single item of type `T`,
         an iterable of items of type `T`, or None.
-    typ : Type[T]
+    typ : type[T]
         The expected type of the sort variable when a single item is provided.
 
     Returns
@@ -176,7 +182,7 @@ def get_sort_key(sort: Iterable[T] | T | None, typ: type[T]) -> tuple[T, ...] | 
     if isinstance(sort, typ):
         return (sort,)
 
-    if isinstance(sort, Iterable):
+    if isinstance(sort, Iterable) and not isinstance(sort, str):
         return tuple(sort)
 
     msg = f"Invalid sort key: {type(sort).__name__}"
