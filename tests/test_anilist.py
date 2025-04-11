@@ -13,6 +13,7 @@ from pyanilist import (
     MediaCoverImage,
     MediaFormat,
     MediaSeason,
+    MediaSort,
     MediaSource,
     MediaStatus,
     MediaTitle,
@@ -82,6 +83,13 @@ def test_anilist_get_media(anilist_client: AniList) -> None:
     assert media.type is MediaType.ANIME
     assert isinstance(media.updated_at, datetime.datetime)
     assert media.volumes is None
+
+
+@pytest.mark.vcr
+def test_anilist_get_media_sorted_by_id_desc(anilist_client: AniList) -> None:
+    media = anilist_client.get_media("Attack On Titan", sort=MediaSort.ID_DESC)
+    assert media.title.english == "Attack on Titan Final Season THE FINAL CHAPTERS Special 2"
+    assert media.site_url == "https://anilist.co/anime/162314"
 
 
 @pytest.mark.vcr

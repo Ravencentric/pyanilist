@@ -1,0 +1,225 @@
+interactions:
+- request:
+    body: '{"query":"query (\n  $id: Int\n  $idMal: Int\n  $startDate: FuzzyDateInt\n  $endDate:
+      FuzzyDateInt\n  $season: MediaSeason\n  $seasonYear: Int\n  $type: MediaType\n  $format:
+      MediaFormat\n  $status: MediaStatus\n  $episodes: Int\n  $chapters: Int\n  $duration:
+      Int\n  $volumes: Int\n  $isAdult: Boolean\n  $genre: String\n  $tag: String\n  $minimumTagRank:
+      Int\n  $tagCategory: String\n  $licensedBy: String\n  $licensedById: Int\n  $averageScore:
+      Int\n  $popularity: Int\n  $source: MediaSource\n  $countryOfOrigin: CountryCode\n  $isLicensed:
+      Boolean\n  $search: String\n  $id_not: Int\n  $id_in: [Int]\n  $id_not_in: [Int]\n  $idMal_not:
+      Int\n  $idMal_in: [Int]\n  $idMal_not_in: [Int]\n  $startDate_greater: FuzzyDateInt\n  $startDate_lesser:
+      FuzzyDateInt\n  $startDate_like: String\n  $endDate_greater: FuzzyDateInt\n  $endDate_lesser:
+      FuzzyDateInt\n  $endDate_like: String\n  $format_in: [MediaFormat]\n  $format_not:
+      MediaFormat\n  $format_not_in: [MediaFormat]\n  $status_in: [MediaStatus]\n  $status_not:
+      MediaStatus\n  $status_not_in: [MediaStatus]\n  $episodes_greater: Int\n  $episodes_lesser:
+      Int\n  $duration_greater: Int\n  $duration_lesser: Int\n  $chapters_greater:
+      Int\n  $chapters_lesser: Int\n  $volumes_greater: Int\n  $volumes_lesser: Int\n  $genre_in:
+      [String]\n  $genre_not_in: [String]\n  $tag_in: [String]\n  $tag_not_in: [String]\n  $tagCategory_in:
+      [String]\n  $tagCategory_not_in: [String]\n  $licensedBy_in: [String]\n  $licensedById_in:
+      [Int]\n  $averageScore_not: Int\n  $averageScore_greater: Int\n  $averageScore_lesser:
+      Int\n  $popularity_not: Int\n  $popularity_greater: Int\n  $popularity_lesser:
+      Int\n  $source_in: [MediaSource]\n  $sort: [MediaSort]\n) {\n  Media(\n    id:
+      $id\n    idMal: $idMal\n    startDate: $startDate\n    endDate: $endDate\n    season:
+      $season\n    seasonYear: $seasonYear\n    type: $type\n    format: $format\n    status:
+      $status\n    episodes: $episodes\n    chapters: $chapters\n    duration: $duration\n    volumes:
+      $volumes\n    isAdult: $isAdult\n    genre: $genre\n    tag: $tag\n    minimumTagRank:
+      $minimumTagRank\n    tagCategory: $tagCategory\n    licensedBy: $licensedBy\n    licensedById:
+      $licensedById\n    averageScore: $averageScore\n    popularity: $popularity\n    source:
+      $source\n    countryOfOrigin: $countryOfOrigin\n    isLicensed: $isLicensed\n    search:
+      $search\n    id_not: $id_not\n    id_in: $id_in\n    id_not_in: $id_not_in\n    idMal_not:
+      $idMal_not\n    idMal_in: $idMal_in\n    idMal_not_in: $idMal_not_in\n    startDate_greater:
+      $startDate_greater\n    startDate_lesser: $startDate_lesser\n    startDate_like:
+      $startDate_like\n    endDate_greater: $endDate_greater\n    endDate_lesser:
+      $endDate_lesser\n    endDate_like: $endDate_like\n    format_in: $format_in\n    format_not:
+      $format_not\n    format_not_in: $format_not_in\n    status_in: $status_in\n    status_not:
+      $status_not\n    status_not_in: $status_not_in\n    episodes_greater: $episodes_greater\n    episodes_lesser:
+      $episodes_lesser\n    duration_greater: $duration_greater\n    duration_lesser:
+      $duration_lesser\n    chapters_greater: $chapters_greater\n    chapters_lesser:
+      $chapters_lesser\n    volumes_greater: $volumes_greater\n    volumes_lesser:
+      $volumes_lesser\n    genre_in: $genre_in\n    genre_not_in: $genre_not_in\n    tag_in:
+      $tag_in\n    tag_not_in: $tag_not_in\n    tagCategory_in: $tagCategory_in\n    tagCategory_not_in:
+      $tagCategory_not_in\n    licensedBy_in: $licensedBy_in\n    licensedById_in:
+      $licensedById_in\n    averageScore_not: $averageScore_not\n    averageScore_greater:
+      $averageScore_greater\n    averageScore_lesser: $averageScore_lesser\n    popularity_not:
+      $popularity_not\n    popularity_greater: $popularity_greater\n    popularity_lesser:
+      $popularity_lesser\n    source_in: $source_in\n    sort: $sort\n  ) {\n    id\n    idMal\n    type\n    format\n    status\n    description\n    season\n    seasonYear\n    episodes\n    duration\n    chapters\n    volumes\n    countryOfOrigin\n    isLicensed\n    source\n    hashtag\n    updatedAt\n    bannerImage\n    genres\n    synonyms\n    averageScore\n    meanScore\n    popularity\n    isLocked\n    trending\n    favourites\n    isAdult\n    siteUrl\n    trailer
+      {\n      id\n      site\n      thumbnail\n    }\n    title {\n      romaji\n      english\n      native\n    }\n    tags
+      {\n      id\n      name\n      description\n      category\n      rank\n      isGeneralSpoiler\n      isMediaSpoiler\n      isAdult\n      userId\n    }\n    startDate
+      {\n      year\n      month\n      day\n    }\n    rankings {\n      id\n      rank\n      type\n      format\n      year\n      season\n      allTime\n      context\n    }\n    externalLinks
+      {\n      id\n      url\n      site\n      siteId\n      type\n      language\n      color\n      icon\n      notes\n      isDisabled\n    }\n    endDate
+      {\n      year\n      month\n      day\n    }\n    coverImage {\n      extraLarge\n      large\n      medium\n      color\n    }\n    nextAiringEpisode
+      {\n      timeUntilAiring\n      id\n      episode\n      airingAt\n    }\n    streamingEpisodes
+      {\n      title\n      thumbnail\n      url\n      site\n    }\n  }\n}\n","variables":{"search":"Attack
+      On Titan","sort":["ID_DESC"]}}'
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      content-length:
+      - '5227'
+      content-type:
+      - application/json
+      host:
+      - graphql.anilist.co
+      referer:
+      - https://anilist.co
+      user-agent:
+      - pyanilist/0.7.2
+    method: POST
+    uri: https://graphql.anilist.co
+  response:
+    body:
+      string: !!binary |
+        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
+    headers:
+      Access-Control-Allow-Headers:
+      - Authorization,Accept,DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Content-Range,Range
+      Access-Control-Allow-Methods:
+      - GET, POST, OPTIONS
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Expose-Headers:
+      - X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Reset, Content-Length,
+        Content-Range
+      CF-Cache-Status:
+      - DYNAMIC
+      CF-Ray:
+      - 92ed54ce7a8d8571-BOM
+      Cache-Control:
+      - no-cache, private
+      Connection:
+      - keep-alive
+      Content-Encoding:
+      - gzip
+      Content-Type:
+      - application/json
+      Date:
+      - Fri, 11 Apr 2025 20:46:04 GMT
+      NEL:
+      - '{"success_fraction":0,"report_to":"cf-nel","max_age":604800}'
+      Report-To:
+      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v4?s=vbSPm5VaY7JWPDfNOKfBy%2FKacgFAaKVOhlfyIjHNs3JnX4hxHfK9a17cG0gKPMalb50Go5DD6W5rV0gHlpREUWhsPUgeoxAXU4VuLWXdTIIdGLqcXtZUWHkg0UHWxn9D8%2BMIqw%3D%3D"}],"group":"cf-nel","max_age":604800}'
+      Server:
+      - cloudflare
+      Set-Cookie:
+      - laravel_session=PUr4kSBs5nH3rinGrZRMdndyGeL8GxSaomoQUhyF; expires=Sat, 12-Apr-2025
+        08:46:04 GMT; Max-Age=43200; path=/; httponly
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-RateLimit-Limit:
+      - '90'
+      X-RateLimit-Remaining:
+      - '87'
+      X-XSS-Protection:
+      - 1; mode=block
+      server-timing:
+      - cfL4;desc="?proto=TCP&rtt=44097&min_rtt=43161&rtt_var=18057&sent=6&recv=10&lost=0&retrans=0&sent_bytes=2835&recv_bytes=6094&delivery_rate=57651&cwnd=228&unsent_bytes=0&cid=425c42ba82bffa43&ts=418&x=0"
+    status:
+      code: 200
+      message: OK
+version: 1
