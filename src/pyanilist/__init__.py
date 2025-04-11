@@ -19,6 +19,7 @@ from pyanilist._enums import (
     StaffSort,
     StudioSort,
 )
+from pyanilist._errors import AnilistError, MediaNotFoundError, RateLimitError
 from pyanilist._models import (
     AiringSchedule,
     Character,
@@ -45,6 +46,7 @@ from pyanilist._version import __version__
 __all__ = (
     "AiringSchedule",
     "AniList",
+    "AnilistError",
     "Character",
     "CharacterImage",
     "CharacterName",
@@ -57,6 +59,7 @@ __all__ = (
     "MediaCoverImage",
     "MediaExternalLink",
     "MediaFormat",
+    "MediaNotFoundError",
     "MediaRank",
     "MediaRankType",
     "MediaRelation",
@@ -69,6 +72,7 @@ __all__ = (
     "MediaTitle",
     "MediaTrailer",
     "MediaType",
+    "RateLimitError",
     "RecommendationSort",
     "RelatedMedia",
     "Staff",

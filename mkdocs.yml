@@ -80,3 +80,4 @@ nav:
       - Models: api-reference/models.md
       - Enums: api-reference/enums.md
       - Types: api-reference/types.md
+      - Errors: api-reference/errors.md

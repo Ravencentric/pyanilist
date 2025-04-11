@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, Any
 
+import httpx
 from httpx import Client
 
 from pyanilist._enums import (
@@ -17,6 +18,7 @@ from pyanilist._enums import (
     StaffSort,
     StudioSort,
 )
+from pyanilist._errors import AnilistError, MediaNotFoundError, RateLimitError
 from pyanilist._models import AiringSchedule, Character, Media, RelatedMedia, Staff, Studio
 from pyanilist._query import (
     AIRING_SCHEDULE_QUERY,
@@ -69,7 +71,27 @@ class AniList:
     def _post(self, *, query: str, variables: dict[str, Any]) -> dict[str, Any]:
         """Utiliy function to POST to Anilist."""
         response = self._client.post(self._api_url, json={"query": query, "variables": variables})
-        return response.raise_for_status().json()["data"]["Media"]  # type: ignore[no-any-return]
+        data: dict[str, Any] = response.json()
+
+        if "errors" in data:
+            # As per Anilist's documentation: "Always check the errors field of the response
+            # object... Even if you recieve a status code of 200, you may still receive an error."
+            # Therefore, we check for the 'errors' key to handle GraphQL-level errors, which may
+            # occur even when the HTTP request is successful.
+            #
+            # Reference: https://docs.anilist.co/guide/graphql/errors#errors
+            error = data["errors"][0]
+            message = error["message"]
+            status_code = error["status"]
+            if status_code == httpx.codes.NOT_FOUND:
+                raise MediaNotFoundError from None
+            if status_code == httpx.codes.TOO_MANY_REQUESTS:
+                # https://docs.anilist.co/guide/rate-limiting
+                retry_after = int(response.headers["Retry-After"])
+                raise RateLimitError(retry_after=retry_after) from None
+            raise AnilistError(message=message, status_code=status_code) from None  # pragma: no cover
+
+        return data["data"]["Media"]  # type: ignore[no-any-return]
 
     def get_media(  # noqa: PLR0913
         self,
@@ -141,7 +163,7 @@ class AniList:
         popularity_greater: int | None = None,
         popularity_lesser: int | None = None,
         source_in: Iterable[MediaSource] | None = None,
-        sort: Iterable[MediaSort] | None = None,
+        sort: Iterable[MediaSort] | MediaSort | None = None,
     ) -> Media:
         """
         Search for media on AniList based on the provided parameters.
@@ -292,23 +314,34 @@ class AniList:
             Filter by the number of users with this media on their list.
         source_in : Iterable[MediaSource] | None, optional
             Filter by the source type of the media.
-        sort : Iterable[MediaSort] | None, optional
+        sort : Iterable[MediaSort] | MediaSort | None, optional
             The order the results will be returned in.
 
         Raises
         ------
-        HTTPStatusError
-            AniList returned a non 2xx response.
+        MediaNotFoundError
+            If the provided `media` ID or URL does not correspond to any existing media on Anilist.
+        RateLimitError
+            If the API rate limit is exceeded. The error will contain information on how long to wait before retrying.
+        AnilistError
+            If any other error occurs during the API request.
+        TypeError
+            If `media` or `sort` are not of the expected type.
+        ValueError
+            If the provided `media` URL is invalid.
 
         Returns
         -------
         Media
-            A Media object representing the retrieved media information.
+            An object representing the retrieved media.
 
         """
 
         variables = locals()
         variables.pop("self")
+
+        if sort_key := get_sort_key(sort, MediaSort):
+            variables["sort"] = sort_key
 
         media = self._post(
             query=MEDIA_QUERY,
@@ -333,6 +366,20 @@ class AniList:
         Yields
         ------
         Media
+            An object representing the retrieved media.
+
+        Raises
+        ------
+        MediaNotFoundError
+            If the provided `media` ID or URL does not correspond to any existing media on Anilist.
+        RateLimitError
+            If the API rate limit is exceeded. The error will contain information on how long to wait before retrying.
+        AnilistError
+            If any other error occurs during the API request.
+        TypeError
+            If `media` or `sort` are not of the expected type.
+        ValueError
+            If the provided `media` URL is invalid.
 
         """
         variables: dict[str, Any] = {"mediaId": resolve_media_id(media)}
@@ -360,6 +407,20 @@ class AniList:
         Yields
         ------
         RelatedMedia
+            An object representing the retrieved related media.
+
+        Raises
+        ------
+        MediaNotFoundError
+            If the provided `media` ID or URL does not correspond to any existing media on Anilist.
+        RateLimitError
+            If the API rate limit is exceeded. The error will contain information on how long to wait before retrying.
+        AnilistError
+            If any other error occurs during the API request.
+        TypeError
+            If `media` or `sort` are not of the expected type.
+        ValueError
+            If the provided `media` URL is invalid.
 
         """
         relations = self._post(query=RELATIONS_QUERY, variables={"mediaId": resolve_media_id(media)})["relations"][
@@ -397,6 +458,20 @@ class AniList:
         Yields
         ------
         Studio
+            An object representing the retrieved studio.
+
+        Raises
+        ------
+        MediaNotFoundError
+            If the provided `media` ID or URL does not correspond to any existing media on Anilist.
+        RateLimitError
+            If the API rate limit is exceeded. The error will contain information on how long to wait before retrying.
+        AnilistError
+            If any other error occurs during the API request.
+        TypeError
+            If `media` or `sort` are not of the expected type.
+        ValueError
+            If the provided `media` URL is invalid.
 
         """
         variables: dict[str, Any] = {"mediaId": resolve_media_id(media)}
@@ -434,6 +509,20 @@ class AniList:
         Yields
         ------
         Staff
+            An object representing the retrieved staff.
+
+        Raises
+        ------
+        MediaNotFoundError
+            If the provided `media` ID or URL does not correspond to any existing media on Anilist.
+        RateLimitError
+            If the API rate limit is exceeded. The error will contain information on how long to wait before retrying.
+        AnilistError
+            If any other error occurs during the API request.
+        TypeError
+            If `media` or `sort` are not of the expected type.
+        ValueError
+            If the provided `media` URL is invalid.
 
         """
         variables: dict[str, Any] = {"mediaId": resolve_media_id(media)}
@@ -469,6 +558,20 @@ class AniList:
         Yields
         ------
         AiringSchedule
+            An object representing the retrieved airing schedule.
+
+        Raises
+        ------
+        MediaNotFoundError
+            If the provided `media` ID or URL does not correspond to any existing media on Anilist.
+        RateLimitError
+            If the API rate limit is exceeded. The error will contain information on how long to wait before retrying.
+        AnilistError
+            If any other error occurs during the API request.
+        TypeError
+            If `media` or `sort` are not of the expected type.
+        ValueError
+            If the provided `media` URL is invalid.
 
         """
         variables: dict[str, Any] = {"mediaId": resolve_media_id(media)}
@@ -507,6 +610,20 @@ class AniList:
         Yields
         ------
         Character
+            An object representing the retrieved character.
+
+        Raises
+        ------
+        MediaNotFoundError
+            If the provided `media` ID or URL does not correspond to any existing media on Anilist.
+        RateLimitError
+            If the API rate limit is exceeded. The error will contain information on how long to wait before retrying.
+        AnilistError
+            If any other error occurs during the API request.
+        TypeError
+            If `media` or `sort` are not of the expected type.
+        ValueError
+            If the provided `media` URL is invalid.
 
         """
         variables: dict[str, Any] = {"mediaId": resolve_media_id(media)}
