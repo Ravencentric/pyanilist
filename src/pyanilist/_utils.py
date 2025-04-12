@@ -2,11 +2,14 @@ from __future__ import annotations
 
 import re
 from collections.abc import Iterable
-from typing import Any, TypeVar
+from typing import TYPE_CHECKING, Any, TypeVar
 
 from boltons.iterutils import remap
 
 from pyanilist._models import Media
+
+if TYPE_CHECKING:
+    from pyanilist._types import MediaID, SortType
 
 T = TypeVar("T")
 
@@ -114,13 +117,13 @@ def to_anilist_case(var: str) -> str:
     return casemap[var]
 
 
-def resolve_media_id(media: int | str | Media) -> int:
+def resolve_media_id(media: MediaID) -> int:
     """
     Resolve the media id.
 
     Parameters
     ----------
-    media : int | str | Media
+    media : MediaID
         The media
 
     Returns
@@ -148,7 +151,7 @@ def resolve_media_id(media: int | str | Media) -> int:
     raise TypeError(msg)
 
 
-def get_sort_key(sort: Iterable[T] | T | None, typ: type[T]) -> tuple[T, ...] | None:
+def get_sort_key(sort: SortType[T], typ: type[T]) -> tuple[T, ...] | None:
     """
     Process a sort variable and returns a tuple suitable for AniList's `sort` parameter.
     This lets us accept a wider range of inputs for the `sort` parameter, while still
@@ -156,7 +159,7 @@ def get_sort_key(sort: Iterable[T] | T | None, typ: type[T]) -> tuple[T, ...] | 
 
     Parameters
     ----------
-    sort : Iterable[T] | T | None
+    sort : SortType[T]
         The sort variable to process. Can be a single item of type `T`,
         an iterable of items of type `T`, or None.
     typ : type[T]

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from datetime import timedelta
+from typing import NamedTuple
 
 from pydantic import AliasGenerator, BaseModel, ConfigDict
 from pydantic.alias_generators import to_camel
@@ -16,7 +17,7 @@ from pyanilist._enums import (
     MediaStatus,
     MediaType,
 )
-from pyanilist._types import UTCDateTime, YearsActive
+from pyanilist._types import UTCDateTime
 
 
 class ParentModel(BaseModel):
@@ -323,6 +324,16 @@ class StaffImage(ParentModel):
     def __str__(self) -> str:
         """Stringify. Identical to `to_str()`."""
         return self.to_str()
+
+
+class YearsActive(NamedTuple):
+    """
+    Simple Named Tuple for
+    [`Staff.years_active`][pyanilist._models.Staff.years_active].
+    """
+
+    start_year: int | None = None
+    end_year: int | None = None
 
 
 class Staff(ParentModel):

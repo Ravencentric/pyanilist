@@ -16,3 +16,6 @@
 ::: pyanilist.StaffImage
 ::: pyanilist.StaffName
 ::: pyanilist.Studio
+::: pyanilist.YearsActive
+    options:
+        members: true

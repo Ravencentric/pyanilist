@@ -39,8 +39,8 @@ from pyanilist._models import (
     StaffImage,
     StaffName,
     Studio,
+    YearsActive,
 )
-from pyanilist._types import YearsActive
 from pyanilist._version import __version__
 
 __all__ = (

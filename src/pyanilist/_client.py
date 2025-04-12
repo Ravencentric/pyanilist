@@ -37,6 +37,8 @@ if TYPE_CHECKING:
 
     from typing_extensions import Self
 
+    from pyanilist._types import MediaID, SortType
+
 
 class AniList:
     def __init__(self, api_url: str = "https://graphql.anilist.co", *, client: Client | None = None) -> None:
@@ -163,7 +165,7 @@ class AniList:
         popularity_greater: int | None = None,
         popularity_lesser: int | None = None,
         source_in: Iterable[MediaSource] | None = None,
-        sort: Iterable[MediaSort] | MediaSort | None = None,
+        sort: SortType[MediaSort] = None,
     ) -> Media:
         """
         Search for media on AniList based on the provided parameters.
@@ -314,7 +316,7 @@ class AniList:
             Filter by the number of users with this media on their list.
         source_in : Iterable[MediaSource] | None, optional
             Filter by the source type of the media.
-        sort : Iterable[MediaSort] | MediaSort | None, optional
+        sort : SortType[MediaSort], optional
             The order the results will be returned in.
 
         Raises
@@ -350,17 +352,15 @@ class AniList:
 
         return Media.model_validate(remove_null_fields(media))
 
-    def get_recommendations(
-        self, media: int | str | Media, *, sort: Iterable[RecommendationSort] | RecommendationSort | None = None
-    ) -> Iterator[Media]:
+    def get_recommendations(self, media: MediaID, *, sort: SortType[RecommendationSort] = None) -> Iterator[Media]:
         """
         Retrieve recommended media based on a given `Media` object or ID.
 
         Parameters
         ----------
-        media : int | str | Media
+        media : MediaID
             The media to get recommendations for. Can be an ID (`int`), a URL (`str`), or a `Media` object.
-        sort : Iterable[RecommendationSort] | RecommendationSort | None, optional
+        sort : SortType[RecommendationSort], optional
             Sorting criteria for the recommendations.
 
         Yields
@@ -395,13 +395,13 @@ class AniList:
                 # See: https://github.com/Ravencentric/pyanilist/issues/29
                 yield Media.model_validate(remove_null_fields(node))
 
-    def get_relations(self, media: int | str | Media) -> Iterator[RelatedMedia]:
+    def get_relations(self, media: MediaID) -> Iterator[RelatedMedia]:
         """
         Retrieve related media based on a given `Media` object or ID.
 
         Parameters
         ----------
-        media : int | str | Media
+        media : MediaID
             The media to get relations for. Can be an ID (`int`), a URL (`str`), or a `Media` object.
 
         Yields
@@ -438,9 +438,9 @@ class AniList:
 
     def get_studios(
         self,
-        media: int | str | Media,
+        media: MediaID,
         *,
-        sort: Iterable[StudioSort] | StudioSort | None = None,
+        sort: SortType[StudioSort] = None,
         is_main: bool | None = None,
     ) -> Iterator[Studio]:
         """
@@ -448,9 +448,9 @@ class AniList:
 
         Parameters
         ----------
-        media : int | str | Media
+        media : MediaID
             The media to get studios for. Can be an ID (`int`), a URL (`str`), or a `Media` object.
-        sort : Iterable[StudioSort] | StudioSort | None, optional
+        sort : SortType[StudioSort], optional
             Sorting criteria for the studios.
         is_main : bool | None, optional
             Filter for the main studios (`True`), non-main studios (`False`), or all (`None`).
@@ -492,18 +492,18 @@ class AniList:
 
     def get_staffs(
         self,
-        media: int | str | Media,
+        media: MediaID,
         *,
-        sort: Iterable[StaffSort] | StaffSort | None = None,
+        sort: SortType[StaffSort] = None,
     ) -> Iterator[Staff]:
         """
         Retrieve staffs based on a given `Media` object or ID.
 
         Parameters
         ----------
-        media : int | str | Media
+        media : MediaID
             The media to get staffs for. Can be an ID (`int`), a URL (`str`), or a `Media` object.
-        sort : Iterable[StaffSort] | StaffSort | None, optional
+        sort : SortType[StaffSort], optional
             Sorting criteria for the staffs.
 
         Yields
@@ -540,7 +540,7 @@ class AniList:
 
     def get_airing_schedule(
         self,
-        media: int | str | Media,
+        media: MediaID,
         *,
         not_yet_aired: bool | None = None,
     ) -> Iterator[AiringSchedule]:
@@ -549,7 +549,7 @@ class AniList:
 
         Parameters
         ----------
-        media : int | str | Media
+        media : MediaID
             The media to get the airing schedule for. Can be an ID (`int`), a URL (`str`), or a `Media` object.
         not_yet_aired : bool | None, optional
             Filter results to only include episodes that have not yet aired (`True`),
@@ -590,9 +590,9 @@ class AniList:
 
     def get_characters(
         self,
-        media: int | str | Media,
+        media: MediaID,
         *,
-        sort: Iterable[CharacterSort] | CharacterSort | None = None,
+        sort: SortType[CharacterSort] = None,
         role: CharacterRole | None = None,
     ) -> Iterator[Character]:
         """
@@ -600,9 +600,9 @@ class AniList:
 
         Parameters
         ----------
-        media : int | str | Media
+        media : MediaID
             The media to get characters for. Can be an ID (`int`), a URL (`str`), or a `Media` object.
-        sort : Iterable[CharacterSort] | CharacterSort | None, optional
+        sort : SortType[CharacterSort], optional
             Sorting criteria for the characters.
         role : CharacterRole | None, optional
             Filter characters by their role in the media. If `None`, no filtering is applied.
