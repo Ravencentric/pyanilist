@@ -93,7 +93,7 @@ class AniList:
                 raise RateLimitError(retry_after=retry_after) from None
             raise AnilistError(message=message, status_code=status_code) from None  # pragma: no cover
 
-        return data["data"]["Media"]  # type: ignore[no-any-return]
+        return data["data"]  # type: ignore[no-any-return]
 
     def get_media(  # noqa: PLR0913
         self,
@@ -345,12 +345,12 @@ class AniList:
         if sort_key := get_sort_key(sort, MediaSort):
             variables["sort"] = sort_key
 
-        media = self._post(
+        response = self._post(
             query=MEDIA_QUERY,
             variables={to_anilist_case(key): value for key, value in variables.items() if value is not None},
         )
 
-        return Media.model_validate(remove_null_fields(media))
+        return Media.model_validate(remove_null_fields(response["Media"]))
 
     def get_recommendations(self, media: MediaID, *, sort: SortType[RecommendationSort] = None) -> Iterator[Media]:
         """
@@ -387,7 +387,7 @@ class AniList:
         if sort_key := get_sort_key(sort, RecommendationSort):
             variables["sort"] = sort_key
 
-        recs = self._post(query=RECOMMENDATIONS_QUERY, variables=variables)["recommendations"]["nodes"]
+        recs = self._post(query=RECOMMENDATIONS_QUERY, variables=variables)["Media"]["recommendations"]["nodes"]
 
         for rec in recs:
             if node := rec["mediaRecommendation"]:
@@ -423,9 +423,9 @@ class AniList:
             If the provided `media` URL is invalid.
 
         """
-        relations = self._post(query=RELATIONS_QUERY, variables={"mediaId": resolve_media_id(media)})["relations"][
-            "edges"
-        ]
+        relations = self._post(query=RELATIONS_QUERY, variables={"mediaId": resolve_media_id(media)})["Media"][
+            "relations"
+        ]["edges"]
 
         for relation in relations:
             relation_type = relation["relationType"]
@@ -482,7 +482,7 @@ class AniList:
         if is_main is not None:
             variables["isMain"] = is_main
 
-        studios = self._post(query=STUDIOS_QUERY, variables=variables)["studios"]["edges"]
+        studios = self._post(query=STUDIOS_QUERY, variables=variables)["Media"]["studios"]["edges"]
 
         for studio in studios:
             if node := studio["node"]:
@@ -530,7 +530,7 @@ class AniList:
         if sort_key := get_sort_key(sort, StaffSort):
             variables["sort"] = sort_key
 
-        staffs = self._post(query=STAFFS_QUERY, variables=variables)["staff"]["edges"]
+        staffs = self._post(query=STAFFS_QUERY, variables=variables)["Media"]["staff"]["edges"]
 
         for staff in staffs:
             if node := staff["node"]:
@@ -579,7 +579,7 @@ class AniList:
         if not_yet_aired is not None:
             variables["notYetAired"] = not_yet_aired
 
-        schedules = self._post(query=AIRING_SCHEDULE_QUERY, variables=variables)["airingSchedule"]["nodes"]
+        schedules = self._post(query=AIRING_SCHEDULE_QUERY, variables=variables)["Media"]["airingSchedule"]["nodes"]
 
         for schedule in schedules:
             if any(value is not None for value in schedule.values()):
@@ -634,7 +634,7 @@ class AniList:
         if role is not None:
             variables["role"] = role
 
-        characters = self._post(query=CHARACTERS_QUERY, variables=variables)["characters"]["edges"]
+        characters = self._post(query=CHARACTERS_QUERY, variables=variables)["Media"]["characters"]["edges"]
 
         for character in characters:
             role = character["role"]
