@@ -15,11 +15,7 @@ classifiers = [
     "Programming Language :: Python :: 3.13",
     "Typing :: Typed",
 ]
-dependencies = [
-    "boltons>=24.1.0",
-    "httpx>=0.27.2",
-    "pydantic>=2.9.2",
-]
+dependencies = ["boltons>=24.1.0", "httpx>=0.27.2", "pydantic>=2.9.2"]
 
 [project.urls]
 Documentation = "https://pyanilist.ravencentric.cc"
@@ -36,6 +32,7 @@ test = [
     "coverage>=7.7.1",
     "docstring-parser>=0.16",
     "pytest>=8.3.5",
+    "pytest-asyncio>=0.26.0",
     "pytest-httpx>=0.34.0",
     "pytest-recording>=0.13.2",
     "tomli>=2.1.0",
@@ -51,22 +48,23 @@ line-length = 120
 
 [tool.ruff.lint]
 extend-select = [
-    "I",    # https://docs.astral.sh/ruff/rules/#isort-i
-    "DTZ",  # https://docs.astral.sh/ruff/rules/#flake8-datetimez-dtz
-    "RUF",  # https://docs.astral.sh/ruff/rules/#ruff-specific-rules-ruf
-    "UP",   # https://docs.astral.sh/ruff/rules/#pyupgrade-up
-    "N",    # https://docs.astral.sh/ruff/rules/#pep8-naming-n
-    "D4",   # https://docs.astral.sh/ruff/rules/#pydocstyle-d
-    "B",    # https://docs.astral.sh/ruff/rules/#flake8-bugbear-b
-    "FBT",  # https://docs.astral.sh/ruff/rules/#flake8-boolean-trap-fbt
-    "C4",   # https://docs.astral.sh/ruff/rules/#flake8-comprehensions-c4
-    "EM",   # https://docs.astral.sh/ruff/rules/#flake8-errmsg-em
-    "ISC",  # https://docs.astral.sh/ruff/rules/multi-line-implicit-string-concatenation/
-    "PIE",  # https://docs.astral.sh/ruff/rules/#flake8-pie-pie
-    "RET",  # https://docs.astral.sh/ruff/rules/#flake8-raise-rse
-    "PL",   # https://docs.astral.sh/ruff/rules/#pylint-pl
-    "FURB", # https://docs.astral.sh/ruff/rules/#refurb-furb
-    "TC",   # https://docs.astral.sh/ruff/rules/#flake8-type-checking-tc
+    "I",     # https://docs.astral.sh/ruff/rules/#isort-i
+    "DTZ",   # https://docs.astral.sh/ruff/rules/#flake8-datetimez-dtz
+    "RUF",   # https://docs.astral.sh/ruff/rules/#ruff-specific-rules-ruf
+    "UP",    # https://docs.astral.sh/ruff/rules/#pyupgrade-up
+    "N",     # https://docs.astral.sh/ruff/rules/#pep8-naming-n
+    "D4",    # https://docs.astral.sh/ruff/rules/#pydocstyle-d
+    "B",     # https://docs.astral.sh/ruff/rules/#flake8-bugbear-b
+    "FBT",   # https://docs.astral.sh/ruff/rules/#flake8-boolean-trap-fbt
+    "C4",    # https://docs.astral.sh/ruff/rules/#flake8-comprehensions-c4
+    "EM",    # https://docs.astral.sh/ruff/rules/#flake8-errmsg-em
+    "ISC",   # https://docs.astral.sh/ruff/rules/multi-line-implicit-string-concatenation/
+    "PIE",   # https://docs.astral.sh/ruff/rules/#flake8-pie-pie
+    "RET",   # https://docs.astral.sh/ruff/rules/#flake8-raise-rse
+    "PL",    # https://docs.astral.sh/ruff/rules/#pylint-pl
+    "FURB",  # https://docs.astral.sh/ruff/rules/#refurb-furb
+    "TC",    # https://docs.astral.sh/ruff/rules/#flake8-type-checking-tc
+    "ASYNC", # https://docs.astral.sh/ruff/rules/#flake8-async-async
 ]
 fixable = ["ALL"]
 
@@ -90,6 +88,8 @@ addopts = ["-ra", "--showlocals", "--strict-markers", "--strict-config"]
 filterwarnings = ["error"]
 log_cli_level = "INFO"
 testpaths = ["tests"]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
 
 [tool.coverage.report]
 exclude_also = [

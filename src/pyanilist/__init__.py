@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from httpx import HTTPStatusError
 
+from pyanilist._aclient import AsyncAniList
 from pyanilist._client import AniList
 from pyanilist._enums import (
     CharacterRole,
@@ -47,6 +48,7 @@ __all__ = (
     "AiringSchedule",
     "AniList",
     "AnilistError",
+    "AsyncAniList",
     "Character",
     "CharacterImage",
     "CharacterName",

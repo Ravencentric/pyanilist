@@ -1,0 +1,198 @@
+interactions:
+- request:
+    body: '{"query":"query (\n  $id: Int\n  $idMal: Int\n  $startDate: FuzzyDateInt\n  $endDate:
+      FuzzyDateInt\n  $season: MediaSeason\n  $seasonYear: Int\n  $type: MediaType\n  $format:
+      MediaFormat\n  $status: MediaStatus\n  $episodes: Int\n  $chapters: Int\n  $duration:
+      Int\n  $volumes: Int\n  $isAdult: Boolean\n  $genre: String\n  $tag: String\n  $minimumTagRank:
+      Int\n  $tagCategory: String\n  $licensedBy: String\n  $licensedById: Int\n  $averageScore:
+      Int\n  $popularity: Int\n  $source: MediaSource\n  $countryOfOrigin: CountryCode\n  $isLicensed:
+      Boolean\n  $search: String\n  $id_not: Int\n  $id_in: [Int]\n  $id_not_in: [Int]\n  $idMal_not:
+      Int\n  $idMal_in: [Int]\n  $idMal_not_in: [Int]\n  $startDate_greater: FuzzyDateInt\n  $startDate_lesser:
+      FuzzyDateInt\n  $startDate_like: String\n  $endDate_greater: FuzzyDateInt\n  $endDate_lesser:
+      FuzzyDateInt\n  $endDate_like: String\n  $format_in: [MediaFormat]\n  $format_not:
+      MediaFormat\n  $format_not_in: [MediaFormat]\n  $status_in: [MediaStatus]\n  $status_not:
+      MediaStatus\n  $status_not_in: [MediaStatus]\n  $episodes_greater: Int\n  $episodes_lesser:
+      Int\n  $duration_greater: Int\n  $duration_lesser: Int\n  $chapters_greater:
+      Int\n  $chapters_lesser: Int\n  $volumes_greater: Int\n  $volumes_lesser: Int\n  $genre_in:
+      [String]\n  $genre_not_in: [String]\n  $tag_in: [String]\n  $tag_not_in: [String]\n  $tagCategory_in:
+      [String]\n  $tagCategory_not_in: [String]\n  $licensedBy_in: [String]\n  $licensedById_in:
+      [Int]\n  $averageScore_not: Int\n  $averageScore_greater: Int\n  $averageScore_lesser:
+      Int\n  $popularity_not: Int\n  $popularity_greater: Int\n  $popularity_lesser:
+      Int\n  $source_in: [MediaSource]\n  $sort: [MediaSort]\n) {\n  Media(\n    id:
+      $id\n    idMal: $idMal\n    startDate: $startDate\n    endDate: $endDate\n    season:
+      $season\n    seasonYear: $seasonYear\n    type: $type\n    format: $format\n    status:
+      $status\n    episodes: $episodes\n    chapters: $chapters\n    duration: $duration\n    volumes:
+      $volumes\n    isAdult: $isAdult\n    genre: $genre\n    tag: $tag\n    minimumTagRank:
+      $minimumTagRank\n    tagCategory: $tagCategory\n    licensedBy: $licensedBy\n    licensedById:
+      $licensedById\n    averageScore: $averageScore\n    popularity: $popularity\n    source:
+      $source\n    countryOfOrigin: $countryOfOrigin\n    isLicensed: $isLicensed\n    search:
+      $search\n    id_not: $id_not\n    id_in: $id_in\n    id_not_in: $id_not_in\n    idMal_not:
+      $idMal_not\n    idMal_in: $idMal_in\n    idMal_not_in: $idMal_not_in\n    startDate_greater:
+      $startDate_greater\n    startDate_lesser: $startDate_lesser\n    startDate_like:
+      $startDate_like\n    endDate_greater: $endDate_greater\n    endDate_lesser:
+      $endDate_lesser\n    endDate_like: $endDate_like\n    format_in: $format_in\n    format_not:
+      $format_not\n    format_not_in: $format_not_in\n    status_in: $status_in\n    status_not:
+      $status_not\n    status_not_in: $status_not_in\n    episodes_greater: $episodes_greater\n    episodes_lesser:
+      $episodes_lesser\n    duration_greater: $duration_greater\n    duration_lesser:
+      $duration_lesser\n    chapters_greater: $chapters_greater\n    chapters_lesser:
+      $chapters_lesser\n    volumes_greater: $volumes_greater\n    volumes_lesser:
+      $volumes_lesser\n    genre_in: $genre_in\n    genre_not_in: $genre_not_in\n    tag_in:
+      $tag_in\n    tag_not_in: $tag_not_in\n    tagCategory_in: $tagCategory_in\n    tagCategory_not_in:
+      $tagCategory_not_in\n    licensedBy_in: $licensedBy_in\n    licensedById_in:
+      $licensedById_in\n    averageScore_not: $averageScore_not\n    averageScore_greater:
+      $averageScore_greater\n    averageScore_lesser: $averageScore_lesser\n    popularity_not:
+      $popularity_not\n    popularity_greater: $popularity_greater\n    popularity_lesser:
+      $popularity_lesser\n    source_in: $source_in\n    sort: $sort\n  ) {\n    id\n    idMal\n    type\n    format\n    status\n    description\n    season\n    seasonYear\n    episodes\n    duration\n    chapters\n    volumes\n    countryOfOrigin\n    isLicensed\n    source\n    hashtag\n    updatedAt\n    bannerImage\n    genres\n    synonyms\n    averageScore\n    meanScore\n    popularity\n    isLocked\n    trending\n    favourites\n    isAdult\n    siteUrl\n    trailer
+      {\n      id\n      site\n      thumbnail\n    }\n    title {\n      romaji\n      english\n      native\n    }\n    tags
+      {\n      id\n      name\n      description\n      category\n      rank\n      isGeneralSpoiler\n      isMediaSpoiler\n      isAdult\n      userId\n    }\n    startDate
+      {\n      year\n      month\n      day\n    }\n    rankings {\n      id\n      rank\n      type\n      format\n      year\n      season\n      allTime\n      context\n    }\n    externalLinks
+      {\n      id\n      url\n      site\n      siteId\n      type\n      language\n      color\n      icon\n      notes\n      isDisabled\n    }\n    endDate
+      {\n      year\n      month\n      day\n    }\n    coverImage {\n      extraLarge\n      large\n      medium\n      color\n    }\n    nextAiringEpisode
+      {\n      timeUntilAiring\n      id\n      episode\n      airingAt\n    }\n    streamingEpisodes
+      {\n      title\n      thumbnail\n      url\n      site\n    }\n  }\n}\n","variables":{"id":99426}}'
+    headers:
+      accept:
+      - '*/*'
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      content-length:
+      - '5192'
+      content-type:
+      - application/json
+      host:
+      - graphql.anilist.co
+      referer:
+      - https://anilist.co
+      user-agent:
+      - pyanilist/0.7.2
+    method: POST
+    uri: https://graphql.anilist.co
+  response:
+    body:
+      string: !!binary |
+        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
+    headers:
+      Access-Control-Allow-Headers:
+      - Authorization,Accept,DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Content-Range,Range
+      Access-Control-Allow-Methods:
+      - GET, POST, OPTIONS
+      Access-Control-Allow-Origin:
+      - '*'
+      Access-Control-Expose-Headers:
+      - X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Reset, Content-Length,
+        Content-Range
+      CF-Cache-Status:
+      - DYNAMIC
+      CF-Ray:
+      - 92fc81ffa84d3cee-BOM
+      Cache-Control:
+      - no-cache, private
+      Connection:
+      - keep-alive
+      Content-Encoding:
+      - gzip
+      Content-Type:
+      - application/json
+      Date:
+      - Sun, 13 Apr 2025 16:58:22 GMT
+      NEL:
+      - '{"success_fraction":0,"report_to":"cf-nel","max_age":604800}'
+      Report-To:
+      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v4?s=4F%2BoOnwuytK%2F%2FDB9UfIerPoqTizdJ5IJkqJYldqoflgnH354dkw7I5AbUWazSU5%2BG1oCe0o615JL%2FU%2BrqvyANmUrjk08aEmiuNLh6ICctPVpTWgZcv%2BZWmoUZW%2BUu3Uf3fNCHQ%3D%3D"}],"group":"cf-nel","max_age":604800}'
+      Server:
+      - cloudflare
+      Set-Cookie:
+      - laravel_session=InGRQtflAaktBxRnrglO8GlMCiS2WwqRgG3DdnZi; expires=Mon, 14-Apr-2025
+        04:58:22 GMT; Max-Age=43200; path=/; httponly
+      Transfer-Encoding:
+      - chunked
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-RateLimit-Limit:
+      - '90'
+      X-RateLimit-Remaining:
+      - '89'
+      X-XSS-Protection:
+      - 1; mode=block
+      server-timing:
+      - cfL4;desc="?proto=TCP&rtt=41446&min_rtt=41382&rtt_var=15646&sent=5&recv=10&lost=0&retrans=0&sent_bytes=2836&recv_bytes=6059&delivery_rate=69696&cwnd=248&unsent_bytes=0&cid=434fc09da1963ccc&ts=421&x=0"
+    status:
+      code: 200
+      message: OK
+version: 1

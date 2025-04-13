@@ -77,6 +77,7 @@ nav:
   - Home: index.md
   - API Reference:
       - Client: api-reference/client.md
+      - Async Client: api-reference/async-client.md
       - Models: api-reference/models.md
       - Enums: api-reference/enums.md
       - Types: api-reference/types.md

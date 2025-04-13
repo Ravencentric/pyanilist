@@ -6,7 +6,7 @@ import pytest
 
 from pyanilist import (
     AiringSchedule,
-    AniList,
+    AsyncAniList,
     CharacterRole,
     CharacterSort,
     FuzzyDate,
@@ -26,8 +26,8 @@ from pyanilist import (
 
 
 @pytest.mark.vcr
-def test_anilist_get_media(anilist_client: AniList) -> None:
-    media = anilist_client.get_media(id=99426)
+async def test_anilist_get_media(async_anilist_client: AsyncAniList) -> None:
+    media = await async_anilist_client.get_media(id=99426)
     assert media.average_score == 84
     assert media.banner_image == "https://s4.anilist.co/file/anilistcdn/media/anime/banner/99426-KsFVCSwVC3x3.jpg"
     assert media.chapters is None
@@ -86,16 +86,16 @@ def test_anilist_get_media(anilist_client: AniList) -> None:
 
 
 @pytest.mark.vcr
-def test_anilist_get_media_sorted_by_id_desc(anilist_client: AniList) -> None:
-    media = anilist_client.get_media("Attack On Titan", sort=MediaSort.ID_DESC)
+async def test_anilist_get_media_sorted_by_id_desc(async_anilist_client: AsyncAniList) -> None:
+    media = await async_anilist_client.get_media("Attack On Titan", sort=MediaSort.ID_DESC)
     assert media.title.english == "Attack on Titan Final Season THE FINAL CHAPTERS Special 2"
     assert media.site_url == "https://anilist.co/anime/162314"
 
 
 @pytest.mark.vcr
-def test_anilist_get_all_media(anilist_client: AniList) -> None:
-    results = anilist_client.get_all_media("fate")
-    assert [(media.id, media.title.romaji) for media in results] == [
+async def test_anilist_get_all_media(async_anilist_client: AsyncAniList) -> None:
+    results = async_anilist_client.get_all_media("fate")
+    assert [(media.id, media.title.romaji) async for media in results] == [
         (38764, "In Yeon"),
         (147359, "Inyeon"),
         (93544, "Minna Genki Kai!!"),
@@ -171,9 +171,9 @@ def test_anilist_get_all_media(anilist_client: AniList) -> None:
 
 
 @pytest.mark.vcr
-def test_anilist_get_all_media_sorted_by_id(anilist_client: AniList) -> None:
-    results = anilist_client.get_all_media("fate", sort=MediaSort.ID_DESC)
-    assert [(media.id, media.title.romaji) for media in results] == [
+async def test_anilist_get_all_media_sorted_by_id(async_anilist_client: AsyncAniList) -> None:
+    results = async_anilist_client.get_all_media("fate", sort=MediaSort.ID_DESC)
+    assert [(media.id, media.title.romaji) async for media in results] == [
         (185007, "Geolsonjeon"),
         (181655, "Oniai"),
         (179153, "Fate Mate"),
@@ -249,25 +249,27 @@ def test_anilist_get_all_media_sorted_by_id(anilist_client: AniList) -> None:
 
 
 @pytest.mark.vcr
-def test_anilist_get_recommendations(anilist_client: AniList) -> None:
-    recommendations = tuple(anilist_client.get_recommendations(99426, sort=RecommendationSort.RATING_DESC))
+async def test_anilist_get_recommendations(async_anilist_client: AsyncAniList) -> None:
+    results = async_anilist_client.get_recommendations(99426, sort=RecommendationSort.RATING_DESC)
+    recommendations = [rec async for rec in results]
     assert recommendations[0].title.english == "Laid-Back Camp"
     assert recommendations[1].title.english == "K-ON!"
 
 
 @pytest.mark.vcr
-def test_anilist_get_recommendations_with_null_rec(anilist_client: AniList) -> None:
+async def test_anilist_get_recommendations_with_null_rec(async_anilist_client: AsyncAniList) -> None:
     # See: https://github.com/Ravencentric/pyanilist/issues/29
-    recommendations = tuple(anilist_client.get_recommendations(20889, sort=RecommendationSort.RATING_DESC))
+    results = async_anilist_client.get_recommendations(20889, sort=RecommendationSort.RATING_DESC)
+    recommendations = [rec async for rec in results]
     assert recommendations[0].title.english == "My Teen Romantic Comedy SNAFU"
     assert recommendations[1].title.english == "Makeine: Too Many Losing Heroines!"
 
 
 @pytest.mark.vcr
-def test_anilist_get_relations(anilist_client: AniList) -> None:
-    relations = anilist_client.get_relations(16498)
+async def test_anilist_get_relations(async_anilist_client: AsyncAniList) -> None:
+    relations = async_anilist_client.get_relations(16498)
     titles = []
-    for relation in relations:
+    async for relation in relations:
         titles.append(f"{relation.title} ({relation.relation_type})")
     assert titles == [
         "Attack on Titan (ADAPTATION)",
@@ -285,8 +287,9 @@ def test_anilist_get_relations(anilist_client: AniList) -> None:
 
 
 @pytest.mark.vcr
-def test_anilist_get_studios(anilist_client: AniList) -> None:
-    studios = tuple(anilist_client.get_studios(99426, sort=StudioSort.ID))
+async def test_anilist_get_studios(async_anilist_client: AsyncAniList) -> None:
+    results = async_anilist_client.get_studios(99426, sort=StudioSort.ID)
+    studios = [studio async for studio in results]
     assert studios[0].id == 11
     assert studios[0].is_animation_studio is True
     assert studios[0].is_main is True
@@ -298,15 +301,15 @@ def test_anilist_get_studios(anilist_client: AniList) -> None:
 
 
 @pytest.mark.vcr
-def test_anilist_get_studios_with_is_main(anilist_client: AniList) -> None:
-    studios = tuple(anilist_client.get_studios(99426, is_main=True))
-    assert [studio.name for studio in studios] == ["MADHOUSE"]
+async def test_anilist_get_studios_with_is_main(async_anilist_client: AsyncAniList) -> None:
+    studios = async_anilist_client.get_studios(99426, is_main=True)
+    assert [studio.name async for studio in studios] == ["MADHOUSE"]
 
 
 @pytest.mark.vcr
-def test_anilist_get_staffs(anilist_client: AniList) -> None:
-    staffs = tuple(anilist_client.get_staffs(99426, sort=StaffSort.ID))
-    assert [staff.id for staff in staffs] == [
+async def test_anilist_get_staffs(async_anilist_client: AsyncAniList) -> None:
+    staffs = async_anilist_client.get_staffs(99426, sort=StaffSort.ID)
+    assert [staff.id async for staff in staffs] == [
         95185,
         95869,
         95885,
@@ -336,8 +339,9 @@ def test_anilist_get_staffs(anilist_client: AniList) -> None:
 
 
 @pytest.mark.vcr
-def test_anilist_get_airing_schedule(anilist_client: AniList) -> None:
-    airing_schedules = tuple(anilist_client.get_airing_schedule(99426))
+async def test_anilist_get_airing_schedule(async_anilist_client: AsyncAniList) -> None:
+    results = async_anilist_client.get_airing_schedule(99426)
+    airing_schedules = [sched async for sched in results]
     assert airing_schedules[0].episode == 1
     assert airing_schedules[1].episode == 2
     assert airing_schedules[2].episode == 3
@@ -354,15 +358,15 @@ def test_anilist_get_airing_schedule(anilist_client: AniList) -> None:
 
 
 @pytest.mark.vcr
-def test_anilist_get_airing_schedule_with_not_yet_aired(anilist_client: AniList) -> None:
-    airing_schedules = tuple(anilist_client.get_airing_schedule(99426, not_yet_aired=True))
-    assert tuple(airing_schedules) == ()
+async def test_anilist_get_airing_schedule_with_not_yet_aired(async_anilist_client: AsyncAniList) -> None:
+    results = async_anilist_client.get_airing_schedule(99426, not_yet_aired=True)
+    assert [sched async for sched in results] == []
 
 
 @pytest.mark.vcr
-def test_anilist_get_characters(anilist_client: AniList) -> None:
-    characters = tuple(anilist_client.get_characters(99426, sort=CharacterSort.ID))
-    assert [char.name.full for char in characters] == [
+async def test_anilist_get_characters(async_anilist_client: AsyncAniList) -> None:
+    characters = async_anilist_client.get_characters(99426, sort=CharacterSort.ID)
+    assert [char.name.full async for char in characters] == [
         "Mari Tamaki",
         "Shirase Kobuchizawa",
         "Hinata Miyake",
@@ -385,9 +389,9 @@ def test_anilist_get_characters(anilist_client: AniList) -> None:
 
 
 @pytest.mark.vcr
-def test_anilist_get_characters_with_role(anilist_client: AniList) -> None:
-    characters = tuple(anilist_client.get_characters(99426, role=CharacterRole.MAIN))
-    assert [char.name.full for char in characters] == [
+async def test_anilist_get_characters_with_role(async_anilist_client: AsyncAniList) -> None:
+    characters = async_anilist_client.get_characters(99426, role=CharacterRole.MAIN)
+    assert [char.name.full async for char in characters] == [
         "Mari Tamaki",
         "Shirase Kobuchizawa",
         "Hinata Miyake",

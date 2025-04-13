@@ -3,7 +3,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Any
 
 import httpx
-from httpx import Client
+from httpx import AsyncClient
 
 from pyanilist._enums import (
     CharacterRole,
@@ -34,15 +34,15 @@ from pyanilist._utils import get_sort_key, remove_null_fields, resolve_media_id,
 from pyanilist._version import __version__
 
 if TYPE_CHECKING:
-    from collections.abc import Iterable, Iterator
+    from collections.abc import AsyncIterator, Iterable
 
     from typing_extensions import Self
 
     from pyanilist._types import MediaID, SortType
 
 
-class AniList:
-    def __init__(self, api_url: str = "https://graphql.anilist.co", *, client: Client | None = None) -> None:
+class AsyncAniList:
+    def __init__(self, api_url: str = "https://graphql.anilist.co", *, client: AsyncClient | None = None) -> None:
         """
         AniList API client.
 
@@ -50,30 +50,30 @@ class AniList:
         ----------
         api_url : str, optional
             The URL of the AniList API.
-        client : Client | None, optional
-            An [`httpx.Client`](https://www.python-httpx.org/api/#client) instance used to make requests to AniList.
+        client : AsyncClient | None, optional
+            An [`httpx.AsyncClient`](https://www.python-httpx.org/api/#client) instance used to make requests to AniList.
 
         """
         self._api_url = api_url
         self._client = (
-            Client(headers={"Referer": "https://anilist.co", "user-agent": f"pyanilist/{__version__}"})
+            AsyncClient(headers={"Referer": "https://anilist.co", "user-agent": f"pyanilist/{__version__}"})
             if client is None
             else client
         )
 
-    def __enter__(self) -> Self:
+    async def __aenter__(self) -> Self:
         return self
 
-    def __exit__(self, *args: object) -> None:
-        self.close()
+    async def __aexit__(self, *args: object) -> None:
+        await self.close()
 
-    def close(self) -> None:
+    async def close(self) -> None:
         """Close the underlying HTTP connection."""
-        self._client.close()
+        await self._client.aclose()
 
-    def _post(self, *, query: str, variables: dict[str, Any]) -> dict[str, Any]:
+    async def _post(self, *, query: str, variables: dict[str, Any]) -> dict[str, Any]:
         """Utiliy function to POST to Anilist."""
-        response = self._client.post(self._api_url, json={"query": query, "variables": variables})
+        response = await self._client.post(self._api_url, json={"query": query, "variables": variables})
         data: dict[str, Any] = response.json()
 
         if "errors" in data:
@@ -96,7 +96,7 @@ class AniList:
 
         return data["data"]  # type: ignore[no-any-return]
 
-    def get_media(  # noqa: PLR0913
+    async def get_media(  # noqa: PLR0913
         self,
         search: str | None = None,
         *,
@@ -346,14 +346,14 @@ class AniList:
         if sort_key := get_sort_key(sort, MediaSort):
             variables["sort"] = sort_key
 
-        response = self._post(
+        response = await self._post(
             query=MEDIA_QUERY,
             variables={to_anilist_case(key): value for key, value in variables.items() if value is not None},
         )
 
         return Media.model_validate(remove_null_fields(response["Media"]))
 
-    def get_all_media(  # noqa: PLR0913
+    async def get_all_media(  # noqa: PLR0913
         self,
         search: str | None = None,
         *,
@@ -424,7 +424,7 @@ class AniList:
         popularity_lesser: int | None = None,
         source_in: Iterable[MediaSource] | None = None,
         sort: SortType[MediaSort] = None,
-    ) -> Iterator[Media]:
+    ) -> AsyncIterator[Media]:
         """
         Retrieve all matching media from AniList based on the provided parameters as an iterator.
 
@@ -612,7 +612,7 @@ class AniList:
             variables["sort"] = sort_key
 
         while has_next_page:
-            response = self._post(
+            response = await self._post(
                 query=ALL_MEDIA_QUERY,
                 variables=variables,
             )
@@ -631,7 +631,9 @@ class AniList:
                     # See: https://github.com/Ravencentric/pyanilist/issues/29
                     yield Media.model_validate(remove_null_fields(media))
 
-    def get_recommendations(self, media: MediaID, *, sort: SortType[RecommendationSort] = None) -> Iterator[Media]:
+    async def get_recommendations(
+        self, media: MediaID, *, sort: SortType[RecommendationSort] = None
+    ) -> AsyncIterator[Media]:
         """
         Retrieve recommended media based on a given `Media` object or ID.
 
@@ -666,7 +668,8 @@ class AniList:
         if sort_key := get_sort_key(sort, RecommendationSort):
             variables["sort"] = sort_key
 
-        recs = self._post(query=RECOMMENDATIONS_QUERY, variables=variables)["Media"]["recommendations"]["nodes"]
+        response = await self._post(query=RECOMMENDATIONS_QUERY, variables=variables)
+        recs = response["Media"]["recommendations"]["nodes"]
 
         for rec in recs:
             if node := rec["mediaRecommendation"]:
@@ -674,7 +677,7 @@ class AniList:
                 # See: https://github.com/Ravencentric/pyanilist/issues/29
                 yield Media.model_validate(remove_null_fields(node))
 
-    def get_relations(self, media: MediaID) -> Iterator[RelatedMedia]:
+    async def get_relations(self, media: MediaID) -> AsyncIterator[RelatedMedia]:
         """
         Retrieve related media based on a given `Media` object or ID.
 
@@ -702,9 +705,8 @@ class AniList:
             If the provided `media` URL is invalid.
 
         """
-        relations = self._post(query=RELATIONS_QUERY, variables={"mediaId": resolve_media_id(media)})["Media"][
-            "relations"
-        ]["edges"]
+        response = await self._post(query=RELATIONS_QUERY, variables={"mediaId": resolve_media_id(media)})
+        relations = response["Media"]["relations"]["edges"]
 
         for relation in relations:
             relation_type = relation["relationType"]
@@ -715,13 +717,13 @@ class AniList:
                 # See: https://github.com/Ravencentric/pyanilist/issues/29
                 yield RelatedMedia.model_validate({"relationType": relation_type, **remove_null_fields(node)})
 
-    def get_studios(
+    async def get_studios(
         self,
         media: MediaID,
         *,
         sort: SortType[StudioSort] = None,
         is_main: bool | None = None,
-    ) -> Iterator[Studio]:
+    ) -> AsyncIterator[Studio]:
         """
         Retrieve studios based on a given `Media` object or ID.
 
@@ -761,7 +763,8 @@ class AniList:
         if is_main is not None:
             variables["isMain"] = is_main
 
-        studios = self._post(query=STUDIOS_QUERY, variables=variables)["Media"]["studios"]["edges"]
+        response = await self._post(query=STUDIOS_QUERY, variables=variables)
+        studios = response["Media"]["studios"]["edges"]
 
         for studio in studios:
             if node := studio["node"]:
@@ -769,12 +772,12 @@ class AniList:
                 # See: https://github.com/Ravencentric/pyanilist/issues/29
                 yield Studio.model_validate({"isMain": studio["isMain"], **node})
 
-    def get_staffs(
+    async def get_staffs(
         self,
         media: MediaID,
         *,
         sort: SortType[StaffSort] = None,
-    ) -> Iterator[Staff]:
+    ) -> AsyncIterator[Staff]:
         """
         Retrieve staffs based on a given `Media` object or ID.
 
@@ -809,7 +812,8 @@ class AniList:
         if sort_key := get_sort_key(sort, StaffSort):
             variables["sort"] = sort_key
 
-        staffs = self._post(query=STAFFS_QUERY, variables=variables)["Media"]["staff"]["edges"]
+        response = await self._post(query=STAFFS_QUERY, variables=variables)
+        staffs = response["Media"]["staff"]["edges"]
 
         for staff in staffs:
             if node := staff["node"]:
@@ -817,12 +821,12 @@ class AniList:
                 # See: https://github.com/Ravencentric/pyanilist/issues/29
                 yield Staff.model_validate({"role": staff["role"], **node})
 
-    def get_airing_schedule(
+    async def get_airing_schedule(
         self,
         media: MediaID,
         *,
         not_yet_aired: bool | None = None,
-    ) -> Iterator[AiringSchedule]:
+    ) -> AsyncIterator[AiringSchedule]:
         """
         Retrieve the airing schedule for a given `Media` object or ID.
 
@@ -858,7 +862,8 @@ class AniList:
         if not_yet_aired is not None:
             variables["notYetAired"] = not_yet_aired
 
-        schedules = self._post(query=AIRING_SCHEDULE_QUERY, variables=variables)["Media"]["airingSchedule"]["nodes"]
+        response = await self._post(query=AIRING_SCHEDULE_QUERY, variables=variables)
+        schedules = response["Media"]["airingSchedule"]["nodes"]
 
         for schedule in schedules:
             if any(value is not None for value in schedule.values()):
@@ -867,13 +872,13 @@ class AniList:
                 # an empty AiringSchedule.
                 yield AiringSchedule.model_validate(schedule)
 
-    def get_characters(
+    async def get_characters(
         self,
         media: MediaID,
         *,
         sort: SortType[CharacterSort] = None,
         role: CharacterRole | None = None,
-    ) -> Iterator[Character]:
+    ) -> AsyncIterator[Character]:
         """
         Retrieve characters associated with a given `Media` object or ID.
 
@@ -913,7 +918,8 @@ class AniList:
         if role is not None:
             variables["role"] = role
 
-        characters = self._post(query=CHARACTERS_QUERY, variables=variables)["Media"]["characters"]["edges"]
+        response = await self._post(query=CHARACTERS_QUERY, variables=variables)
+        characters = response["Media"]["characters"]["edges"]
 
         for character in characters:
             role = character["role"]
