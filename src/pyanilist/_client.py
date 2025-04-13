@@ -428,7 +428,8 @@ class AniList:
         """
         Retrieve all matching media from AniList based on the provided parameters as an iterator.
 
-        Unlike [`AniList.get_media`][pyanilist.AniList.get_media], this method does not raise a [`MediaNotFoundError`][pyanilist.MediaNotFoundError]
+        Unlike [`AniList.get_media`][pyanilist.AniList.get_media],
+        this method does not raise a [`MediaNotFoundError`][pyanilist.MediaNotFoundError]
         if no media entries are found; instead, the iterator will simply be empty.
 
         Parameters
