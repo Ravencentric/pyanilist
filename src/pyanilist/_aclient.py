@@ -51,7 +51,7 @@ class AsyncAniList:
         api_url : str, optional
             The URL of the AniList API.
         client : AsyncClient | None, optional
-            An [`httpx.AsyncClient`](https://www.python-httpx.org/api/#client) instance used to make requests to AniList.
+            An [`httpx.AsyncClient`](https://www.python-httpx.org/api/#asyncclient) instance used to make requests to AniList.
 
         """
         self._api_url = api_url

@@ -6,6 +6,7 @@ from pathlib import Path
 SUBS = {
     "AsyncAniList": "AniList",
     "async_anilist_client": "anilist_client",
+    "https://www.python-httpx.org/api/#asyncclient": "https://www.python-httpx.org/api/#client",
     "AsyncClient": "Client",
     "AsyncIterator": "Iterator",
     "async def": "def",
