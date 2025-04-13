@@ -250,7 +250,8 @@ def test_anilist_get_all_media_sorted_by_id(anilist_client: AniList) -> None:
 
 @pytest.mark.vcr
 def test_anilist_get_recommendations(anilist_client: AniList) -> None:
-    recommendations = tuple(anilist_client.get_recommendations(99426, sort=RecommendationSort.RATING_DESC))
+    results = anilist_client.get_recommendations(99426, sort=RecommendationSort.RATING_DESC)
+    recommendations = [rec for rec in results]
     assert recommendations[0].title.english == "Laid-Back Camp"
     assert recommendations[1].title.english == "K-ON!"
 
@@ -258,7 +259,8 @@ def test_anilist_get_recommendations(anilist_client: AniList) -> None:
 @pytest.mark.vcr
 def test_anilist_get_recommendations_with_null_rec(anilist_client: AniList) -> None:
     # See: https://github.com/Ravencentric/pyanilist/issues/29
-    recommendations = tuple(anilist_client.get_recommendations(20889, sort=RecommendationSort.RATING_DESC))
+    results = anilist_client.get_recommendations(20889, sort=RecommendationSort.RATING_DESC)
+    recommendations = [rec for rec in results]
     assert recommendations[0].title.english == "My Teen Romantic Comedy SNAFU"
     assert recommendations[1].title.english == "Makeine: Too Many Losing Heroines!"
 
@@ -286,7 +288,8 @@ def test_anilist_get_relations(anilist_client: AniList) -> None:
 
 @pytest.mark.vcr
 def test_anilist_get_studios(anilist_client: AniList) -> None:
-    studios = tuple(anilist_client.get_studios(99426, sort=StudioSort.ID))
+    results = anilist_client.get_studios(99426, sort=StudioSort.ID)
+    studios = [studio for studio in results]
     assert studios[0].id == 11
     assert studios[0].is_animation_studio is True
     assert studios[0].is_main is True
@@ -299,13 +302,13 @@ def test_anilist_get_studios(anilist_client: AniList) -> None:
 
 @pytest.mark.vcr
 def test_anilist_get_studios_with_is_main(anilist_client: AniList) -> None:
-    studios = tuple(anilist_client.get_studios(99426, is_main=True))
+    studios = anilist_client.get_studios(99426, is_main=True)
     assert [studio.name for studio in studios] == ["MADHOUSE"]
 
 
 @pytest.mark.vcr
 def test_anilist_get_staffs(anilist_client: AniList) -> None:
-    staffs = tuple(anilist_client.get_staffs(99426, sort=StaffSort.ID))
+    staffs = anilist_client.get_staffs(99426, sort=StaffSort.ID)
     assert [staff.id for staff in staffs] == [
         95185,
         95869,
@@ -337,7 +340,8 @@ def test_anilist_get_staffs(anilist_client: AniList) -> None:
 
 @pytest.mark.vcr
 def test_anilist_get_airing_schedule(anilist_client: AniList) -> None:
-    airing_schedules = tuple(anilist_client.get_airing_schedule(99426))
+    results = anilist_client.get_airing_schedule(99426)
+    airing_schedules = [sched for sched in results]
     assert airing_schedules[0].episode == 1
     assert airing_schedules[1].episode == 2
     assert airing_schedules[2].episode == 3
@@ -355,13 +359,13 @@ def test_anilist_get_airing_schedule(anilist_client: AniList) -> None:
 
 @pytest.mark.vcr
 def test_anilist_get_airing_schedule_with_not_yet_aired(anilist_client: AniList) -> None:
-    airing_schedules = tuple(anilist_client.get_airing_schedule(99426, not_yet_aired=True))
-    assert tuple(airing_schedules) == ()
+    results = anilist_client.get_airing_schedule(99426, not_yet_aired=True)
+    assert [sched for sched in results] == []
 
 
 @pytest.mark.vcr
 def test_anilist_get_characters(anilist_client: AniList) -> None:
-    characters = tuple(anilist_client.get_characters(99426, sort=CharacterSort.ID))
+    characters = anilist_client.get_characters(99426, sort=CharacterSort.ID)
     assert [char.name.full for char in characters] == [
         "Mari Tamaki",
         "Shirase Kobuchizawa",
@@ -386,7 +390,7 @@ def test_anilist_get_characters(anilist_client: AniList) -> None:
 
 @pytest.mark.vcr
 def test_anilist_get_characters_with_role(anilist_client: AniList) -> None:
-    characters = tuple(anilist_client.get_characters(99426, role=CharacterRole.MAIN))
+    characters = anilist_client.get_characters(99426, role=CharacterRole.MAIN)
     assert [char.name.full for char in characters] == [
         "Mari Tamaki",
         "Shirase Kobuchizawa",

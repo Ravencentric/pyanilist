@@ -72,7 +72,7 @@ fixable = ["ALL"]
 runtime-evaluated-base-classes = ["pydantic.BaseModel"]
 
 [tool.ruff.lint.extend-per-file-ignores]
-"tests/*" = ["D", "FBT", "PL"]
+"tests/*" = ["D", "FBT", "PL", "C416"]
 
 [tool.ruff.lint.isort]
 required-imports = ["from __future__ import annotations"]
