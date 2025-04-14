@@ -21,7 +21,7 @@ from pyanilist._enums import (
     StudioSort,
 )
 from pyanilist._errors import AnilistError, MediaNotFoundError, RateLimitError
-from pyanilist._models import (
+from pyanilist._types import (
     AiringSchedule,
     Character,
     CharacterImage,

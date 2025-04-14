@@ -19,7 +19,6 @@ from pyanilist._enums import (
     StudioSort,
 )
 from pyanilist._errors import AnilistError, MediaNotFoundError, RateLimitError
-from pyanilist._models import AiringSchedule, Character, Media, RelatedMedia, Staff, Studio
 from pyanilist._query import (
     AIRING_SCHEDULE_QUERY,
     ALL_MEDIA_QUERY,
@@ -30,6 +29,7 @@ from pyanilist._query import (
     STAFFS_QUERY,
     STUDIOS_QUERY,
 )
+from pyanilist._types import AiringSchedule, Character, Media, RelatedMedia, Staff, Studio
 from pyanilist._utils import get_sort_key, normalize_anilist_data, resolve_media_id, to_anilist_case
 from pyanilist._version import __version__
 

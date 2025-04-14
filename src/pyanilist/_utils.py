@@ -3,14 +3,11 @@ from __future__ import annotations
 import re
 from collections.abc import Callable, Iterable
 from functools import lru_cache
-from typing import TYPE_CHECKING, Any, ParamSpec, TypeVar
+from typing import Any, ParamSpec, TypeVar
 
 from boltons.iterutils import remap
 
-from pyanilist._models import Media
-
-if TYPE_CHECKING:
-    from pyanilist._types import MediaID, SortType
+from pyanilist._types import Media, MediaID, SortType
 
 T = TypeVar("T")
 P = ParamSpec("P")
