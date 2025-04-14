@@ -5,7 +5,6 @@ import datetime
 import pytest
 
 from pyanilist import (
-    AiringSchedule,
     AsyncAniList,
     CharacterRole,
     CharacterSort,
@@ -56,7 +55,7 @@ async def test_anilist_get_media(async_anilist_client: AsyncAniList) -> None:
     assert media.is_licensed is True
     assert media.is_locked is False
     assert media.mean_score == 84
-    assert media.next_airing_episode == AiringSchedule(id=None, airing_at=None, time_until_airing=None, episode=None)
+    assert media.next_airing_episode is None
     assert isinstance(media.popularity, int)
     assert media.popularity >= 139_000
     assert media.season is MediaSeason.WINTER

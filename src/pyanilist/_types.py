@@ -621,16 +621,16 @@ class Media(ParentModel):
     site_url: str
     """The url for the media page on the AniList website."""
 
-    trailer: MediaTrailer = MediaTrailer()
+    trailer: MediaTrailer | None = None
     """Media trailer or advertisement."""
 
-    title: MediaTitle = MediaTitle()
+    title: MediaTitle
     """The official titles of the media in various languages."""
 
     tags: tuple[MediaTag, ...] = ()
     """List of tags that describes elements and themes of the media."""
 
-    start_date: FuzzyDate = FuzzyDate()
+    start_date: FuzzyDate | None = None
     """The first official release date of the media."""
 
     rankings: tuple[MediaRank, ...] = ()
@@ -639,13 +639,13 @@ class Media(ParentModel):
     external_links: tuple[MediaExternalLink, ...] = ()
     """External links to another site related to the media."""
 
-    end_date: FuzzyDate = FuzzyDate()
+    end_date: FuzzyDate | None = None
     """The last official release date of the media."""
 
-    cover_image: MediaCoverImage = MediaCoverImage()
+    cover_image: MediaCoverImage | None = None
     """The cover images of the media."""
 
-    next_airing_episode: AiringSchedule = AiringSchedule()
+    next_airing_episode: AiringSchedule | None = None
     """The media's next episode airing schedule."""
 
     streaming_episodes: tuple[MediaStreamingEpisode, ...] = ()

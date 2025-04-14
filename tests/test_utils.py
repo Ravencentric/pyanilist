@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import pytest
 
-from pyanilist import Media, RecommendationSort
+from pyanilist import Media, MediaTitle, RecommendationSort
 from pyanilist._utils import get_sort_key, normalize_anilist_data, resolve_media_id, to_anilist_case
 
 
@@ -307,7 +307,10 @@ def test_query_variables_constructor() -> None:
 
 
 def test_resolve_media_id() -> None:
-    assert resolve_media_id(Media(id=170942, site_url="https://anilist.co/anime/170942/Blue-Box/")) == 170942
+    assert (
+        resolve_media_id(Media(id=170942, site_url="https://anilist.co/anime/170942/Blue-Box/", title=MediaTitle()))
+        == 170942
+    )
     assert resolve_media_id(170942) == 170942
     assert resolve_media_id("https://anilist.co/anime/170942/Blue-Box/") == 170942
     assert resolve_media_id("https://anilist.co/manga/132182") == 132182
