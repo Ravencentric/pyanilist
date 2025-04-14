@@ -3,8 +3,7 @@ from __future__ import annotations
 from datetime import timedelta
 from typing import NamedTuple
 
-from pydantic import AliasGenerator, BaseModel, ConfigDict
-from pydantic.alias_generators import to_camel
+from pydantic import BaseModel, ConfigDict
 
 from pyanilist._enums import (
     CharacterRole,
@@ -26,14 +25,7 @@ class ParentModel(BaseModel):
     All models ahead will inherit from this.
     """
 
-    model_config = ConfigDict(
-        alias_generator=AliasGenerator(
-            # AniList uses camelCase
-            alias=to_camel,
-        ),
-        frozen=True,
-        populate_by_name=True,
-    )
+    model_config = ConfigDict(frozen=True, extra="forbid")
 
 
 class MediaTitle(ParentModel):

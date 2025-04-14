@@ -1,8 +1,9 @@
 from __future__ import annotations
 
 import re
-from collections.abc import Iterable
-from typing import TYPE_CHECKING, Any, TypeVar
+from collections.abc import Callable, Iterable
+from functools import lru_cache
+from typing import TYPE_CHECKING, Any, ParamSpec, TypeVar
 
 from boltons.iterutils import remap
 
@@ -12,18 +13,48 @@ if TYPE_CHECKING:
     from pyanilist._types import MediaID, SortType
 
 T = TypeVar("T")
+P = ParamSpec("P")
 
 
-def remove_null_fields(dictionary: dict[str, Any]) -> dict[str, Any]:
+def cache(func: Callable[P, T], /) -> Callable[P, T]:
     """
-    AniList's `null` return is inconsistent for fields that have their own subfields.
-    some of them will return each subfield as `null` while some of them
-    will return a single null for the parent field.
-
-    This will sort of "normalize" fields by removing keys where the value is
-    `None`, empty list, or empty dictionary.
+    Equivalent to functools.cache, just typed differently
+    to preserve the original function's signature.
     """
-    return remap(dictionary, lambda path, key, value: value not in [None, {}, []])  # type: ignore[no-any-return, no-untyped-call]
+    return lru_cache(maxsize=None, typed=True)(func)  # type: ignore[return-value]
+
+
+@cache
+def to_snake_case(string: str) -> str:
+    """Convert lowerCamelCase to snake_case."""
+    return "".join(f"_{char}" if char.isupper() else char for char in string).removeprefix("_").lower()
+
+
+def normalize_anilist_data(data: Any) -> Any:  # `Any` because json can be anything.
+    """
+    Normalize the JSON response from AniList by removing fields with null or empty values
+    and converting keys from lowerCamelCase to snake_case.
+
+    AniList's API can return inconsistent null values for fields with subfields.
+    Sometimes it returns individual nulls for each subfield, while other times
+    it returns a single null for the parent field.
+
+    This function addresses this inconsistency by recursively removing any key-value pairs
+    where the value is `None`, an empty list (`[]`), or an empty dictionary (`{}`).
+    Additionally, it converts all keys to snake_case for better Pythonic style.
+    """
+
+    def visiter(path: tuple[Any, ...], key: Any, value: Any) -> bool | tuple[str, Any]:
+        """Visiter function for boltons.remap that'll be called for every item in the dictionary."""
+        if value in [None, {}, []]:
+            # Returning False drops the item entirely
+            return False
+        if key.__class__ is not str:
+            # Return True keeps the value unchanged
+            return True
+        return to_snake_case(key), value
+
+    return remap(data, visit=visiter)  # type: ignore[no-untyped-call]
 
 
 def to_anilist_case(var: str) -> str:

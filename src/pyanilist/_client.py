@@ -30,7 +30,7 @@ from pyanilist._query import (
     STAFFS_QUERY,
     STUDIOS_QUERY,
 )
-from pyanilist._utils import get_sort_key, remove_null_fields, resolve_media_id, to_anilist_case
+from pyanilist._utils import get_sort_key, normalize_anilist_data, resolve_media_id, to_anilist_case
 from pyanilist._version import __version__
 
 if TYPE_CHECKING:
@@ -351,7 +351,7 @@ class AniList:
             variables={to_anilist_case(key): value for key, value in variables.items() if value is not None},
         )
 
-        return Media.model_validate(remove_null_fields(response["Media"]))
+        return Media.model_validate(normalize_anilist_data(response["Media"]))
 
     def get_all_media(  # noqa: PLR0913
         self,
@@ -627,10 +627,12 @@ class AniList:
                 variables["page"] += 1
 
             for media in response["Page"]["media"]:
-                if media:
-                    # AniList can return a `null` node.
+                node: dict[str, Any] = normalize_anilist_data(media)
+                if node:
+                    # This check is necessary because in some cases,
+                    # we may end up with an empty dictionary after normalizing.
                     # See: https://github.com/Ravencentric/pyanilist/issues/29
-                    yield Media.model_validate(remove_null_fields(media))
+                    yield Media.model_validate(node)
 
     def get_recommendations(self, media: MediaID, *, sort: SortType[RecommendationSort] = None) -> Iterator[Media]:
         """
@@ -671,10 +673,12 @@ class AniList:
         recs = response["Media"]["recommendations"]["nodes"]
 
         for rec in recs:
-            if node := rec["mediaRecommendation"]:
-                # AniList can return a `null` node.
+            node: dict[str, Any] = normalize_anilist_data(rec["mediaRecommendation"])
+            if node:
+                # This check is necessary because in some cases,
+                # we may end up with an empty dictionary after normalizing.
                 # See: https://github.com/Ravencentric/pyanilist/issues/29
-                yield Media.model_validate(remove_null_fields(node))
+                yield Media.model_validate(node)
 
     def get_relations(self, media: MediaID) -> Iterator[RelatedMedia]:
         """
@@ -708,13 +712,14 @@ class AniList:
         relations = response["Media"]["relations"]["edges"]
 
         for relation in relations:
-            relation_type = relation["relationType"]
-            node = relation["node"]
-
+            node: dict[str, Any] = normalize_anilist_data(
+                {"relationType": relation["relationType"], **relation["node"]}
+            )
             if node:
-                # AniList can return a `null` node.
+                # This check is necessary because in some cases,
+                # we may end up with an empty dictionary after normalizing.
                 # See: https://github.com/Ravencentric/pyanilist/issues/29
-                yield RelatedMedia.model_validate({"relationType": relation_type, **remove_null_fields(node)})
+                yield RelatedMedia.model_validate(node)
 
     def get_studios(
         self,
@@ -766,10 +771,12 @@ class AniList:
         studios = response["Media"]["studios"]["edges"]
 
         for studio in studios:
-            if node := studio["node"]:
-                # AniList can return a `null` node.
+            node: dict[str, Any] = normalize_anilist_data({"isMain": studio["isMain"], **studio["node"]})
+            if node:
+                # This check is necessary because in some cases,
+                # we may end up with an empty dictionary after normalizing.
                 # See: https://github.com/Ravencentric/pyanilist/issues/29
-                yield Studio.model_validate({"isMain": studio["isMain"], **node})
+                yield Studio.model_validate(node)
 
     def get_staffs(
         self,
@@ -815,10 +822,12 @@ class AniList:
         staffs = response["Media"]["staff"]["edges"]
 
         for staff in staffs:
-            if node := staff["node"]:
-                # AniList can return a `null` node.
+            node = normalize_anilist_data({"role": staff["role"], **staff["node"]})
+            if node:
+                # This check is necessary because in some cases,
+                # we may end up with an empty dictionary after normalizing.
                 # See: https://github.com/Ravencentric/pyanilist/issues/29
-                yield Staff.model_validate({"role": staff["role"], **node})
+                yield Staff.model_validate(node)
 
     def get_airing_schedule(
         self,
@@ -862,14 +871,10 @@ class AniList:
             variables["notYetAired"] = not_yet_aired
 
         response = self._post(query=AIRING_SCHEDULE_QUERY, variables=variables)
-        schedules = response["Media"]["airingSchedule"]["nodes"]
+        schedules: list[dict[str, Any]] = normalize_anilist_data(response["Media"]["airingSchedule"]["nodes"])
 
         for schedule in schedules:
-            if any(value is not None for value in schedule.values()):
-                # Make sure we only return something when there's atleast
-                # one non-None value. There's not much point in returning
-                # an empty AiringSchedule.
-                yield AiringSchedule.model_validate(schedule)
+            yield AiringSchedule.model_validate(schedule)
 
     def get_characters(
         self,
@@ -921,11 +926,11 @@ class AniList:
         characters = response["Media"]["characters"]["edges"]
 
         for character in characters:
-            role = character["role"]
-            voice_actors = character["voiceActors"]
-            node = character["node"]
-
+            node: dict[str, Any] = normalize_anilist_data(
+                {"role": character["role"], "voiceActors": character["voiceActors"], **character["node"]}
+            )
             if node:
-                # AniList can return a `null` node.
+                # This check is necessary because in some cases,
+                # we may end up with an empty dictionary after normalizing.
                 # See: https://github.com/Ravencentric/pyanilist/issues/29
-                yield Character.model_validate({"role": role, "voiceActors": voice_actors, **node})
+                yield Character.model_validate(node)
