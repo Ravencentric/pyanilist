@@ -365,7 +365,7 @@ def test_anilist_get_airing_schedule_with_not_yet_aired(anilist_client: AniList)
 @pytest.mark.vcr
 def test_anilist_get_characters(anilist_client: AniList) -> None:
     characters = anilist_client.get_characters(99426, sort=CharacterSort.ID)
-    assert [char.name.full for char in characters] == [
+    assert [char.name.full for char in characters if char.name is not None] == [
         "Mari Tamaki",
         "Shirase Kobuchizawa",
         "Hinata Miyake",
@@ -390,7 +390,7 @@ def test_anilist_get_characters(anilist_client: AniList) -> None:
 @pytest.mark.vcr
 def test_anilist_get_characters_with_role(anilist_client: AniList) -> None:
     characters = anilist_client.get_characters(99426, role=CharacterRole.MAIN)
-    assert [char.name.full for char in characters] == [
+    assert [char.name.full for char in characters if char.name is not None] == [
         "Mari Tamaki",
         "Shirase Kobuchizawa",
         "Hinata Miyake",

@@ -355,7 +355,7 @@ class Staff(ParentModel):
     id: int | None = None
     """The id of the staff member."""
 
-    name: StaffName = StaffName()
+    name: StaffName | None = None
     """The names of the staff member."""
 
     language_v2: str | None = None
@@ -369,7 +369,7 @@ class Staff(ParentModel):
     Hindi, Urdu.
     """
 
-    image: StaffImage = StaffImage()
+    image: StaffImage | None = None
     """The staff images."""
 
     description: str | None = None
@@ -381,16 +381,16 @@ class Staff(ParentModel):
     gender: str | None = None
     """The staff's gender. Usually Male, Female, or Non-binary but can be any string."""
 
-    date_of_birth: FuzzyDate = FuzzyDate()
+    date_of_birth: FuzzyDate | None = None
     """The staff's date of birth."""
 
-    date_of_death: FuzzyDate = FuzzyDate()
+    date_of_death: FuzzyDate | None = None
     """The staff's date of death."""
 
     age: int | None = None
     """The person's age in years."""
 
-    years_active: YearsActive = YearsActive()
+    years_active: YearsActive | None = None
     """(start_year, end_year) (If the 2nd value is not present staff is still active)."""
 
     home_town: str | None = None
@@ -472,10 +472,10 @@ class Character(ParentModel):
     id: int
     """The id of the character."""
 
-    name: CharacterName = CharacterName()
+    name: CharacterName | None = None
     """The names of the character."""
 
-    image: CharacterImage = CharacterImage()
+    image: CharacterImage | None = None
     """Character images."""
 
     description: str | None = None
@@ -484,7 +484,7 @@ class Character(ParentModel):
     gender: str | None = None
     """The character's gender. Usually Male, Female, or Non-binary but can be any string."""
 
-    date_of_birth: FuzzyDate = FuzzyDate()
+    date_of_birth: FuzzyDate | None = None
     """The character's birth date."""
 
     age: str | None = None
