@@ -88,12 +88,12 @@ class AsyncAniList:
             message = error["message"]
             status_code = error["status"]
             if status_code == httpx.codes.NOT_FOUND:
-                raise MediaNotFoundError from None
+                raise MediaNotFoundError
             if status_code == httpx.codes.TOO_MANY_REQUESTS:
                 # https://docs.anilist.co/guide/rate-limiting
                 retry_after = int(response.headers["Retry-After"])
-                raise RateLimitError(retry_after=retry_after) from None
-            raise AnilistError(message=message, status_code=status_code) from None  # pragma: no cover
+                raise RateLimitError(retry_after=retry_after)
+            raise AnilistError(message=message, status_code=status_code)  # pragma: no cover
 
         return data["data"]  # type: ignore[no-any-return]
 
