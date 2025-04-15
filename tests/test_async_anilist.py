@@ -83,6 +83,9 @@ async def test_anilist_get_media(async_anilist_client: AsyncAniList) -> None:
     assert isinstance(media.updated_at, datetime.datetime)
     assert media.volumes is None
 
+    assert media.from_dict(media.to_dict()) == media
+    assert media.from_json(media.to_json()) == media
+
 
 @pytest.mark.vcr
 async def test_anilist_get_media_sorted_by_id_desc(async_anilist_client: AsyncAniList) -> None:

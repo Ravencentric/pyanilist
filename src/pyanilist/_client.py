@@ -3,6 +3,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Any
 
 import httpx
+import msgspec
 from httpx import Client
 
 from pyanilist._enums import (
@@ -319,6 +320,7 @@ class AniList:
             Filter by the source type of the media.
         sort : SortType[MediaSort], optional
             The order the results will be returned in.
+            Can be an instance of `MediaSort`, an iterable of `MediaSort`, or None.
 
         Raises
         ------
@@ -351,7 +353,7 @@ class AniList:
             variables={to_anilist_case(key): value for key, value in variables.items() if value is not None},
         )
 
-        return Media.model_validate(normalize_anilist_data(response["Media"]))
+        return msgspec.convert(normalize_anilist_data(response["Media"]), type=Media, strict=False)
 
     def get_all_media(  # noqa: PLR0913
         self,
@@ -580,6 +582,7 @@ class AniList:
             Filter by the source type of the media.
         sort : SortType[MediaSort], optional
             The order the results will be returned in.
+            Can be an instance of `MediaSort`, an iterable of `MediaSort`, or None.
 
         Raises
         ------
@@ -632,7 +635,7 @@ class AniList:
                     # This check is necessary because in some cases,
                     # we may end up with an empty dictionary after normalizing.
                     # See: https://github.com/Ravencentric/pyanilist/issues/29
-                    yield Media.model_validate(node)
+                    yield msgspec.convert(node, type=Media, strict=False)
 
     def get_recommendations(self, media: MediaID, *, sort: SortType[RecommendationSort] = None) -> Iterator[Media]:
         """
@@ -644,6 +647,7 @@ class AniList:
             The media to get recommendations for. Can be an ID (`int`), a URL (`str`), or a `Media` object.
         sort : SortType[RecommendationSort], optional
             Sorting criteria for the recommendations.
+            Can be an instance of `RecommendationSort`, an iterable of `RecommendationSort`, or None.
 
         Yields
         ------
@@ -678,7 +682,7 @@ class AniList:
                 # This check is necessary because in some cases,
                 # we may end up with an empty dictionary after normalizing.
                 # See: https://github.com/Ravencentric/pyanilist/issues/29
-                yield Media.model_validate(node)
+                yield msgspec.convert(node, type=Media, strict=False)
 
     def get_relations(self, media: MediaID) -> Iterator[RelatedMedia]:
         """
@@ -719,7 +723,7 @@ class AniList:
                 # This check is necessary because in some cases,
                 # we may end up with an empty dictionary after normalizing.
                 # See: https://github.com/Ravencentric/pyanilist/issues/29
-                yield RelatedMedia.model_validate(node)
+                yield msgspec.convert(node, type=RelatedMedia, strict=False)
 
     def get_studios(
         self,
@@ -737,6 +741,7 @@ class AniList:
             The media to get studios for. Can be an ID (`int`), a URL (`str`), or a `Media` object.
         sort : SortType[StudioSort], optional
             Sorting criteria for the studios.
+            Can be an instance of `StudioSort`, an iterable of `StudioSort`, or None.
         is_main : bool | None, optional
             Filter for the main studios (`True`), non-main studios (`False`), or all (`None`).
 
@@ -776,7 +781,7 @@ class AniList:
                 # This check is necessary because in some cases,
                 # we may end up with an empty dictionary after normalizing.
                 # See: https://github.com/Ravencentric/pyanilist/issues/29
-                yield Studio.model_validate(node)
+                yield msgspec.convert(node, type=Studio, strict=False)
 
     def get_staffs(
         self,
@@ -793,6 +798,7 @@ class AniList:
             The media to get staffs for. Can be an ID (`int`), a URL (`str`), or a `Media` object.
         sort : SortType[StaffSort], optional
             Sorting criteria for the staffs.
+            Can be an instance of `StaffSort`, an iterable of `StaffSort`, or None.
 
         Yields
         ------
@@ -827,7 +833,7 @@ class AniList:
                 # This check is necessary because in some cases,
                 # we may end up with an empty dictionary after normalizing.
                 # See: https://github.com/Ravencentric/pyanilist/issues/29
-                yield Staff.model_validate(node)
+                yield msgspec.convert(node, type=Staff, strict=False)
 
     def get_airing_schedule(
         self,
@@ -874,7 +880,7 @@ class AniList:
         schedules: list[dict[str, Any]] = normalize_anilist_data(response["Media"]["airingSchedule"]["nodes"])
 
         for schedule in schedules:
-            yield AiringSchedule.model_validate(schedule)
+            yield msgspec.convert(schedule, type=AiringSchedule, strict=False)
 
     def get_characters(
         self,
@@ -892,6 +898,7 @@ class AniList:
             The media to get characters for. Can be an ID (`int`), a URL (`str`), or a `Media` object.
         sort : SortType[CharacterSort], optional
             Sorting criteria for the characters.
+            Can be an instance of `CharacterSort`, an iterable of `CharacterSort`, or None.
         role : CharacterRole | None, optional
             Filter characters by their role in the media. If `None`, no filtering is applied.
 
@@ -933,4 +940,4 @@ class AniList:
                 # This check is necessary because in some cases,
                 # we may end up with an empty dictionary after normalizing.
                 # See: https://github.com/Ravencentric/pyanilist/issues/29
-                yield Character.model_validate(node)
+                yield msgspec.convert(node, type=Character, strict=False)

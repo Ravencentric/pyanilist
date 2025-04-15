@@ -1,10 +1,10 @@
 from __future__ import annotations
 
 from collections.abc import Iterable
-from datetime import datetime, timedelta, timezone
-from typing import Annotated, NamedTuple, TypeAlias, TypeVar, Union
+from datetime import datetime, timedelta
+from typing import Any, NamedTuple, Self, TypeAlias, TypeVar, Union
 
-from pydantic import AfterValidator, BaseModel, ConfigDict
+import msgspec
 
 from pyanilist._enums import (
     CharacterRole,
@@ -34,22 +34,89 @@ Represents the different ways to identify media items.
 Can be an integer ID, a string URL, or a [`Media`][pyanilist.Media] object.
 """
 
-UTCDateTime: TypeAlias = Annotated[datetime, AfterValidator(lambda dt: dt.astimezone(timezone.utc))]
-"""Represents a [`datetime`][datetime.datetime] that's always in [`UTC`][datetime.timezone.utc]."""
-
 # -------------------- REAL ANILIST TYPES (CLASSES) --------------------
 
 
-class ParentModel(BaseModel):
-    """
-    Parent Model that stores the global configuration.
-    All models ahead will inherit from this.
-    """
+class Base(
+    msgspec.Struct,
+    omit_defaults=True,
+    forbid_unknown_fields=True,
+    repr_omit_defaults=True,
+    frozen=True,
+    kw_only=True,
+):
+    """Base class for AniList data structures."""
 
-    model_config = ConfigDict(frozen=True, extra="forbid")
+    @classmethod
+    def from_dict(cls, data: dict[str, Any], /) -> Self:
+        """
+        Create an instance of this class from a dictionary.
+
+        Parameters
+        ----------
+        data : dict[str, Any]
+            Dictionary representing the instance of this class.
+
+        Returns
+        -------
+        Self
+            An instance of this class.
+
+        """
+        return msgspec.convert(data, type=cls)
+
+    def to_dict(self) -> dict[str, Any]:
+        """
+        Serialize the instance of this class into a dictionary.
+
+        Returns
+        -------
+        dict[str, Any]
+            Dictionary representing the instance of this class.
+
+        """
+        return msgspec.to_builtins(self)  # type: ignore[no-any-return]
+
+    @classmethod
+    def from_json(cls, data: str | bytes, /) -> Self:
+        """
+        Create an instance of this class from JSON data.
+
+        Parameters
+        ----------
+        data : str | bytes
+            JSON data representing the instance of this class.
+
+        Returns
+        -------
+        Self
+            An instance of this class.
+
+        """
+        return msgspec.json.decode(data, type=cls)
+
+    def to_json(self, *, indent: int = 2) -> str:
+        """
+        Serialize the instance of this class into a JSON string.
+
+        Parameters
+        ----------
+        indent : int, optional
+            Number of spaces for indentation.
+            Set to 0 for a single line with spacing,
+            or negative to minimize size by removing extra whitespace.
+
+        Returns
+        -------
+        str
+            JSON string representing this class.
+
+        """
+        jsonified = msgspec.json.encode(self)
+        return msgspec.json.format(jsonified, indent=indent).decode()
 
 
-class MediaTitle(ParentModel):
+class MediaTitle(Base, frozen=True, kw_only=True):
     """The official titles of the media in various languages."""
 
     romaji: str | None = None
@@ -73,7 +140,7 @@ class MediaTitle(ParentModel):
         return self.to_str()
 
 
-class FuzzyDate(ParentModel):
+class FuzzyDate(Base, frozen=True, kw_only=True):
     """Naive date object that allows for incomplete date values (fuzzy)."""
 
     year: int | None = None
@@ -126,7 +193,7 @@ class FuzzyDate(ParentModel):
         return self.to_int()
 
 
-class MediaTrailer(ParentModel):
+class MediaTrailer(Base, frozen=True, kw_only=True):
     """Media trailer or advertisement."""
 
     id: str | None = None
@@ -139,7 +206,7 @@ class MediaTrailer(ParentModel):
     """The url for the thumbnail image of the video."""
 
 
-class MediaCoverImage(ParentModel):
+class MediaCoverImage(Base, frozen=True, kw_only=True):
     """The cover images of the media."""
 
     extra_large: str | None = None
@@ -166,7 +233,7 @@ class MediaCoverImage(ParentModel):
         return self.to_str()
 
 
-class MediaTag(ParentModel):
+class MediaTag(Base, frozen=True, kw_only=True):
     """A tag that describes a theme or element of the media."""
 
     id: int | None = None
@@ -197,13 +264,13 @@ class MediaTag(ParentModel):
     """The user who submitted the tag."""
 
 
-class AiringSchedule(ParentModel):
+class AiringSchedule(Base, frozen=True, kw_only=True):
     """Media Airing Schedule."""
 
     id: int | None = None
     """The id of the airing schedule item."""
 
-    airing_at: UTCDateTime | None = None
+    airing_at: datetime | None = None
     """The time the episode airs at."""
 
     time_until_airing: timedelta | None = None
@@ -213,7 +280,7 @@ class AiringSchedule(ParentModel):
     """The airing episode number."""
 
 
-class MediaExternalLink(ParentModel):
+class MediaExternalLink(Base, frozen=True, kw_only=True):
     """An external link to another site related to the media or staff member."""
 
     id: int | None = None
@@ -247,7 +314,7 @@ class MediaExternalLink(ParentModel):
     """Indicates if the link is currently disabled."""
 
 
-class MediaStreamingEpisode(ParentModel):
+class MediaStreamingEpisode(Base, frozen=True, kw_only=True):
     """Data and links to legal streaming episodes on external sites."""
 
     title: str | None = None
@@ -263,7 +330,7 @@ class MediaStreamingEpisode(ParentModel):
     """The site location of the streaming episodes."""
 
 
-class Studio(ParentModel):
+class Studio(Base, frozen=True, kw_only=True):
     """Animation or production company."""
 
     id: int | None = None
@@ -285,7 +352,7 @@ class Studio(ParentModel):
     """If the studio is the main animation studio of the anime."""
 
 
-class StaffName(ParentModel):
+class StaffName(Base, frozen=True, kw_only=True):
     """The names of the staff member."""
 
     first: str | None = None
@@ -318,7 +385,7 @@ class StaffName(ParentModel):
         return self.to_str()
 
 
-class StaffImage(ParentModel):
+class StaffImage(Base, frozen=True, kw_only=True):
     """Staff's image."""
 
     large: str | None = None
@@ -349,7 +416,7 @@ class YearsActive(NamedTuple):
     end_year: int | None = None
 
 
-class Staff(ParentModel):
+class Staff(Base, frozen=True, kw_only=True):
     """Voice actors or production staff."""
 
     id: int | None = None
@@ -409,7 +476,7 @@ class Staff(ParentModel):
     """The amount of user's who have favourited the staff member."""
 
 
-class CharacterName(ParentModel):
+class CharacterName(Base, frozen=True, kw_only=True):
     """The names of the character."""
 
     first: str | None = None
@@ -445,7 +512,7 @@ class CharacterName(ParentModel):
         return self.to_str()
 
 
-class CharacterImage(ParentModel):
+class CharacterImage(Base, frozen=True, kw_only=True):
     """Character's image."""
 
     large: str | None = None
@@ -466,7 +533,7 @@ class CharacterImage(ParentModel):
         return self.to_str()
 
 
-class Character(ParentModel):
+class Character(Base, frozen=True, kw_only=True):
     """A character that features in an anime or manga."""
 
     id: int
@@ -506,7 +573,7 @@ class Character(ParentModel):
     """The voice actors of the character."""
 
 
-class MediaRank(ParentModel):
+class MediaRank(Base, frozen=True, kw_only=True):
     """The ranking of a media in a particular time span and format compared to other media."""
 
     id: int | None = None
@@ -534,7 +601,7 @@ class MediaRank(ParentModel):
     """String that gives context to the ranking type and time span."""
 
 
-class Media(ParentModel):
+class Media(Base, frozen=True, kw_only=True):
     """Anime or Manga."""
 
     id: int
@@ -585,7 +652,7 @@ class Media(ParentModel):
     hashtag: str | None = None
     """Official Twitter hashtags for the media."""
 
-    updated_at: UTCDateTime | None = None
+    updated_at: datetime | None = None
     """When the media's data was last updated."""
 
     banner_image: str | None = None
@@ -652,7 +719,7 @@ class Media(ParentModel):
     """Data and links to legal streaming episodes on external sites."""
 
 
-class RelatedMedia(Media):
+class RelatedMedia(Media, frozen=True, kw_only=True):
     """Subclass of `Media` with an additional `relation_type` property."""
 
     relation_type: MediaRelation | None = None
