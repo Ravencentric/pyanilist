@@ -2,6 +2,7 @@
 # Do not edit it by hand.
 from __future__ import annotations
 
+import itertools
 from typing import TYPE_CHECKING, Any
 
 import httpx
@@ -620,8 +621,11 @@ class AniList:
         if not variables:
             raise NoMediaArgumentsError
 
-        # We start at page 1 with 50 results per page (AniList caps out at 50).
-        variables["page"] = 1
+        # We fetch four pages in one request with 50 results per page (AniList caps out at 50).
+        variables["page1"] = 1
+        variables["page2"] = 2
+        variables["page3"] = 3
+        variables["page4"] = 4
         variables["perPage"] = 50
         has_next_page: bool = True
 
@@ -637,12 +641,25 @@ class AniList:
             # As per Anilist's documentation:
             # "You should only rely on hasNextPage for any pagination logic."
             # Reference: https://docs.anilist.co/guide/graphql/pagination#pageinfo
-            has_next_page = response["Page"]["pageInfo"]["hasNextPage"]
+            #
+            # In our case, we are always grabbing 4 pages at a time,
+            # so we only have to consider if there's any more pages
+            # after the last page (page4)
+            has_next_page = response["page4"]["pageInfo"]["hasNextPage"]
 
             if has_next_page:
-                variables["page"] += 1
+                # Get the next set of 4 pages
+                variables["page1"] += 4  # 1 + 4 => 5
+                variables["page2"] += 4  # 2 + 4 => 6
+                variables["page3"] += 4  # 3 + 4 => 7
+                variables["page4"] += 4  # 4 + 4 => 8
 
-            for media in response["Page"]["media"]:
+            page1 = response["page1"]["media"]
+            page2 = response["page2"]["media"]
+            page3 = response["page3"]["media"]
+            page4 = response["page4"]["media"]
+
+            for media in itertools.chain(page1, page2, page3, page4):
                 node: dict[str, Any] = normalize_anilist_data(media)
                 if node:
                     # This check is necessary because in some cases,

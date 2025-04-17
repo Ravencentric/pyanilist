@@ -1,39 +1,21 @@
 from __future__ import annotations
 
-import re
-
 from pyanilist._query import ALL_MEDIA_QUERY, MEDIA_QUERY, RECOMMENDATIONS_QUERY, RELATIONS_QUERY
 
 
-def test_media_query() -> None:
-    # Make sure all variables are used
-    # by testing that they are present twice, one for query and one for Media
-    var_pattern = r"\$\w+"
-    vars = re.findall(var_pattern, MEDIA_QUERY)
-    vars_all_media = re.findall(var_pattern, ALL_MEDIA_QUERY)
-
-    # Now check if every var in query also has a corresponding var in Media
-    var_pattern2 = r"[a-z]\w+:"
-    vars2 = re.findall(var_pattern2, MEDIA_QUERY)
-    vars2_all_media = re.findall(var_pattern, ALL_MEDIA_QUERY)
-
-    assert (
-        len(set(vars))
-        == len(vars) / 2
-        == len(set(vars2))
-        == len(vars2) / 2
-        # ALL_MEDIA_QUERY has 2 extra vars (page and perPage)
-        == len(set(vars_all_media)) - 2
-        == (len(vars_all_media) / 2) - 2
-        == len(set(vars2_all_media)) - 2
-        == (len(vars2_all_media) / 2) - 2
-    )
-
-
 def test_media_fields_in_queries() -> None:
-    fields = "id idMal type format status description season seasonYear episodes duration chapters volumes countryOfOrigin isLicensed source hashtag updatedAt bannerImage genres synonyms averageScore meanScore popularity isLocked trending favourites isAdult siteUrl trailer { id site thumbnail } title { romaji english native } tags { id name description category rank isGeneralSpoiler isMediaSpoiler isAdult userId } startDate { year month day } rankings { id rank type format year season allTime context } externalLinks { id url site siteId type language color icon notes isDisabled } endDate { year month day } coverImage { extraLarge large medium color } nextAiringEpisode { timeUntilAiring id episode airingAt } streamingEpisodes { title thumbnail url site }"
+    fields = "{ id idMal type format status description season seasonYear episodes duration chapters volumes countryOfOrigin isLicensed source hashtag updatedAt bannerImage genres synonyms averageScore meanScore popularity isLocked trending favourites isAdult siteUrl trailer { id site thumbnail } title { romaji english native } tags { id name description category rank isGeneralSpoiler isMediaSpoiler isAdult userId } startDate { year month day } rankings { id rank type format year season allTime context } externalLinks { id url site siteId type language color icon notes isDisabled } endDate { year month day } coverImage { extraLarge large medium color } nextAiringEpisode { timeUntilAiring id episode airingAt } streamingEpisodes { title thumbnail url site } }"
+    media_query_fields = "$id: Int $idMal: Int $startDate: FuzzyDateInt $endDate: FuzzyDateInt $season: MediaSeason $seasonYear: Int $type: MediaType $format: MediaFormat $status: MediaStatus $episodes: Int $chapters: Int $duration: Int $volumes: Int $isAdult: Boolean $genre: String $tag: String $minimumTagRank: Int $tagCategory: String $licensedBy: String $licensedById: Int $averageScore: Int $popularity: Int $source: MediaSource $countryOfOrigin: CountryCode $isLicensed: Boolean $search: String $id_not: Int $id_in: [Int] $id_not_in: [Int] $idMal_not: Int $idMal_in: [Int] $idMal_not_in: [Int] $startDate_greater: FuzzyDateInt $startDate_lesser: FuzzyDateInt $startDate_like: String $endDate_greater: FuzzyDateInt $endDate_lesser: FuzzyDateInt $endDate_like: String $format_in: [MediaFormat] $format_not: MediaFormat $format_not_in: [MediaFormat] $status_in: [MediaStatus] $status_not: MediaStatus $status_not_in: [MediaStatus] $episodes_greater: Int $episodes_lesser: Int $duration_greater: Int $duration_lesser: Int $chapters_greater: Int $chapters_lesser: Int $volumes_greater: Int $volumes_lesser: Int $genre_in: [String] $genre_not_in: [String] $tag_in: [String] $tag_not_in: [String] $tagCategory_in: [String] $tagCategory_not_in: [String] $licensedBy_in: [String] $licensedById_in: [Int] $averageScore_not: Int $averageScore_greater: Int $averageScore_lesser: Int $popularity_not: Int $popularity_greater: Int $popularity_lesser: Int $source_in: [MediaSource] $sort: [MediaSort]"
+    media_fields = "( id: $id idMal: $idMal startDate: $startDate endDate: $endDate season: $season seasonYear: $seasonYear type: $type format: $format status: $status episodes: $episodes chapters: $chapters duration: $duration volumes: $volumes isAdult: $isAdult genre: $genre tag: $tag minimumTagRank: $minimumTagRank tagCategory: $tagCategory licensedBy: $licensedBy licensedById: $licensedById averageScore: $averageScore popularity: $popularity source: $source countryOfOrigin: $countryOfOrigin isLicensed: $isLicensed search: $search id_not: $id_not id_in: $id_in id_not_in: $id_not_in idMal_not: $idMal_not idMal_in: $idMal_in idMal_not_in: $idMal_not_in startDate_greater: $startDate_greater startDate_lesser: $startDate_lesser startDate_like: $startDate_like endDate_greater: $endDate_greater endDate_lesser: $endDate_lesser endDate_like: $endDate_like format_in: $format_in format_not: $format_not format_not_in: $format_not_in status_in: $status_in status_not: $status_not status_not_in: $status_not_in episodes_greater: $episodes_greater episodes_lesser: $episodes_lesser duration_greater: $duration_greater duration_lesser: $duration_lesser chapters_greater: $chapters_greater chapters_lesser: $chapters_lesser volumes_greater: $volumes_greater volumes_lesser: $volumes_lesser genre_in: $genre_in genre_not_in: $genre_not_in tag_in: $tag_in tag_not_in: $tag_not_in tagCategory_in: $tagCategory_in tagCategory_not_in: $tagCategory_not_in licensedBy_in: $licensedBy_in licensedById_in: $licensedById_in averageScore_not: $averageScore_not averageScore_greater: $averageScore_greater averageScore_lesser: $averageScore_lesser popularity_not: $popularity_not popularity_greater: $popularity_greater popularity_lesser: $popularity_lesser source_in: $source_in sort: $sort )"
 
     assert fields in " ".join(field.strip() for field in MEDIA_QUERY.split())
     assert fields in " ".join(field.strip() for field in ALL_MEDIA_QUERY.split())
+
+    assert media_query_fields in " ".join(field.strip() for field in MEDIA_QUERY.split())
+    assert media_query_fields in " ".join(field.strip() for field in ALL_MEDIA_QUERY.split())
+
+    assert media_fields in " ".join(field.strip() for field in MEDIA_QUERY.split())
+    assert media_fields in " ".join(field.strip() for field in ALL_MEDIA_QUERY.split())
+
     assert fields in " ".join(field.strip() for field in RECOMMENDATIONS_QUERY.split())
     assert fields in " ".join(field.strip() for field in RELATIONS_QUERY.split())

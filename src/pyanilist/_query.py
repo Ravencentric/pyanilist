@@ -247,6 +247,108 @@ query (
 
 # Query for a fetching all matching media
 ALL_MEDIA_QUERY = """\
+fragment MediaFields on Media {
+  id
+  idMal
+  type
+  format
+  status
+  description
+  season
+  seasonYear
+  episodes
+  duration
+  chapters
+  volumes
+  countryOfOrigin
+  isLicensed
+  source
+  hashtag
+  updatedAt
+  bannerImage
+  genres
+  synonyms
+  averageScore
+  meanScore
+  popularity
+  isLocked
+  trending
+  favourites
+  isAdult
+  siteUrl
+  trailer {
+    id
+    site
+    thumbnail
+  }
+  title {
+    romaji
+    english
+    native
+  }
+  tags {
+    id
+    name
+    description
+    category
+    rank
+    isGeneralSpoiler
+    isMediaSpoiler
+    isAdult
+    userId
+  }
+  startDate {
+    year
+    month
+    day
+  }
+  rankings {
+    id
+    rank
+    type
+    format
+    year
+    season
+    allTime
+    context
+  }
+  externalLinks {
+    id
+    url
+    site
+    siteId
+    type
+    language
+    color
+    icon
+    notes
+    isDisabled
+  }
+  endDate {
+    year
+    month
+    day
+  }
+  coverImage {
+    extraLarge
+    large
+    medium
+    color
+  }
+  nextAiringEpisode {
+    timeUntilAiring
+    id
+    episode
+    airingAt
+  }
+  streamingEpisodes {
+    title
+    thumbnail
+    url
+    site
+  }
+}
+
 query (
   $id: Int
   $idMal: Int
@@ -316,14 +418,15 @@ query (
   $popularity_lesser: Int
   $source_in: [MediaSource]
   $sort: [MediaSort]
-  $page: Int
-  $perPage: Int
+  $page1: Int!
+  $page2: Int!
+  $page3: Int!
+  $page4: Int!
+  $perPage: Int!
 ) {
-  Page(page: $page, perPage: $perPage) {
+  page1: Page(page: $page1, perPage: $perPage) {
     pageInfo {
-      currentPage
       hasNextPage
-      perPage
     }
     media(
       id: $id
@@ -395,105 +498,238 @@ query (
       source_in: $source_in
       sort: $sort
     ) {
-      id
-      idMal
-      type
-      format
-      status
-      description
-      season
-      seasonYear
-      episodes
-      duration
-      chapters
-      volumes
-      countryOfOrigin
-      isLicensed
-      source
-      hashtag
-      updatedAt
-      bannerImage
-      genres
-      synonyms
-      averageScore
-      meanScore
-      popularity
-      isLocked
-      trending
-      favourites
-      isAdult
-      siteUrl
-      trailer {
-        id
-        site
-        thumbnail
-      }
-      title {
-        romaji
-        english
-        native
-      }
-      tags {
-        id
-        name
-        description
-        category
-        rank
-        isGeneralSpoiler
-        isMediaSpoiler
-        isAdult
-        userId
-      }
-      startDate {
-        year
-        month
-        day
-      }
-      rankings {
-        id
-        rank
-        type
-        format
-        year
-        season
-        allTime
-        context
-      }
-      externalLinks {
-        id
-        url
-        site
-        siteId
-        type
-        language
-        color
-        icon
-        notes
-        isDisabled
-      }
-      endDate {
-        year
-        month
-        day
-      }
-      coverImage {
-        extraLarge
-        large
-        medium
-        color
-      }
-      nextAiringEpisode {
-        timeUntilAiring
-        id
-        episode
-        airingAt
-      }
-      streamingEpisodes {
-        title
-        thumbnail
-        url
-        site
-      }
+      ...MediaFields
+    }
+  }
+  page2: Page(page: $page2, perPage: $perPage) {
+    pageInfo {
+      hasNextPage
+    }
+    media(
+      id: $id
+      idMal: $idMal
+      startDate: $startDate
+      endDate: $endDate
+      season: $season
+      seasonYear: $seasonYear
+      type: $type
+      format: $format
+      status: $status
+      episodes: $episodes
+      chapters: $chapters
+      duration: $duration
+      volumes: $volumes
+      isAdult: $isAdult
+      genre: $genre
+      tag: $tag
+      minimumTagRank: $minimumTagRank
+      tagCategory: $tagCategory
+      licensedBy: $licensedBy
+      licensedById: $licensedById
+      averageScore: $averageScore
+      popularity: $popularity
+      source: $source
+      countryOfOrigin: $countryOfOrigin
+      isLicensed: $isLicensed
+      search: $search
+      id_not: $id_not
+      id_in: $id_in
+      id_not_in: $id_not_in
+      idMal_not: $idMal_not
+      idMal_in: $idMal_in
+      idMal_not_in: $idMal_not_in
+      startDate_greater: $startDate_greater
+      startDate_lesser: $startDate_lesser
+      startDate_like: $startDate_like
+      endDate_greater: $endDate_greater
+      endDate_lesser: $endDate_lesser
+      endDate_like: $endDate_like
+      format_in: $format_in
+      format_not: $format_not
+      format_not_in: $format_not_in
+      status_in: $status_in
+      status_not: $status_not
+      status_not_in: $status_not_in
+      episodes_greater: $episodes_greater
+      episodes_lesser: $episodes_lesser
+      duration_greater: $duration_greater
+      duration_lesser: $duration_lesser
+      chapters_greater: $chapters_greater
+      chapters_lesser: $chapters_lesser
+      volumes_greater: $volumes_greater
+      volumes_lesser: $volumes_lesser
+      genre_in: $genre_in
+      genre_not_in: $genre_not_in
+      tag_in: $tag_in
+      tag_not_in: $tag_not_in
+      tagCategory_in: $tagCategory_in
+      tagCategory_not_in: $tagCategory_not_in
+      licensedBy_in: $licensedBy_in
+      licensedById_in: $licensedById_in
+      averageScore_not: $averageScore_not
+      averageScore_greater: $averageScore_greater
+      averageScore_lesser: $averageScore_lesser
+      popularity_not: $popularity_not
+      popularity_greater: $popularity_greater
+      popularity_lesser: $popularity_lesser
+      source_in: $source_in
+      sort: $sort
+    ) {
+      ...MediaFields
+    }
+  }
+  page3: Page(page: $page3, perPage: $perPage) {
+    pageInfo {
+      hasNextPage
+    }
+    media(
+      id: $id
+      idMal: $idMal
+      startDate: $startDate
+      endDate: $endDate
+      season: $season
+      seasonYear: $seasonYear
+      type: $type
+      format: $format
+      status: $status
+      episodes: $episodes
+      chapters: $chapters
+      duration: $duration
+      volumes: $volumes
+      isAdult: $isAdult
+      genre: $genre
+      tag: $tag
+      minimumTagRank: $minimumTagRank
+      tagCategory: $tagCategory
+      licensedBy: $licensedBy
+      licensedById: $licensedById
+      averageScore: $averageScore
+      popularity: $popularity
+      source: $source
+      countryOfOrigin: $countryOfOrigin
+      isLicensed: $isLicensed
+      search: $search
+      id_not: $id_not
+      id_in: $id_in
+      id_not_in: $id_not_in
+      idMal_not: $idMal_not
+      idMal_in: $idMal_in
+      idMal_not_in: $idMal_not_in
+      startDate_greater: $startDate_greater
+      startDate_lesser: $startDate_lesser
+      startDate_like: $startDate_like
+      endDate_greater: $endDate_greater
+      endDate_lesser: $endDate_lesser
+      endDate_like: $endDate_like
+      format_in: $format_in
+      format_not: $format_not
+      format_not_in: $format_not_in
+      status_in: $status_in
+      status_not: $status_not
+      status_not_in: $status_not_in
+      episodes_greater: $episodes_greater
+      episodes_lesser: $episodes_lesser
+      duration_greater: $duration_greater
+      duration_lesser: $duration_lesser
+      chapters_greater: $chapters_greater
+      chapters_lesser: $chapters_lesser
+      volumes_greater: $volumes_greater
+      volumes_lesser: $volumes_lesser
+      genre_in: $genre_in
+      genre_not_in: $genre_not_in
+      tag_in: $tag_in
+      tag_not_in: $tag_not_in
+      tagCategory_in: $tagCategory_in
+      tagCategory_not_in: $tagCategory_not_in
+      licensedBy_in: $licensedBy_in
+      licensedById_in: $licensedById_in
+      averageScore_not: $averageScore_not
+      averageScore_greater: $averageScore_greater
+      averageScore_lesser: $averageScore_lesser
+      popularity_not: $popularity_not
+      popularity_greater: $popularity_greater
+      popularity_lesser: $popularity_lesser
+      source_in: $source_in
+      sort: $sort
+    ) {
+      ...MediaFields
+    }
+  }
+  page4: Page(page: $page4, perPage: $perPage) {
+    pageInfo {
+      hasNextPage
+    }
+    media(
+      id: $id
+      idMal: $idMal
+      startDate: $startDate
+      endDate: $endDate
+      season: $season
+      seasonYear: $seasonYear
+      type: $type
+      format: $format
+      status: $status
+      episodes: $episodes
+      chapters: $chapters
+      duration: $duration
+      volumes: $volumes
+      isAdult: $isAdult
+      genre: $genre
+      tag: $tag
+      minimumTagRank: $minimumTagRank
+      tagCategory: $tagCategory
+      licensedBy: $licensedBy
+      licensedById: $licensedById
+      averageScore: $averageScore
+      popularity: $popularity
+      source: $source
+      countryOfOrigin: $countryOfOrigin
+      isLicensed: $isLicensed
+      search: $search
+      id_not: $id_not
+      id_in: $id_in
+      id_not_in: $id_not_in
+      idMal_not: $idMal_not
+      idMal_in: $idMal_in
+      idMal_not_in: $idMal_not_in
+      startDate_greater: $startDate_greater
+      startDate_lesser: $startDate_lesser
+      startDate_like: $startDate_like
+      endDate_greater: $endDate_greater
+      endDate_lesser: $endDate_lesser
+      endDate_like: $endDate_like
+      format_in: $format_in
+      format_not: $format_not
+      format_not_in: $format_not_in
+      status_in: $status_in
+      status_not: $status_not
+      status_not_in: $status_not_in
+      episodes_greater: $episodes_greater
+      episodes_lesser: $episodes_lesser
+      duration_greater: $duration_greater
+      duration_lesser: $duration_lesser
+      chapters_greater: $chapters_greater
+      chapters_lesser: $chapters_lesser
+      volumes_greater: $volumes_greater
+      volumes_lesser: $volumes_lesser
+      genre_in: $genre_in
+      genre_not_in: $genre_not_in
+      tag_in: $tag_in
+      tag_not_in: $tag_not_in
+      tagCategory_in: $tagCategory_in
+      tagCategory_not_in: $tagCategory_not_in
+      licensedBy_in: $licensedBy_in
+      licensedById_in: $licensedById_in
+      averageScore_not: $averageScore_not
+      averageScore_greater: $averageScore_greater
+      averageScore_lesser: $averageScore_lesser
+      popularity_not: $popularity_not
+      popularity_greater: $popularity_greater
+      popularity_lesser: $popularity_lesser
+      source_in: $source_in
+      sort: $sort
+    ) {
+      ...MediaFields
     }
   }
 }
