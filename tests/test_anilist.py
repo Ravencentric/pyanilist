@@ -13,6 +13,7 @@ from pyanilist import (
     FuzzyDate,
     MediaCoverImage,
     MediaFormat,
+    MediaNotFoundError,
     MediaSeason,
     MediaSort,
     MediaSource,
@@ -20,6 +21,8 @@ from pyanilist import (
     MediaTitle,
     MediaTrailer,
     MediaType,
+    NoMediaArgumentsError,
+    RateLimitError,
     RecommendationSort,
     StaffSort,
     StudioSort,
@@ -401,3 +404,35 @@ def test_anilist_get_characters_with_role(anilist_client: AniList) -> None:
         "Hinata Miyake",
         "Yuzuki Shiraishi",
     ]
+
+
+@pytest.mark.vcr
+def test_media_not_found_error_properties(anilist_client: AniList) -> None:
+    try:
+        _ = anilist_client.get_media(id=000000)
+    except MediaNotFoundError as e:
+        assert e.message == "Not Found."
+        assert e.status_code == 404
+
+
+@pytest.mark.vcr
+def test_media_not_found_error(anilist_client: AniList) -> None:
+    with pytest.raises(MediaNotFoundError):
+        _ = anilist_client.get_media(id=000000)
+
+
+@pytest.mark.vcr
+def test_rate_limit_error(anilist_client: AniList) -> None:
+    with pytest.raises(RateLimitError):
+        while True:
+            _ = anilist_client.get_media(id=170942)
+
+
+def test_get_media_no_parameters_error(anilist_client: AniList) -> None:
+    with pytest.raises(NoMediaArgumentsError):
+        _ = anilist_client.get_media()
+
+
+def test_get_all_media_no_parameters_error(anilist_client: AniList) -> None:
+    with pytest.raises(NoMediaArgumentsError):
+        _ = [media.title for media in anilist_client.get_all_media()]

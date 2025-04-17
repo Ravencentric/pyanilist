@@ -21,14 +21,21 @@ class AnilistError(Exception):
 
 
 class MediaNotFoundError(AnilistError):
-    """Specific Anilist error raised when a requested media item is not found."""
+    """Raised when a requested media item is not found."""
 
     def __init__(self) -> None:
         super().__init__(message="Not Found.", status_code=404)
 
 
+class NoMediaArgumentsError(AnilistError):
+    """Raised when a Media query is made with no arguments provided."""
+
+    def __init__(self) -> None:
+        super().__init__(message="The Media query requires at least 1 argument.", status_code=400)
+
+
 class RateLimitError(AnilistError):
-    """Specific Anilist error raised when the API rate limit is exceeded."""
+    """Raised when the API rate limit is exceeded."""
 
     def __init__(self, *, retry_after: int):
         self._retry_after = retry_after

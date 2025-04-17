@@ -72,9 +72,9 @@ interactions:
   response:
     body:
       string: !!binary |
-        H4sIAAAAAAAAAyTLMQrDMAwF0KuUP5vQ0kBBB+jWXqBkELEIBsUCS56M756hb38D0po1B/0GTnHn
-        Q0D4Wtze1mtekODB0R203tcEtZ2jWP0PLVVAr0fCbtrPCnrObW4JmYNBAx/JhUG1q855AQAA//8D
-        APVnnZJtAAAA
+        H4sIAAAAAAAAAwAAAP//JMsxCsMwDAXQq5Q/m9DSQEEH6NZeoGQQsQgGxQJLnozvnqFvfwPSmjUH
+        /QZOcedDQPha3N7Wa16Q4MHRHbTe1wS1naNY/Q8tVUCvR8Ju2s8Kes5tbgmZg0EDH8mFQbWrznkB
+        AAD//wMA9Wedkm0AAAA=
     headers:
       Access-Control-Allow-Headers:
       - Authorization,Accept,DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Content-Range,Range
@@ -85,12 +85,12 @@ interactions:
       Access-Control-Expose-Headers:
       - X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Reset, Content-Length,
         Content-Range
+      CF-Cache-Status:
+      - DYNAMIC
+      CF-Ray:
+      - 931b4f6bb8f8484d-BOM
       Cache-Control:
       - no-cache, private
-      Cf-Cache-Status:
-      - DYNAMIC
-      Cf-Ray:
-      - 92ec225bde66f405-BOM
       Connection:
       - keep-alive
       Content-Encoding:
@@ -98,26 +98,26 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 11 Apr 2025 17:16:53 GMT
-      Nel:
+      - Thu, 17 Apr 2025 10:41:29 GMT
+      NEL:
       - '{"success_fraction":0,"report_to":"cf-nel","max_age":604800}'
       Report-To:
-      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v4?s=ARsB1y6pLNVYmMdTKORUf5Tsnjo7ISGM64cSQmSsrwLq%2BdUrzwIN45XRFYEMG0srtsuH0Bo3gFzSU1ReMPatE0zoMw21Cu16Bih6mZNIPPS%2FF%2B171FdXKFiIb4MS%2B8oWsWoM9A%3D%3D"}],"group":"cf-nel","max_age":604800}'
+      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v4?s=exHtM%2Frpy8%2BKH%2FbCL48XERFGlCbSPdsSt8Ho5HKWDL4uVAFafqiuVMZcrJiM00je%2FRZYzleubChbl32RDJcl93Cq01SC26b2%2BfWPCrbNJC17vxZRmQ%2B0PO2w%2Fn3MP2nPXyjyFw%3D%3D"}],"group":"cf-nel","max_age":604800}'
       Server:
       - cloudflare
       Set-Cookie:
-      - laravel_session=LuNLhmXWcoNGbIXGzLcIgbw6o1aSwMol1x2KW6hI; HttpOnly; Path=/;
-        Max-Age=43200; Expires=Sat, 12 Apr 2025 05:16:52 GMT
+      - laravel_session=D0og6uDC2FFOyvsDhw6u7YoKQy4ThMLhuaUfLADE; expires=Thu, 17-Apr-2025
+        22:41:29 GMT; Max-Age=43200; path=/; httponly
       Transfer-Encoding:
       - chunked
       Vary:
       - Accept-Encoding
-      X-Ratelimit-Limit:
+      X-RateLimit-Limit:
       - '90'
-      X-Ratelimit-Remaining:
-      - '89'
+      X-RateLimit-Remaining:
+      - '88'
       server-timing:
-      - cfL4;desc="?proto=TCP&rtt=35772&min_rtt=35469&rtt_var=13908&sent=5&recv=10&lost=0&retrans=0&sent_bytes=2835&recv_bytes=6055&delivery_rate=77048&cwnd=242&unsent_bytes=0&cid=9e46d11e06236264&ts=663&x=0"
+      - cfL4;desc="?proto=TCP&rtt=72490&min_rtt=70453&rtt_var=30494&sent=6&recv=10&lost=0&retrans=0&sent_bytes=2835&recv_bytes=6055&delivery_rate=33660&cwnd=251&unsent_bytes=0&cid=40f10f18bfe45191&ts=430&x=0"
     status:
       code: 404
       message: Not Found

@@ -11,6 +11,7 @@ from pyanilist import (
     FuzzyDate,
     MediaCoverImage,
     MediaFormat,
+    MediaNotFoundError,
     MediaSeason,
     MediaSort,
     MediaSource,
@@ -18,6 +19,8 @@ from pyanilist import (
     MediaTitle,
     MediaTrailer,
     MediaType,
+    NoMediaArgumentsError,
+    RateLimitError,
     RecommendationSort,
     StaffSort,
     StudioSort,
@@ -399,3 +402,35 @@ async def test_anilist_get_characters_with_role(async_anilist_client: AsyncAniLi
         "Hinata Miyake",
         "Yuzuki Shiraishi",
     ]
+
+
+@pytest.mark.vcr
+async def test_media_not_found_error_properties(async_anilist_client: AsyncAniList) -> None:
+    try:
+        _ = await async_anilist_client.get_media(id=000000)
+    except MediaNotFoundError as e:
+        assert e.message == "Not Found."
+        assert e.status_code == 404
+
+
+@pytest.mark.vcr
+async def test_media_not_found_error(async_anilist_client: AsyncAniList) -> None:
+    with pytest.raises(MediaNotFoundError):
+        _ = await async_anilist_client.get_media(id=000000)
+
+
+@pytest.mark.vcr
+async def test_rate_limit_error(async_anilist_client: AsyncAniList) -> None:
+    with pytest.raises(RateLimitError):
+        while True:
+            _ = await async_anilist_client.get_media(id=170942)
+
+
+async def test_get_media_no_parameters_error(async_anilist_client: AsyncAniList) -> None:
+    with pytest.raises(NoMediaArgumentsError):
+        _ = await async_anilist_client.get_media()
+
+
+async def test_get_all_media_no_parameters_error(async_anilist_client: AsyncAniList) -> None:
+    with pytest.raises(NoMediaArgumentsError):
+        _ = [media.title async for media in async_anilist_client.get_all_media()]

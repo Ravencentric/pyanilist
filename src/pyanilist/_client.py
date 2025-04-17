@@ -21,7 +21,7 @@ from pyanilist._enums import (
     StaffSort,
     StudioSort,
 )
-from pyanilist._errors import AnilistError, MediaNotFoundError, RateLimitError
+from pyanilist._errors import AnilistError, MediaNotFoundError, NoMediaArgumentsError, RateLimitError
 from pyanilist._query import (
     AIRING_SCHEDULE_QUERY,
     ALL_MEDIA_QUERY,
@@ -330,6 +330,8 @@ class AniList:
             If the provided `media` ID or URL does not correspond to any existing media on Anilist.
         RateLimitError
             If the API rate limit is exceeded. The error will contain information on how long to wait before retrying.
+        NoMediaArgumentsError
+            If no media query arguments are provided.
         AnilistError
             If any other error occurs during the API request.
         TypeError
@@ -346,13 +348,17 @@ class AniList:
 
         variables = locals()
         variables.pop("self")
+        variables = {to_anilist_case(key): value for key, value in variables.items() if value is not None}
 
         if sort_key := get_sort_key(sort, MediaSort):
             variables["sort"] = sort_key
 
+        if not variables:
+            raise NoMediaArgumentsError
+
         response = self._post(
             query=MEDIA_QUERY,
-            variables={to_anilist_case(key): value for key, value in variables.items() if value is not None},
+            variables=variables,
         )
 
         return msgspec.convert(normalize_anilist_data(response["Media"]), type=Media, strict=False)
@@ -590,6 +596,8 @@ class AniList:
         ------
         RateLimitError
             If the API rate limit is exceeded. The error will contain information on how long to wait before retrying.
+        NoMediaArgumentsError
+            If no media query arguments are provided.
         AnilistError
             If any other error occurs during the API request.
         TypeError
@@ -608,6 +616,9 @@ class AniList:
         variables = locals()
         variables.pop("self")
         variables = {to_anilist_case(key): value for key, value in variables.items() if value is not None}
+
+        if not variables:
+            raise NoMediaArgumentsError
 
         # We start at page 1 with 50 results per page (AniList caps out at 50).
         variables["page"] = 1

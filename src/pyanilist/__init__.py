@@ -18,7 +18,7 @@ from pyanilist._enums import (
     StaffSort,
     StudioSort,
 )
-from pyanilist._errors import AnilistError, MediaNotFoundError, RateLimitError
+from pyanilist._errors import AnilistError, MediaNotFoundError, NoMediaArgumentsError, RateLimitError
 from pyanilist._types import (
     AiringSchedule,
     Character,
@@ -71,6 +71,7 @@ __all__ = (
     "MediaTitle",
     "MediaTrailer",
     "MediaType",
+    "NoMediaArgumentsError",
     "RateLimitError",
     "RecommendationSort",
     "RelatedMedia",

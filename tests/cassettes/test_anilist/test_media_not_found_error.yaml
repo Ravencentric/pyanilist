@@ -72,9 +72,9 @@ interactions:
   response:
     body:
       string: !!binary |
-        H4sIAAAAAAAAAwAAAP//JMsxCsMwDAXQq5Q/m9DSQEEH6NZeoGQQsQgGxQJLnozvnqFvfwPSmjUH
-        /QZOcedDQPha3N7Wa16Q4MHRHbTe1wS1naNY/Q8tVUCvR8Ju2s8Kes5tbgmZg0EDH8mFQbWrznkB
-        AAD//wMA9Wedkm0AAAA=
+        H4sIAAAAAAAAAyTLMQrDMAwF0KuUP5vQ0kBBB+jWXqBkELEIBsUCS56M756hb38D0po1B/0GTnHn
+        Q0D4Wtze1mtekODB0R203tcEtZ2jWP0PLVVAr0fCbtrPCnrObW4JmYNBAx/JhUG1q855AQAA//8D
+        APVnnZJtAAAA
     headers:
       Access-Control-Allow-Headers:
       - Authorization,Accept,DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Content-Range,Range
@@ -88,7 +88,7 @@ interactions:
       CF-Cache-Status:
       - DYNAMIC
       CF-Ray:
-      - 92fc93f5ace53b37-BOM
+      - 931ba9ea4d2246c0-BOM
       Cache-Control:
       - no-cache, private
       Connection:
@@ -98,16 +98,16 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Sun, 13 Apr 2025 17:10:38 GMT
+      - Thu, 17 Apr 2025 11:43:15 GMT
       NEL:
       - '{"success_fraction":0,"report_to":"cf-nel","max_age":604800}'
       Report-To:
-      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v4?s=iaRZPk%2BOohGleh77J4sPTRf38pE%2FqA6ojLCjx892mqzLMQNFkqaGzGjO672fNxrB5%2BkNOmIv1p7vNtdM2n7Bpk7Sia9HRqxCwmbcHt%2Fl0olKR4yVr5Pnf0KYBmYUMCEId78AXw%3D%3D"}],"group":"cf-nel","max_age":604800}'
+      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v4?s=l9jVGmD5oJ4%2FtB6yg4564iMNAX04MT6%2FYeZRiRgWBSV4P7Ru80zN4sjBhxfQzc9%2FqChD33AK%2FqwTyPlhHc1LllY9XyLZ4VWTIXWw%2BNBnDaQixqrKB8%2BnCniG4IVA9QlWfjnA2Q%3D%3D"}],"group":"cf-nel","max_age":604800}'
       Server:
       - cloudflare
       Set-Cookie:
-      - laravel_session=ISrRmhEVIl9Xh0YbjaWNVaLSAZDx7QTXd6Oxgdsk; expires=Mon, 14-Apr-2025
-        05:10:37 GMT; Max-Age=43200; path=/; httponly
+      - laravel_session=BcXlri7QxN35693TWI2mHA4NeUcd8bpba53eietZ; expires=Thu, 17-Apr-2025
+        23:43:15 GMT; Max-Age=43200; path=/; httponly
       Transfer-Encoding:
       - chunked
       Vary:
@@ -115,9 +115,9 @@ interactions:
       X-RateLimit-Limit:
       - '90'
       X-RateLimit-Remaining:
-      - '89'
+      - '88'
       server-timing:
-      - cfL4;desc="?proto=TCP&rtt=46648&min_rtt=43293&rtt_var=18631&sent=5&recv=10&lost=0&retrans=0&sent_bytes=2835&recv_bytes=6055&delivery_rate=67447&cwnd=251&unsent_bytes=0&cid=2af401b3ec69c89a&ts=402&x=0"
+      - cfL4;desc="?proto=TCP&rtt=59704&min_rtt=58627&rtt_var=22754&sent=5&recv=10&lost=0&retrans=0&sent_bytes=2834&recv_bytes=6055&delivery_rate=49806&cwnd=248&unsent_bytes=0&cid=7407c1a88c81ff2b&ts=407&x=0"
     status:
       code: 404
       message: Not Found

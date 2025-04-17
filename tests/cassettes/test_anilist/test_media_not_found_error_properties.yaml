@@ -85,12 +85,12 @@ interactions:
       Access-Control-Expose-Headers:
       - X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Reset, Content-Length,
         Content-Range
+      CF-Cache-Status:
+      - DYNAMIC
+      CF-Ray:
+      - 931ba9e4fa123faf-BOM
       Cache-Control:
       - no-cache, private
-      Cf-Cache-Status:
-      - DYNAMIC
-      Cf-Ray:
-      - 92ec0403ae823b7f-BOM
       Connection:
       - keep-alive
       Content-Encoding:
@@ -98,26 +98,26 @@ interactions:
       Content-Type:
       - application/json
       Date:
-      - Fri, 11 Apr 2025 16:56:09 GMT
-      Nel:
+      - Thu, 17 Apr 2025 11:43:15 GMT
+      NEL:
       - '{"success_fraction":0,"report_to":"cf-nel","max_age":604800}'
       Report-To:
-      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v4?s=ZvIyUohKdD9pvxaNj3kSBKaytmXr5nQmN9Kow62qTyQKz2gEUycSQfLOAIQC0yFgBC8%2BvnPoHTjXFI6VKiXmfVxrF6HY0AAlY%2F5Iq%2F%2BCUEdGWx6bamFNPkW2ZEK41juOHA0Vug%3D%3D"}],"group":"cf-nel","max_age":604800}'
+      - '{"endpoints":[{"url":"https:\/\/a.nel.cloudflare.com\/report\/v4?s=nxyFdVnktP6LzxAZ7tXeG52hxOqzljPeMp2Ds9TWUab2U3uqg9%2Fw%2Bfvcq2GYihdcKkRZanQcX0%2B5VW5e1rEmdd0SUAgOThCOmGLJDTbAWNWRqElQuvZFz1JBeQXk5O%2BmpwHHVw%3D%3D"}],"group":"cf-nel","max_age":604800}'
       Server:
       - cloudflare
       Set-Cookie:
-      - laravel_session=ApcFyatOONt54ALmtFhhVYyW1WUbS6wVWOaGmnjw; HttpOnly; Path=/;
-        Max-Age=43200; Expires=Sat, 12 Apr 2025 04:56:09 GMT
+      - laravel_session=2eDAS4Kf0UJbGG127vdhrJmoglHq76aLo7tMJZlc; expires=Thu, 17-Apr-2025
+        23:43:14 GMT; Max-Age=43200; path=/; httponly
       Transfer-Encoding:
       - chunked
       Vary:
       - Accept-Encoding
-      X-Ratelimit-Limit:
+      X-RateLimit-Limit:
       - '90'
-      X-Ratelimit-Remaining:
+      X-RateLimit-Remaining:
       - '89'
       server-timing:
-      - cfL4;desc="?proto=TCP&rtt=35976&min_rtt=34531&rtt_var=13981&sent=5&recv=10&lost=0&retrans=0&sent_bytes=2834&recv_bytes=6055&delivery_rate=84561&cwnd=251&unsent_bytes=0&cid=fd633b795b646562&ts=398&x=0"
+      - cfL4;desc="?proto=TCP&rtt=58064&min_rtt=45912&rtt_var=25897&sent=6&recv=10&lost=0&retrans=0&sent_bytes=2835&recv_bytes=6055&delivery_rate=63599&cwnd=251&unsent_bytes=0&cid=ef9641e4a64cd6f4&ts=403&x=0"
     status:
       code: 404
       message: Not Found
