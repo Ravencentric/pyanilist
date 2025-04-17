@@ -42,7 +42,6 @@ Can be an integer ID, a string URL, or a [`Media`][pyanilist.Media] object.
 
 class Base(
     msgspec.Struct,
-    omit_defaults=True,
     forbid_unknown_fields=True,
     repr_omit_defaults=True,
     frozen=True,
