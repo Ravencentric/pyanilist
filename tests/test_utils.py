@@ -47,7 +47,7 @@ def test_normalize_anilist_data() -> None:
                     {
                         "id": 217,
                         "name": "Dystopian",
-                        "description": "Partly or completely set in a society characterized by poverty, squalor or oppression.",
+                        "description": "Partly or completely set in a society characterized by poverty, squalor or oppression.",  # noqa: E501
                         "category": "Setting-Time",
                         "rank": 94,
                         "isGeneralSpoiler": False,

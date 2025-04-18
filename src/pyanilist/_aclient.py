@@ -53,7 +53,8 @@ class AsyncAniList:
         api_url : str, optional
             The URL of the AniList API.
         client : AsyncClient | None, optional
-            An [`httpx.AsyncClient`](https://www.python-httpx.org/api/#asyncclient) instance used to make requests to AniList.
+            An [`httpx.AsyncClient`](https://www.python-httpx.org/api/#asyncclient) instance
+            used to make requests to AniList.
 
         """
         self._api_url = api_url
@@ -80,7 +81,7 @@ class AsyncAniList:
 
         if "errors" in data:
             # As per Anilist's documentation: "Always check the errors field of the response
-            # object... Even if you recieve a status code of 200, you may still receive an error."
+            # object... Even if you receive a status code of 200, you may still receive an error."
             # Therefore, we check for the 'errors' key to handle GraphQL-level errors, which may
             # occur even when the HTTP request is successful.
             #

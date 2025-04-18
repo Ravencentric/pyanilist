@@ -81,13 +81,13 @@ class MediaFormat(BaseStrEnum):
     OVA = "OVA"
     """
     Original Video Animation.
-    Anime that have been released directly on DVD/Blu-ray without 
+    Anime that have been released directly on DVD/Blu-ray without
     originally going through a theatrical release or television broadcast.
     """
 
     ONA = "ONA"
     """
-    Original Net Animation. 
+    Original Net Animation.
     Anime that have been originally released online or are only available through streaming services.
     """
 

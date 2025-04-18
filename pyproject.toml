@@ -61,6 +61,8 @@ extend-select = [
     "PIE",   # https://docs.astral.sh/ruff/rules/#flake8-pie-pie
     "RET",   # https://docs.astral.sh/ruff/rules/#flake8-raise-rse
     "PL",    # https://docs.astral.sh/ruff/rules/#pylint-pl
+    "E",     # https://docs.astral.sh/ruff/rules/#pycodestyle-e-w
+    "W",     # https://docs.astral.sh/ruff/rules/#pycodestyle-e-w
     "FURB",  # https://docs.astral.sh/ruff/rules/#refurb-furb
     "TC",    # https://docs.astral.sh/ruff/rules/#flake8-type-checking-tc
     "ASYNC", # https://docs.astral.sh/ruff/rules/#flake8-async-async

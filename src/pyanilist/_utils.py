@@ -41,8 +41,8 @@ def normalize_anilist_data(data: Any) -> Any:  # `Any` because json can be anyth
     Additionally, it converts all keys to snake_case for better Pythonic style.
     """
 
-    def visiter(path: tuple[Any, ...], key: Any, value: Any) -> bool | tuple[str, Any]:
-        """Visiter function for boltons.remap that'll be called for every item in the dictionary."""
+    def visitor(path: tuple[Any, ...], key: Any, value: Any) -> bool | tuple[str, Any]:
+        """Visitor function for boltons.remap that'll be called for every item in the dictionary."""
         if value in [None, {}, []]:
             # Returning False drops the item entirely
             return False
@@ -51,7 +51,7 @@ def normalize_anilist_data(data: Any) -> Any:  # `Any` because json can be anyth
             return True
         return to_snake_case(key), value
 
-    return remap(data, visit=visiter)  # type: ignore[no-untyped-call]
+    return remap(data, visit=visitor)  # type: ignore[no-untyped-call]
 
 
 def to_anilist_case(var: str) -> str:

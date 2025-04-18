@@ -27,13 +27,13 @@ T = TypeVar("T")
 
 SortType: TypeAlias = Iterable[T] | T | None
 """
-Represents the structure for AniList's sort parameter. 
+Represents the structure for AniList's sort parameter.
 It can be a single sort key, an iterable of sort keys, or None.
 """
 
 MediaID: TypeAlias = Union[int, str, "Media"]
 """
-Represents the different ways to identify media items. 
+Represents the different ways to identify media items.
 Can be an integer ID, a string URL, or a [`Media`][pyanilist.Media] object.
 """
 
@@ -212,7 +212,10 @@ class MediaCoverImage(Base, frozen=True, kw_only=True):
     """The cover images of the media."""
 
     extra_large: str | None = None
-    """The cover image url of the media at its largest size. If this size isn't available, large will be provided instead."""
+    """
+    The cover image url of the media at its largest size.
+    If this size isn't available, large will be provided instead.
+    """
 
     large: str | None = None
     """The cover image url of the media at a large size"""
@@ -429,12 +432,12 @@ class Staff(Base, frozen=True, kw_only=True):
 
     language_v2: str | None = None
     """
-    The primary language of the staff member. 
-    Current values: Japanese, English, Korean, 
-    Italian, Spanish, Portuguese, French, German, 
-    Hebrew, Hungarian, Chinese, Arabic, Filipino, 
-    Catalan, Finnish, Turkish, Dutch, Swedish, Thai, 
-    Tagalog, Malaysian, Indonesian, Vietnamese, Nepali, 
+    The primary language of the staff member.
+    Current values: Japanese, English, Korean,
+    Italian, Spanish, Portuguese, French, German,
+    Hebrew, Hungarian, Chinese, Arabic, Filipino,
+    Catalan, Finnish, Turkish, Dutch, Swedish, Thai,
+    Tagalog, Malaysian, Indonesian, Vietnamese, Nepali,
     Hindi, Urdu.
     """
 
@@ -676,7 +679,10 @@ class Media(Base, frozen=True, kw_only=True):
     """The number of users with the media on their list."""
 
     is_locked: bool | None = None
-    """Locked media may not be added to lists our favorited. This may be due to the entry pending for deletion or other reasons."""
+    """
+    Locked media may not be added to lists or favorited.
+    This may be due to the entry pending for deletion or other reasons.
+    """
 
     trending: int | None = None
     """The amount of related activity in the past hour."""
