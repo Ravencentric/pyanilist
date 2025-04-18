@@ -58,7 +58,7 @@ class AsyncAniList:
         """
         self._api_url = api_url
         self._client = (
-            AsyncClient(headers={"Referer": "https://anilist.co", "user-agent": f"pyanilist/{__version__}"})
+            AsyncClient(headers={"Referer": "https://anilist.co", "User-Agent": f"pyanilist/{__version__}"})
             if client is None
             else client
         )

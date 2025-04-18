@@ -60,7 +60,7 @@ class AniList:
         """
         self._api_url = api_url
         self._client = (
-            Client(headers={"Referer": "https://anilist.co", "user-agent": f"pyanilist/{__version__}"})
+            Client(headers={"Referer": "https://anilist.co", "User-Agent": f"pyanilist/{__version__}"})
             if client is None
             else client
         )
