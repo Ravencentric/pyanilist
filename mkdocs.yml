@@ -1,7 +1,7 @@
 # Project information
 site_name: pyanilist
 site_author: Ravencentric
-site_description: A Python wrapper for the AniList API
+site_description: A Python wrapper for the AniList API.
 
 # Repository
 repo_name: pyanilist
@@ -9,6 +9,7 @@ repo_url: https://github.com/Ravencentric/pyanilist
 edit_uri: edit/main/docs/
 
 theme:
+  language: en
   icon:
     repo: fontawesome/brands/github
     edit: material/pencil 
