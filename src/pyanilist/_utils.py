@@ -1,8 +1,7 @@
 from __future__ import annotations
 
 import re
-from collections.abc import Callable, Iterable
-from functools import lru_cache
+from collections.abc import Iterable
 from typing import Any, ParamSpec, TypeVar
 
 from boltons.iterutils import remap
@@ -13,15 +12,6 @@ T = TypeVar("T")
 P = ParamSpec("P")
 
 
-def cache(func: Callable[P, T], /) -> Callable[P, T]:
-    """
-    Equivalent to functools.cache, just typed differently
-    to preserve the original function's signature.
-    """
-    return lru_cache(maxsize=None, typed=True)(func)  # type: ignore[return-value]
-
-
-@cache
 def to_snake_case(string: str) -> str:
     """Convert lowerCamelCase to snake_case."""
     return "".join(f"_{char}" if char.isupper() else char for char in string).removeprefix("_").lower()
@@ -160,23 +150,24 @@ def resolve_media_id(media: MediaID) -> int:
         Integer ID of the media
 
     """
-    if isinstance(media, str):
-        pattern = r"^https:\/\/anilist.co\/(anime|manga)\/(\d+)"
-        match = re.match(pattern, media.strip(), flags=re.IGNORECASE)
+    match media:
+        case str():
+            pattern = r"^https:\/\/anilist\.co\/(anime|manga)\/(\d+)"
+            if match := re.match(pattern, media.strip(), flags=re.IGNORECASE):
+                return int(match.group(2))
 
-        if match is None:
             msg = f"Invalid media URL. Expected a URL like 'https://anilist.co/anime/{{id}}', but got {media!r}."
             raise ValueError(msg)
 
-        return int(match.group(2))
-    if isinstance(media, Media):
-        return media.id
+        case Media():
+            return media.id
 
-    if isinstance(media, int):
-        return media
+        case int():
+            return media
 
-    msg = f"Expected media to be an int, str, or Media object, but got {type(media).__name__}."
-    raise TypeError(msg)
+        case _:
+            msg = f"Expected media to be an int, str, or Media object, but got {type(media).__name__}."
+            raise TypeError(msg)
 
 
 def get_sort_key(sort: SortType[T], typ: type[T]) -> tuple[T, ...] | None:
