@@ -17,7 +17,7 @@ def to_snake_case(string: str) -> str:
     return "".join(f"_{char}" if char.isupper() else char for char in string).removeprefix("_").lower()
 
 
-def normalize_anilist_data(data: Any) -> Any:  # `Any` because json can be anything.
+def normalize_anilist_data(data: Any) -> Any:
     """
     Normalize the JSON response from AniList by removing fields with null or empty values
     and converting keys from lowerCamelCase to snake_case.
@@ -33,7 +33,7 @@ def normalize_anilist_data(data: Any) -> Any:  # `Any` because json can be anyth
 
     def visitor(path: tuple[Any, ...], key: Any, value: Any) -> bool | tuple[str, Any]:
         """Visitor function for boltons.remap that'll be called for every item in the dictionary."""
-        if value in [None, {}, []]:
+        if value in (None, {}, []):
             # Returning False drops the item entirely
             return False
         if key.__class__ is not str:

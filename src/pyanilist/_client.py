@@ -33,7 +33,7 @@ from pyanilist._query import (
     STAFFS_QUERY,
     STUDIOS_QUERY,
 )
-from pyanilist._types import AiringSchedule, Character, Media, RelatedMedia, Staff, Studio
+from pyanilist._types import AiringSchedule, Character, Media, RecommendedMedia, RelatedMedia, Staff, Studio
 from pyanilist._utils import get_sort_key, normalize_anilist_data, resolve_media_id, to_anilist_case
 from pyanilist._version import __version__
 
@@ -362,8 +362,8 @@ class AniList:
             query=MEDIA_QUERY,
             variables=variables,
         )
-
-        return msgspec.convert(normalize_anilist_data(response["Media"]), type=Media, strict=False)
+        media: dict[str, Any] = normalize_anilist_data(response["Media"])
+        return msgspec.convert(media, type=Media, strict=False)
 
     def get_all_media(  # noqa: PLR0913
         self,
@@ -668,7 +668,9 @@ class AniList:
                     # See: https://github.com/Ravencentric/pyanilist/issues/29
                     yield msgspec.convert(node, type=Media, strict=False)
 
-    def get_recommendations(self, media: MediaID, *, sort: SortType[RecommendationSort] = None) -> Iterator[Media]:
+    def get_recommendations(
+        self, media: MediaID, *, sort: SortType[RecommendationSort] = None
+    ) -> Iterator[RecommendedMedia]:
         """
         Retrieve recommended media based on a given `Media` object or ID.
 
@@ -682,8 +684,8 @@ class AniList:
 
         Yields
         ------
-        Media
-            An object representing the retrieved media.
+        RecommendedMedia
+            An object representing the retrieved recommended media.
 
         Raises
         ------
@@ -708,12 +710,14 @@ class AniList:
         recs = response["Media"]["recommendations"]["nodes"]
 
         for rec in recs:
-            node: dict[str, Any] = normalize_anilist_data(rec["mediaRecommendation"])
+            node: dict[str, Any] = rec["mediaRecommendation"]
+            node["rating"] = rec["rating"]
+            node = normalize_anilist_data(node)
             if node:
                 # This check is necessary because in some cases,
                 # we may end up with an empty dictionary after normalizing.
                 # See: https://github.com/Ravencentric/pyanilist/issues/29
-                yield msgspec.convert(node, type=Media, strict=False)
+                yield msgspec.convert(node, type=RecommendedMedia, strict=False)
 
     def get_relations(self, media: MediaID) -> Iterator[RelatedMedia]:
         """
@@ -747,9 +751,9 @@ class AniList:
         relations = response["Media"]["relations"]["edges"]
 
         for relation in relations:
-            node: dict[str, Any] = normalize_anilist_data(
-                {"relationType": relation["relationType"], **relation["node"]}
-            )
+            node: dict[str, Any] = relation["node"]
+            node["relationType"] = relation["relationType"]
+            node = normalize_anilist_data(node)
             if node:
                 # This check is necessary because in some cases,
                 # we may end up with an empty dictionary after normalizing.
@@ -807,7 +811,9 @@ class AniList:
         studios = response["Media"]["studios"]["edges"]
 
         for studio in studios:
-            node: dict[str, Any] = normalize_anilist_data({"isMain": studio["isMain"], **studio["node"]})
+            node: dict[str, Any] = studio["node"]
+            node["isMain"] = studio["isMain"]
+            node = normalize_anilist_data(node)
             if node:
                 # This check is necessary because in some cases,
                 # we may end up with an empty dictionary after normalizing.
@@ -859,7 +865,9 @@ class AniList:
         staffs = response["Media"]["staff"]["edges"]
 
         for staff in staffs:
-            node = normalize_anilist_data({"role": staff["role"], **staff["node"]})
+            node: dict[str, Any] = staff["node"]
+            node["role"] = staff["role"]
+            node = normalize_anilist_data(node)
             if node:
                 # This check is necessary because in some cases,
                 # we may end up with an empty dictionary after normalizing.
@@ -964,9 +972,10 @@ class AniList:
         characters = response["Media"]["characters"]["edges"]
 
         for character in characters:
-            node: dict[str, Any] = normalize_anilist_data(
-                {"role": character["role"], "voiceActors": character["voiceActors"], **character["node"]}
-            )
+            node: dict[str, Any] = character["node"]
+            node["role"] = character["role"]
+            node["voiceActors"] = character["voiceActors"]
+            node = normalize_anilist_data(node)
             if node:
                 # This check is necessary because in some cases,
                 # we may end up with an empty dictionary after normalizing.
