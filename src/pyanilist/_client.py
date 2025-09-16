@@ -33,7 +33,7 @@ from pyanilist._query import (
     STAFFS_QUERY,
     STUDIOS_QUERY,
 )
-from pyanilist._types import AiringSchedule, Character, Media, RelatedMedia, Staff, Studio
+from pyanilist._types import AiringSchedule, Character, Media, RecommendedMedia, RelatedMedia, Staff, Studio
 from pyanilist._utils import get_sort_key, normalize_anilist_data, resolve_media_id, to_anilist_case
 from pyanilist._version import __version__
 
@@ -362,8 +362,8 @@ class AniList:
             query=MEDIA_QUERY,
             variables=variables,
         )
-
-        return msgspec.convert(normalize_anilist_data(response["Media"]), type=Media, strict=False)
+        media: dict[str, Any] = normalize_anilist_data(response["Media"])
+        return msgspec.convert(media, type=Media, strict=False)
 
     def get_all_media(  # noqa: PLR0913
         self,
@@ -661,14 +661,15 @@ class AniList:
             page4 = response["page4"]["media"]
 
             for media in itertools.chain(page1, page2, page3, page4):
-                node: dict[str, Any] = normalize_anilist_data(media)
-                if node:
+                if node := normalize_anilist_data(media):
                     # This check is necessary because in some cases,
                     # we may end up with an empty dictionary after normalizing.
                     # See: https://github.com/Ravencentric/pyanilist/issues/29
                     yield msgspec.convert(node, type=Media, strict=False)
 
-    def get_recommendations(self, media: MediaID, *, sort: SortType[RecommendationSort] = None) -> Iterator[Media]:
+    def get_recommendations(
+        self, media: MediaID, *, sort: SortType[RecommendationSort] = None
+    ) -> Iterator[RecommendedMedia]:
         """
         Retrieve recommended media based on a given `Media` object or ID.
 
@@ -682,8 +683,8 @@ class AniList:
 
         Yields
         ------
-        Media
-            An object representing the retrieved media.
+        RecommendedMedia
+            An object representing the retrieved recommended media.
 
         Raises
         ------
@@ -708,12 +709,14 @@ class AniList:
         recs = response["Media"]["recommendations"]["nodes"]
 
         for rec in recs:
-            node: dict[str, Any] = normalize_anilist_data(rec["mediaRecommendation"])
-            if node:
-                # This check is necessary because in some cases,
-                # we may end up with an empty dictionary after normalizing.
-                # See: https://github.com/Ravencentric/pyanilist/issues/29
-                yield msgspec.convert(node, type=Media, strict=False)
+            if node := rec["mediaRecommendation"]:
+                node["rating"] = rec["rating"]
+                node = normalize_anilist_data(node)
+                if node:
+                    # This check is necessary because in some cases,
+                    # we may end up with an empty dictionary after normalizing.
+                    # See: https://github.com/Ravencentric/pyanilist/issues/29
+                    yield msgspec.convert(node, type=RecommendedMedia, strict=False)
 
     def get_relations(self, media: MediaID) -> Iterator[RelatedMedia]:
         """
@@ -747,14 +750,14 @@ class AniList:
         relations = response["Media"]["relations"]["edges"]
 
         for relation in relations:
-            node: dict[str, Any] = normalize_anilist_data(
-                {"relationType": relation["relationType"], **relation["node"]}
-            )
-            if node:
-                # This check is necessary because in some cases,
-                # we may end up with an empty dictionary after normalizing.
-                # See: https://github.com/Ravencentric/pyanilist/issues/29
-                yield msgspec.convert(node, type=RelatedMedia, strict=False)
+            if node := relation["node"]:
+                node["relationType"] = relation["relationType"]
+                node = normalize_anilist_data(node)
+                if node:
+                    # This check is necessary because in some cases,
+                    # we may end up with an empty dictionary after normalizing.
+                    # See: https://github.com/Ravencentric/pyanilist/issues/29
+                    yield msgspec.convert(node, type=RelatedMedia, strict=False)
 
     def get_studios(
         self,
@@ -807,12 +810,14 @@ class AniList:
         studios = response["Media"]["studios"]["edges"]
 
         for studio in studios:
-            node: dict[str, Any] = normalize_anilist_data({"isMain": studio["isMain"], **studio["node"]})
-            if node:
-                # This check is necessary because in some cases,
-                # we may end up with an empty dictionary after normalizing.
-                # See: https://github.com/Ravencentric/pyanilist/issues/29
-                yield msgspec.convert(node, type=Studio, strict=False)
+            if node := studio["node"]:
+                node["isMain"] = studio["isMain"]
+                node = normalize_anilist_data(node)
+                if node:
+                    # This check is necessary because in some cases,
+                    # we may end up with an empty dictionary after normalizing.
+                    # See: https://github.com/Ravencentric/pyanilist/issues/29
+                    yield msgspec.convert(node, type=Studio, strict=False)
 
     def get_staffs(
         self,
@@ -859,12 +864,14 @@ class AniList:
         staffs = response["Media"]["staff"]["edges"]
 
         for staff in staffs:
-            node = normalize_anilist_data({"role": staff["role"], **staff["node"]})
-            if node:
-                # This check is necessary because in some cases,
-                # we may end up with an empty dictionary after normalizing.
-                # See: https://github.com/Ravencentric/pyanilist/issues/29
-                yield msgspec.convert(node, type=Staff, strict=False)
+            if node := staff["node"]:
+                node["role"] = staff["role"]
+                node = normalize_anilist_data(node)
+                if node:
+                    # This check is necessary because in some cases,
+                    # we may end up with an empty dictionary after normalizing.
+                    # See: https://github.com/Ravencentric/pyanilist/issues/29
+                    yield msgspec.convert(node, type=Staff, strict=False)
 
     def get_airing_schedule(
         self,
@@ -908,10 +915,11 @@ class AniList:
             variables["notYetAired"] = not_yet_aired
 
         response = self._post(query=AIRING_SCHEDULE_QUERY, variables=variables)
-        schedules: list[dict[str, Any]] = normalize_anilist_data(response["Media"]["airingSchedule"]["nodes"])
+        nodes = response["Media"]["airingSchedule"]["nodes"]
 
-        for schedule in schedules:
-            yield msgspec.convert(schedule, type=AiringSchedule, strict=False)
+        for node in nodes:
+            if schedule := normalize_anilist_data(node):
+                yield msgspec.convert(schedule, type=AiringSchedule, strict=False)
 
     def get_characters(
         self,
@@ -964,11 +972,12 @@ class AniList:
         characters = response["Media"]["characters"]["edges"]
 
         for character in characters:
-            node: dict[str, Any] = normalize_anilist_data(
-                {"role": character["role"], "voiceActors": character["voiceActors"], **character["node"]}
-            )
-            if node:
-                # This check is necessary because in some cases,
-                # we may end up with an empty dictionary after normalizing.
-                # See: https://github.com/Ravencentric/pyanilist/issues/29
-                yield msgspec.convert(node, type=Character, strict=False)
+            if node := character["node"]:
+                node["role"] = character["role"]
+                node["voiceActors"] = character["voiceActors"]
+                node = normalize_anilist_data(node)
+                if node:
+                    # This check is necessary because in some cases,
+                    # we may end up with an empty dictionary after normalizing.
+                    # See: https://github.com/Ravencentric/pyanilist/issues/29
+                    yield msgspec.convert(node, type=Character, strict=False)

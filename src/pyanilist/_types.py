@@ -727,6 +727,13 @@ class Media(Base, frozen=True, kw_only=True):
     """Data and links to legal streaming episodes on external sites."""
 
 
+class RecommendedMedia(Media, frozen=True, kw_only=True):
+    """Subclass of `Media` that adds an additional `rating` property."""
+
+    rating: int | None = None
+    """Aggregate users' rating of the recommendation."""
+
+
 class RelatedMedia(Media, frozen=True, kw_only=True):
     """Subclass of `Media` with an additional `relation_type` property."""
 

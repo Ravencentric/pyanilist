@@ -2,14 +2,13 @@ from __future__ import annotations
 
 import re
 from collections.abc import Iterable
-from typing import Any, ParamSpec, TypeVar
-
-from boltons.iterutils import remap
+from typing import Any, ParamSpec, TypeAlias, TypeVar
 
 from pyanilist._types import Media, MediaID, SortType
 
 T = TypeVar("T")
 P = ParamSpec("P")
+JsonType: TypeAlias = "dict[str, JsonType] | list[JsonType] | str | int | float | bool | None"
 
 
 def to_snake_case(string: str) -> str:
@@ -17,7 +16,7 @@ def to_snake_case(string: str) -> str:
     return "".join(f"_{char}" if char.isupper() else char for char in string).removeprefix("_").lower()
 
 
-def normalize_anilist_data(data: Any) -> Any:  # `Any` because json can be anything.
+def normalize_anilist_data(data: JsonType) -> Any:
     """
     Normalize the JSON response from AniList by removing fields with null or empty values
     and converting keys from lowerCamelCase to snake_case.
@@ -30,18 +29,23 @@ def normalize_anilist_data(data: Any) -> Any:  # `Any` because json can be anyth
     where the value is `None`, an empty list (`[]`), or an empty dictionary (`{}`).
     Additionally, it converts all keys to snake_case for better Pythonic style.
     """
+    match data:
+        case dict():
+            result = {}
+            for k, v in data.items():
+                if (val := normalize_anilist_data(v)) is not None:
+                    result[to_snake_case(k)] = val
+            return result or None
 
-    def visitor(path: tuple[Any, ...], key: Any, value: Any) -> bool | tuple[str, Any]:
-        """Visitor function for boltons.remap that'll be called for every item in the dictionary."""
-        if value in [None, {}, []]:
-            # Returning False drops the item entirely
-            return False
-        if key.__class__ is not str:
-            # Return True keeps the value unchanged
-            return True
-        return to_snake_case(key), value
+        case list():
+            items = [normalized for i in data if (normalized := normalize_anilist_data(i)) is not None]
+            return items or None
 
-    return remap(data, visit=visitor)  # type: ignore[no-untyped-call]
+        case None | [] | {}:
+            return None
+
+        case _:
+            return data
 
 
 def to_anilist_case(var: str) -> str:

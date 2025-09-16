@@ -740,6 +740,7 @@ query Media($mediaId: Int!, $sort: [RecommendationSort]) {
   Media(id: $mediaId) {
     recommendations(sort: $sort) {
       nodes {
+        rating
         mediaRecommendation {
           id
           idMal
