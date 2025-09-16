@@ -915,10 +915,11 @@ class AniList:
             variables["notYetAired"] = not_yet_aired
 
         response = self._post(query=AIRING_SCHEDULE_QUERY, variables=variables)
-        schedules: list[dict[str, Any]] = normalize_anilist_data(response["Media"]["airingSchedule"]["nodes"])
+        nodes = response["Media"]["airingSchedule"]["nodes"]
 
-        for schedule in schedules:
-            yield msgspec.convert(schedule, type=AiringSchedule, strict=False)
+        for node in nodes:
+            if schedule := normalize_anilist_data(node):
+                yield msgspec.convert(schedule, type=AiringSchedule, strict=False)
 
     def get_characters(
         self,

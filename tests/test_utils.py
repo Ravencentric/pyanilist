@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from typing import Any
+
 import pytest
 
 from pyanilist import Media, MediaTitle, RecommendationSort
@@ -7,7 +9,7 @@ from pyanilist._utils import get_sort_key, normalize_anilist_data, resolve_media
 
 
 def test_normalize_anilist_data() -> None:
-    data = {
+    data: dict[str, Any] = {
         "data": {
             "Media": {
                 "id": 53390,
