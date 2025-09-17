@@ -14,6 +14,7 @@
 ::: pyanilist.MediaTag
 ::: pyanilist.MediaTitle
 ::: pyanilist.MediaTrailer
+::: pyanilist.RecommendedMedia
 ::: pyanilist.RelatedMedia
 ::: pyanilist.Staff
 ::: pyanilist.StaffImage
@@ -22,4 +23,3 @@
 ::: pyanilist.YearsActive
     options:
         members: true
-
