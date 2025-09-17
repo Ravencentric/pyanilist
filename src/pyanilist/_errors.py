@@ -4,6 +4,13 @@ from __future__ import annotations
 class AnilistError(Exception):
     """Base class for Anilist API errors, containing a message and status code."""
 
+    __module__ = "pyanilist"
+
+    def __init_subclass__(cls) -> None:
+        # Ensure subclasses also appear as part of the public 'pyanilist' module
+        # in tracebacks, instead of the internal implementation module.
+        cls.__module__ = "pyanilist"
+
     def __init__(self, *, message: str, status_code: int):
         self._message = message
         self._status_code = status_code
