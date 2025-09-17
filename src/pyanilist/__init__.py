@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from typing import Final
+
 from pyanilist._aclient import AsyncAniList
 from pyanilist._client import AniList
 from pyanilist._enums import (
@@ -33,6 +35,7 @@ from pyanilist._types import (
     MediaTag,
     MediaTitle,
     MediaTrailer,
+    RecommendedMedia,
     RelatedMedia,
     Staff,
     StaffImage,
@@ -42,7 +45,7 @@ from pyanilist._types import (
 )
 from pyanilist._version import __version__
 
-__all__ = (
+__all__: Final = (
     "AiringSchedule",
     "AniList",
     "AnilistError",
@@ -74,6 +77,7 @@ __all__ = (
     "NoMediaArgumentsError",
     "RateLimitError",
     "RecommendationSort",
+    "RecommendedMedia",
     "RelatedMedia",
     "Staff",
     "StaffImage",

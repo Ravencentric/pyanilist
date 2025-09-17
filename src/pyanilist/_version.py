@@ -1,3 +1,5 @@
 from __future__ import annotations
 
-__version__ = "0.8.1"
+from typing import Final
+
+__version__: Final = "0.8.1"
