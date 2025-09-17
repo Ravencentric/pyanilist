@@ -301,7 +301,7 @@ async def test_anilist_get_all_media_sorted_by_id(async_anilist_client: AsyncAni
         2337,
         2418,
     ]
-    results = async_anilist_client.get_all_media(
+    results = async_anilist_client.get_media_many(
         id_in=ids,
         sort=MediaSort.ID_DESC,
     )
@@ -488,4 +488,4 @@ async def test_get_media_no_parameters_error(async_anilist_client: AsyncAniList)
 
 async def test_get_all_media_no_parameters_error(async_anilist_client: AsyncAniList) -> None:
     with pytest.raises(NoMediaArgumentsError):
-        _ = [media.title async for media in async_anilist_client.get_all_media()]
+        _ = [media.title async for media in async_anilist_client.get_media_many()]

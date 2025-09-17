@@ -365,7 +365,7 @@ class AniList:
         media: dict[str, Any] = normalize_anilist_data(response["Media"])
         return msgspec.convert(media, type=Media, strict=False)
 
-    def get_all_media(  # noqa: PLR0913
+    def get_media_many(  # noqa: PLR0913
         self,
         search: str | None = None,
         *,

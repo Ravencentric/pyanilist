@@ -303,7 +303,7 @@ def test_anilist_get_all_media_sorted_by_id(anilist_client: AniList) -> None:
         2337,
         2418,
     ]
-    results = anilist_client.get_all_media(
+    results = anilist_client.get_media_many(
         id_in=ids,
         sort=MediaSort.ID_DESC,
     )
@@ -490,4 +490,4 @@ def test_get_media_no_parameters_error(anilist_client: AniList) -> None:
 
 def test_get_all_media_no_parameters_error(anilist_client: AniList) -> None:
     with pytest.raises(NoMediaArgumentsError):
-        _ = [media.title for media in anilist_client.get_all_media()]
+        _ = [media.title for media in anilist_client.get_media_many()]
