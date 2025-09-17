@@ -31,14 +31,14 @@ class BaseStrEnum(StrEnum):
         raise ValueError(msg)
 
     @property
-    def title(self) -> str:  # type: ignore[override]
+    def label(self) -> str:
         """
-        Title Cased value.
-        """
+        Human-friendly version of the enum value.
 
-        # These don't get the desired results with .title()
-        # so we manually map them
-        exceptions = {
+        Converts underscores to spaces and applies title casing,
+        with special handling for common abbreviations (e.g. "TV").
+        """
+        overrides = {
             "TV": "TV",
             "TV_SHORT": "TV Short",
             "OVA": "OVA",
@@ -46,10 +46,8 @@ class BaseStrEnum(StrEnum):
             "ID": "ID",
             "ID_DESC": "ID Desc",
         }
-
-        if self.value in exceptions:
-            return exceptions[self.value]
-
+        if self.value in overrides:
+            return overrides[self.value]
         return self.value.replace("_", " ").title()
 
 

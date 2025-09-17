@@ -16,19 +16,19 @@ from pyanilist import (
 
 
 def test_enums() -> None:
-    assert CharacterRole.MAIN.title == "Main"
-    assert ExternalLinkType.INFO.title == "Info"
-    assert MediaFormat.TV.title == "TV"
-    assert MediaFormat.TV_SHORT.title == "TV Short"
-    assert MediaFormat.ONE_SHOT.title == "One Shot"
-    assert MediaFormat.OVA.title == "OVA"
-    assert MediaFormat.ONA.title == "ONA"
-    assert MediaRankType.POPULAR.title == "Popular"
-    assert MediaRelation.SIDE_STORY.title == "Side Story"
-    assert MediaSeason.WINTER.title == "Winter"
-    assert MediaSource.LIGHT_NOVEL.title == "Light Novel"
-    assert MediaStatus.NOT_YET_RELEASED.title == "Not Yet Released"
-    assert MediaType.ANIME.title == "Anime"
+    assert CharacterRole.MAIN.label == "Main"
+    assert ExternalLinkType.INFO.label == "Info"
+    assert MediaFormat.TV.label == "TV"
+    assert MediaFormat.TV_SHORT.label == "TV Short"
+    assert MediaFormat.ONE_SHOT.label == "One Shot"
+    assert MediaFormat.OVA.label == "OVA"
+    assert MediaFormat.ONA.label == "ONA"
+    assert MediaRankType.POPULAR.label == "Popular"
+    assert MediaRelation.SIDE_STORY.label == "Side Story"
+    assert MediaSeason.WINTER.label == "Winter"
+    assert MediaSource.LIGHT_NOVEL.label == "Light Novel"
+    assert MediaStatus.NOT_YET_RELEASED.label == "Not Yet Released"
+    assert MediaType.ANIME.label == "Anime"
 
 
 def test_case_insensitive_lookup() -> None:
