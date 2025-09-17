@@ -704,17 +704,16 @@ class AsyncAniList:
             variables["sort"] = sort_key
 
         response = await self._post(query=RECOMMENDATIONS_QUERY, variables=variables)
-        recs = response["Media"]["recommendations"]["nodes"]
+        nodes = response["Media"]["recommendations"]["nodes"]
 
-        for rec in recs:
-            if node := rec["mediaRecommendation"]:
-                node["rating"] = rec["rating"]
-                node = normalize_anilist_data(node)
-                if node:
+        for node in nodes:
+            if rec := node["mediaRecommendation"]:  # AniList can return a `null` recommendation.
+                rec["rating"] = node["rating"]
+                if rec := normalize_anilist_data(rec):
                     # This check is necessary because in some cases,
                     # we may end up with an empty dictionary after normalizing.
                     # See: https://github.com/Ravencentric/pyanilist/issues/29
-                    yield msgspec.convert(node, type=RecommendedMedia, strict=False)
+                    yield msgspec.convert(rec, type=RecommendedMedia, strict=False)
 
     async def get_relations(self, media: MediaID) -> AsyncIterator[RelatedMedia]:
         """
@@ -745,17 +744,16 @@ class AsyncAniList:
 
         """
         response = await self._post(query=RELATIONS_QUERY, variables={"mediaId": resolve_media_id(media)})
-        relations = response["Media"]["relations"]["edges"]
+        edges = response["Media"]["relations"]["edges"]
 
-        for relation in relations:
-            if node := relation["node"]:
-                node["relationType"] = relation["relationType"]
-                node = normalize_anilist_data(node)
-                if node:
+        for edge in edges:
+            if relation := edge["node"]:  # AniList can return a `null` relation.
+                relation["relationType"] = edge["relationType"]
+                if relation := normalize_anilist_data(relation):
                     # This check is necessary because in some cases,
                     # we may end up with an empty dictionary after normalizing.
                     # See: https://github.com/Ravencentric/pyanilist/issues/29
-                    yield msgspec.convert(node, type=RelatedMedia, strict=False)
+                    yield msgspec.convert(relation, type=RelatedMedia, strict=False)
 
     async def get_studios(
         self,
@@ -805,17 +803,16 @@ class AsyncAniList:
             variables["isMain"] = is_main
 
         response = await self._post(query=STUDIOS_QUERY, variables=variables)
-        studios = response["Media"]["studios"]["edges"]
+        edges = response["Media"]["studios"]["edges"]
 
-        for studio in studios:
-            if node := studio["node"]:
-                node["isMain"] = studio["isMain"]
-                node = normalize_anilist_data(node)
-                if node:
+        for edge in edges:
+            if studio := edge["node"]:  # AniList can return a `null` studio.
+                studio["isMain"] = edge["isMain"]
+                if studio := normalize_anilist_data(studio):
                     # This check is necessary because in some cases,
                     # we may end up with an empty dictionary after normalizing.
                     # See: https://github.com/Ravencentric/pyanilist/issues/29
-                    yield msgspec.convert(node, type=Studio, strict=False)
+                    yield msgspec.convert(studio, type=Studio, strict=False)
 
     async def get_staffs(
         self,
@@ -859,17 +856,16 @@ class AsyncAniList:
             variables["sort"] = sort_key
 
         response = await self._post(query=STAFFS_QUERY, variables=variables)
-        staffs = response["Media"]["staff"]["edges"]
+        edges = response["Media"]["staff"]["edges"]
 
-        for staff in staffs:
-            if node := staff["node"]:
-                node["role"] = staff["role"]
-                node = normalize_anilist_data(node)
-                if node:
+        for edge in edges:
+            if staff := edge["node"]:
+                staff["role"] = edge["role"]
+                if staff := normalize_anilist_data(staff):
                     # This check is necessary because in some cases,
                     # we may end up with an empty dictionary after normalizing.
                     # See: https://github.com/Ravencentric/pyanilist/issues/29
-                    yield msgspec.convert(node, type=Staff, strict=False)
+                    yield msgspec.convert(staff, type=Staff, strict=False)
 
     async def get_airing_schedule(
         self,
@@ -967,15 +963,14 @@ class AsyncAniList:
             variables["role"] = role
 
         response = await self._post(query=CHARACTERS_QUERY, variables=variables)
-        characters = response["Media"]["characters"]["edges"]
+        edges = response["Media"]["characters"]["edges"]
 
-        for character in characters:
-            if node := character["node"]:
-                node["role"] = character["role"]
-                node["voiceActors"] = character["voiceActors"]
-                node = normalize_anilist_data(node)
-                if node:
+        for edge in edges:
+            if character := edge["node"]:
+                character["role"] = edge["role"]
+                character["voiceActors"] = edge["voiceActors"]
+                if character := normalize_anilist_data(character):  # AniList can return a `null` character.
                     # This check is necessary because in some cases,
                     # we may end up with an empty dictionary after normalizing.
                     # See: https://github.com/Ravencentric/pyanilist/issues/29
-                    yield msgspec.convert(node, type=Character, strict=False)
+                    yield msgspec.convert(character, type=Character, strict=False)
