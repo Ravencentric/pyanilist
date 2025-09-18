@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from collections.abc import Iterable
 from datetime import datetime, timedelta
-from typing import TYPE_CHECKING, Any, NamedTuple, TypeAlias, TypeVar, Union
+from typing import TYPE_CHECKING, Any, NamedTuple, TypeAlias, TypedDict, TypeVar, Union
 
 if TYPE_CHECKING:
     from typing_extensions import Self
@@ -16,6 +16,7 @@ from pyanilist._enums import (
     MediaRankType,
     MediaRelation,
     MediaSeason,
+    MediaSort,
     MediaSource,
     MediaStatus,
     MediaType,
@@ -739,3 +740,73 @@ class RelatedMedia(Media, frozen=True, kw_only=True):
 
     relation_type: MediaRelation | None = None
     """The type of relation to the parent media."""
+
+
+class MediaQueryKwargs(TypedDict, total=False):
+    id: int | None
+    id_mal: int | None
+    start_date: int | None
+    end_date: int | None
+    season: MediaSeason | None
+    season_year: int | None
+    type: MediaType | None
+    format: MediaFormat | None
+    status: MediaStatus | None
+    episodes: int | None
+    chapters: int | None
+    duration: int | None
+    volumes: int | None
+    is_adult: bool | None
+    genre: str | None
+    tag: str | None
+    minimum_tag_rank: int | None
+    tag_category: str | None
+    licensed_by: str | None
+    licensed_by_id: int | None
+    average_score: int | None
+    popularity: int | None
+    source: MediaSource | None
+    country_of_origin: str | None
+    is_licensed: bool | None
+    id_not: int | None
+    id_in: Iterable[int] | None
+    id_not_in: Iterable[int] | None
+    id_mal_not: int | None
+    id_mal_in: Iterable[int] | None
+    id_mal_not_in: Iterable[int] | None
+    start_date_greater: int | None
+    start_date_lesser: int | None
+    start_date_like: str | None
+    end_date_greater: int | None
+    end_date_lesser: int | None
+    end_date_like: str | None
+    format_in: Iterable[MediaFormat] | None
+    format_not: MediaFormat | None
+    format_not_in: Iterable[MediaFormat] | None
+    status_in: Iterable[MediaStatus] | None
+    status_not: MediaStatus | None
+    status_not_in: Iterable[MediaStatus] | None
+    episodes_greater: int | None
+    episodes_lesser: int | None
+    duration_greater: int | None
+    duration_lesser: int | None
+    chapters_greater: int | None
+    chapters_lesser: int | None
+    volumes_greater: int | None
+    volumes_lesser: int | None
+    genre_in: Iterable[str] | None
+    genre_not_in: Iterable[str] | None
+    tag_in: Iterable[str] | None
+    tag_not_in: Iterable[str] | None
+    tag_category_in: Iterable[str] | None
+    tag_category_not_in: Iterable[str] | None
+    licensed_by_in: Iterable[str] | None
+    licensed_by_id_in: Iterable[int] | None
+    average_score_not: int | None
+    average_score_greater: int | None
+    average_score_lesser: int | None
+    popularity_not: int | None
+    popularity_greater: int | None
+    popularity_lesser: int | None
+    source_in: Iterable[MediaSource] | None
+    sort: SortType[MediaSort]

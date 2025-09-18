@@ -37,8 +37,8 @@ def unasync_file(file: Path, destination: Path) -> None:
 
 
 def fmt(file: Path) -> None:
-    subprocess.run(("uv", "run", "ruff", "format", file), check=True, capture_output=True)
-    subprocess.run(("uv", "run", "ruff", "check", file, "--fix"), check=True, capture_output=True)
+    subprocess.run(("uv", "run", "ruff", "format", file), check=False, capture_output=True)
+    subprocess.run(("uv", "run", "ruff", "check", file, "--fix"), check=False, capture_output=True)
 
 
 def main() -> None:

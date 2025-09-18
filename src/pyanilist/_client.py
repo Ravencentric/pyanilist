@@ -28,13 +28,14 @@ from pyanilist._query import (
     ALL_MEDIA_QUERY,
     CHARACTERS_QUERY,
     MEDIA_QUERY,
+    MEDIA_QUERY_VARS_SNAKE_CASE_TO_ANILIST_CASE,
     RECOMMENDATIONS_QUERY,
     RELATIONS_QUERY,
     STAFFS_QUERY,
     STUDIOS_QUERY,
 )
 from pyanilist._types import AiringSchedule, Character, Media, RecommendedMedia, RelatedMedia, Staff, Studio
-from pyanilist._utils import get_sort_key, normalize_anilist_data, resolve_media_id, to_anilist_case
+from pyanilist._utils import get_sort_key, normalize_anilist_data, resolve_media_id
 from pyanilist._version import __version__
 
 if TYPE_CHECKING:
@@ -350,7 +351,11 @@ class AniList:
 
         variables = locals()
         variables.pop("self")
-        variables = {to_anilist_case(key): value for key, value in variables.items() if value is not None}
+        variables = {
+            MEDIA_QUERY_VARS_SNAKE_CASE_TO_ANILIST_CASE[key]: value
+            for key, value in variables.items()
+            if value is not None
+        }
 
         if sort_key := get_sort_key(sort, MediaSort):
             variables["sort"] = sort_key
@@ -617,7 +622,11 @@ class AniList:
         # Collect and normalize the query variables
         variables = locals()
         variables.pop("self")
-        variables = {to_anilist_case(key): value for key, value in variables.items() if value is not None}
+        variables = {
+            MEDIA_QUERY_VARS_SNAKE_CASE_TO_ANILIST_CASE[key]: value
+            for key, value in variables.items()
+            if value is not None
+        }
 
         if not variables:
             raise NoMediaArgumentsError
