@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import pytest
 
+from pyanilist import MediaQueryKwargs
 from pyanilist._query import (
     ALL_MEDIA_QUERY,
     MEDIA_QUERY,
@@ -104,3 +105,9 @@ def test_media_fields_in_queries() -> None:
 )
 def test_media_query_vars_snake_case_to_anilist_case(key: str, expected: str) -> None:
     assert MEDIA_QUERY_VARS_SNAKE_CASE_TO_ANILIST_CASE[key] == expected
+
+
+def test_media_query_vars_snake_case_to_anilist_case_matches_media_query_kwargs() -> None:
+    assert set(MEDIA_QUERY_VARS_SNAKE_CASE_TO_ANILIST_CASE.keys()) == set(
+        MediaQueryKwargs.__optional_keys__ | {"search"}
+    )
