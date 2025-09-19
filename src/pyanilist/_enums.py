@@ -16,8 +16,12 @@ else:
 
 
 class BaseStrEnum(StrEnum):
-    """StrEnum with case-insensitive lookup."""
+    """
+    Internal base class for string enums.
 
+    Provides case-insensitive lookups and a human-friendly `.label` property.
+    Not intended for direct use; public enums inherit from this.
+    """
     @classmethod
     def _missing_(cls, value: object) -> Self:
         # https://docs.python.org/3/library/enum.html#enum.Enum._missing_

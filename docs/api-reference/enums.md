@@ -1,3 +1,4 @@
+::: pyanilist._enums.BaseStrEnum
 ::: pyanilist.CharacterRole
     options:
         members: true
