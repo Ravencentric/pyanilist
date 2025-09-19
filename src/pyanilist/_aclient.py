@@ -110,8 +110,8 @@ class AsyncAniList:
         ----------
         search : str | None, optional
             Search term to include in the query.
-        **kwargs : Unpack[MediaQueryKwargs], optional
-            Additional query parameters. See [`MediaQueryKwargs`][pyanilist.MediaQueryKwargs]
+        **kwargs : Unpack[MediaQueryParams], optional
+            Additional query parameters. See [`MediaQueryParams`][pyanilist.MediaQueryParams]
             for the full list of supported parameters and their descriptions.
 
         Raises
@@ -153,8 +153,8 @@ class AsyncAniList:
         ----------
         search : str | None, optional
             Search term to include in the query.
-        **kwargs : Unpack[MediaQueryKwargs], optional
-            Additional query parameters. See [`MediaQueryKwargs`][pyanilist.MediaQueryKwargs]
+        **kwargs : Unpack[MediaQueryParams], optional
+            Additional query parameters. See [`MediaQueryParams`][pyanilist.MediaQueryParams]
             for the full list of supported parameters and their descriptions.
 
         Raises
