@@ -9,6 +9,7 @@
 ::: pyanilist.Media
 ::: pyanilist.MediaCoverImage
 ::: pyanilist.MediaExternalLink
+::: pyanilist.MediaQueryKwargs
 ::: pyanilist.MediaRank
 ::: pyanilist.MediaStreamingEpisode
 ::: pyanilist.MediaTag

@@ -743,70 +743,231 @@ class RelatedMedia(Media, frozen=True, kw_only=True):
 
 
 class MediaQueryKwargs(TypedDict, total=False):
+    """All optional keyword arguments for building an AniList media query."""
+
     id: int | None
+    """Filter by the media id."""
+
     id_mal: int | None
+    """Filter by the media's MyAnimeList id."""
+
     start_date: int | None
+    """
+    Filter by the start date of the media.
+    Must be an 8 digit long date integer (YYYYMMDD).
+    Unknown dates represented by 0. E.g. 2016: 20160000, May 1976: 19760500.
+    """
+
     end_date: int | None
+    """Filter by the end date of the media."""
+
     season: MediaSeason | None
+    """Filter by the season the media was released in."""
+
     season_year: int | None
+    """
+    The year of the season (Winter 2017 would also include December 2016 releases).
+    Requires season argument.
+    """
+
     type: MediaType | None
+    """Filter by the media's type."""
+
     format: MediaFormat | None
+    """Filter by the media's format."""
+
     status: MediaStatus | None
+    """Filter by the media's current release status."""
+
     episodes: int | None
+    """Filter by amount of episodes the media has."""
+
     chapters: int | None
+    """Filter by the media's chapter count."""
+
     duration: int | None
+    """Filter by the media's episode length."""
+
     volumes: int | None
+    """Filter by the media's volume count."""
+
     is_adult: bool | None
+    """Filter by if the media's intended for 18+ adult audiences."""
+
     genre: str | None
+    """Filter by the media's genres."""
+
     tag: str | None
+    """Filter by the media's tags."""
+
     minimum_tag_rank: int | None
+    """Only apply the tags filter argument to tags above this rank."""
+
     tag_category: str | None
+    """Filter by the media's tags within a tag category."""
+
     licensed_by: str | None
+    """Filter media by sites name with a online streaming or reading license."""
+
     licensed_by_id: int | None
+    """Filter media by sites id with a online streaming or reading license."""
+
     average_score: int | None
+    """Filter by the media's average score."""
+
     popularity: int | None
+    """Filter by the number of users with this media on their list."""
+
     source: MediaSource | None
+    """Filter by the source type of the media."""
+
     country_of_origin: str | None
+    """Filter by the media's country of origin."""
+
     is_licensed: bool | None
+    """If the media is officially licensed or a self-published doujin release."""
+
     id_not: int | None
+    """Filter by the media id."""
+
     id_in: Iterable[int] | None
+    """Filter by the media id."""
+
     id_not_in: Iterable[int] | None
+    """Filter by the media id."""
+
     id_mal_not: int | None
+    """Filter by the media's MyAnimeList id."""
+
     id_mal_in: Iterable[int] | None
+    """Filter by the media's MyAnimeList id."""
+
     id_mal_not_in: Iterable[int] | None
+    """Filter by the media's MyAnimeList id."""
+
     start_date_greater: int | None
+    """
+    Filter by the start date of the media.
+    Must be an 8 digit long date integer (YYYYMMDD).
+    Unknown dates represented by 0. E.g. 2016: 20160000, May 1976: 19760500.
+    """
+
     start_date_lesser: int | None
+    """
+    Filter by the start date of the media.
+    Must be an 8 digit long date integer (YYYYMMDD).
+    Unknown dates represented by 0. E.g. 2016: 20160000, May 1976: 19760500.
+    """
+
     start_date_like: str | None
+    """Filter by the start date of the media."""
+
     end_date_greater: int | None
+    """
+    Filter by the end date of the media.
+    Must be an 8 digit long date integer (YYYYMMDD).
+    Unknown dates represented by 0. E.g. 2016: 20160000, May 1976: 19760500.
+    """
+
     end_date_lesser: int | None
+    """
+    Filter by the end date of the media.
+    Must be an 8 digit long date integer (YYYYMMDD).
+    Unknown dates represented by 0. E.g. 2016: 20160000, May 1976: 19760500.
+    """
+
     end_date_like: str | None
+    """Filter by the end date of the media."""
+
     format_in: Iterable[MediaFormat] | None
+    """Filter by the media's format."""
+
     format_not: MediaFormat | None
+    """Filter by the media's format."""
+
     format_not_in: Iterable[MediaFormat] | None
+    """Filter by the media's format."""
+
     status_in: Iterable[MediaStatus] | None
+    """Filter by the media's current release status."""
+
     status_not: MediaStatus | None
+    """Filter by the media's current release status."""
+
     status_not_in: Iterable[MediaStatus] | None
+    """Filter by the media's current release status."""
+
     episodes_greater: int | None
+    """Filter by amount of episodes the media has."""
+
     episodes_lesser: int | None
+    """Filter by amount of episodes the media has."""
+
     duration_greater: int | None
+    """Filter by the media's episode length."""
+
     duration_lesser: int | None
+    """Filter by the media's episode length."""
+
     chapters_greater: int | None
+    """Filter by the media's chapter count."""
+
     chapters_lesser: int | None
+    """Filter by the media's chapter count."""
+
     volumes_greater: int | None
+    """Filter by the media's volume count."""
+
     volumes_lesser: int | None
+    """Filter by the media's volume count."""
+
     genre_in: Iterable[str] | None
+    """Filter by the media's genres."""
+
     genre_not_in: Iterable[str] | None
+    """Filter by the media's genres."""
+
     tag_in: Iterable[str] | None
+    """Filter by the media's tags."""
+
     tag_not_in: Iterable[str] | None
+    """Filter by the media's tags."""
+
     tag_category_in: Iterable[str] | None
+    """Filter by the media's tags within a tag category."""
+
     tag_category_not_in: Iterable[str] | None
+    """Filter by the media's tags within a tag category."""
+
     licensed_by_in: Iterable[str] | None
+    """Filter media by sites name with a online streaming or reading license."""
+
     licensed_by_id_in: Iterable[int] | None
+    """Filter media by sites id with a online streaming or reading license."""
+
     average_score_not: int | None
+    """Filter by the media's average score."""
+
     average_score_greater: int | None
+    """Filter by the media's average score."""
+
     average_score_lesser: int | None
+    """Filter by the media's average score."""
+
     popularity_not: int | None
+    """Filter by the number of users with this media on their list."""
+
     popularity_greater: int | None
+    """Filter by the number of users with this media on their list."""
+
     popularity_lesser: int | None
+    """Filter by the number of users with this media on their list."""
+
     source_in: Iterable[MediaSource] | None
+    """Filter by the source type of the media."""
+
     sort: SortType[MediaSort]
+    """
+    The order the results will be returned in.
+    Can be an instance of `MediaSort`, an iterable of `MediaSort`, or None.
+    """

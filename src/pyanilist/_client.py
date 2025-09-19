@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import itertools
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, Unpack
 
 import httpx
 import msgspec
@@ -12,34 +12,36 @@ from httpx import Client
 from pyanilist._enums import (
     CharacterRole,
     CharacterSort,
-    MediaFormat,
-    MediaSeason,
-    MediaSort,
-    MediaSource,
-    MediaStatus,
-    MediaType,
     RecommendationSort,
     StaffSort,
     StudioSort,
 )
-from pyanilist._errors import AnilistError, MediaNotFoundError, NoMediaArgumentsError, RateLimitError
+from pyanilist._errors import AnilistError, MediaNotFoundError, RateLimitError
 from pyanilist._query import (
     AIRING_SCHEDULE_QUERY,
     ALL_MEDIA_QUERY,
     CHARACTERS_QUERY,
     MEDIA_QUERY,
-    MEDIA_QUERY_VARS_SNAKE_CASE_TO_ANILIST_CASE,
     RECOMMENDATIONS_QUERY,
     RELATIONS_QUERY,
     STAFFS_QUERY,
     STUDIOS_QUERY,
 )
-from pyanilist._types import AiringSchedule, Character, Media, RecommendedMedia, RelatedMedia, Staff, Studio
-from pyanilist._utils import get_sort_key, normalize_anilist_data, resolve_media_id
+from pyanilist._types import (
+    AiringSchedule,
+    Character,
+    Media,
+    MediaQueryKwargs,
+    RecommendedMedia,
+    RelatedMedia,
+    Staff,
+    Studio,
+)
+from pyanilist._utils import get_sort_key, normalize_anilist_data, resolve_media_id, to_anilist_vars
 from pyanilist._version import __version__
 
 if TYPE_CHECKING:
-    from collections.abc import Iterable, Iterator
+    from collections.abc import Iterator
 
     from typing_extensions import Self
 
@@ -102,239 +104,26 @@ class AniList:
 
         return data["data"]  # type: ignore[no-any-return]
 
-    def get_media(  # noqa: PLR0913
-        self,
-        search: str | None = None,
-        *,
-        id: int | None = None,
-        id_mal: int | None = None,
-        start_date: int | None = None,
-        end_date: int | None = None,
-        season: MediaSeason | None = None,
-        season_year: int | None = None,
-        type: MediaType | None = None,
-        format: MediaFormat | None = None,
-        status: MediaStatus | None = None,
-        episodes: int | None = None,
-        chapters: int | None = None,
-        duration: int | None = None,
-        volumes: int | None = None,
-        is_adult: bool | None = None,
-        genre: str | None = None,
-        tag: str | None = None,
-        minimum_tag_rank: int | None = None,
-        tag_category: str | None = None,
-        licensed_by: str | None = None,
-        licensed_by_id: int | None = None,
-        average_score: int | None = None,
-        popularity: int | None = None,
-        source: MediaSource | None = None,
-        country_of_origin: str | None = None,
-        is_licensed: bool | None = None,
-        id_not: int | None = None,
-        id_in: Iterable[int] | None = None,
-        id_not_in: Iterable[int] | None = None,
-        id_mal_not: int | None = None,
-        id_mal_in: Iterable[int] | None = None,
-        id_mal_not_in: Iterable[int] | None = None,
-        start_date_greater: int | None = None,
-        start_date_lesser: int | None = None,
-        start_date_like: str | None = None,
-        end_date_greater: int | None = None,
-        end_date_lesser: int | None = None,
-        end_date_like: str | None = None,
-        format_in: Iterable[MediaFormat] | None = None,
-        format_not: MediaFormat | None = None,
-        format_not_in: Iterable[MediaFormat] | None = None,
-        status_in: Iterable[MediaStatus] | None = None,
-        status_not: MediaStatus | None = None,
-        status_not_in: Iterable[MediaStatus] | None = None,
-        episodes_greater: int | None = None,
-        episodes_lesser: int | None = None,
-        duration_greater: int | None = None,
-        duration_lesser: int | None = None,
-        chapters_greater: int | None = None,
-        chapters_lesser: int | None = None,
-        volumes_greater: int | None = None,
-        volumes_lesser: int | None = None,
-        genre_in: Iterable[str] | None = None,
-        genre_not_in: Iterable[str] | None = None,
-        tag_in: Iterable[str] | None = None,
-        tag_not_in: Iterable[str] | None = None,
-        tag_category_in: Iterable[str] | None = None,
-        tag_category_not_in: Iterable[str] | None = None,
-        licensed_by_in: Iterable[str] | None = None,
-        licensed_by_id_in: Iterable[int] | None = None,
-        average_score_not: int | None = None,
-        average_score_greater: int | None = None,
-        average_score_lesser: int | None = None,
-        popularity_not: int | None = None,
-        popularity_greater: int | None = None,
-        popularity_lesser: int | None = None,
-        source_in: Iterable[MediaSource] | None = None,
-        sort: SortType[MediaSort] = None,
-    ) -> Media:
+    def get_media(self, search: str | None = None, **kwargs: Unpack[MediaQueryKwargs]) -> Media:
         """
-        Retrieve a single media object from AniList based on the provided parameters.
+        Retrieve a single media object from AniList based on the provided query parameters.
 
         Parameters
         ----------
         search : str | None, optional
-            Filter by search query.
-        id : int | None, optional
-            Filter by the media id.
-        id_mal : int | None, optional
-            Filter by the media's MyAnimeList id.
-        start_date : int | None, optional
-            Filter by the start date of the media.
-            Must be an 8 digit long date integer (YYYYMMDD).
-            Unknown dates represented by 0. E.g. 2016: 20160000, May 1976: 19760500.
-        end_date : int | None, optional
-            Filter by the end date of the media.
-        season : MediaSeason | None, optional
-            Filter by the season the media was released in.
-        season_year : int | None, optional
-            The year of the season (Winter 2017 would also include December 2016 releases). Requires season argument.
-        type : MediaType | None, optional
-            Filter by the media's type.
-        format : MediaFormat | None, optional
-            Filter by the media's format.
-        status : MediaStatus | None, optional
-            Filter by the media's current release status.
-        episodes : int | None, optional
-            Filter by amount of episodes the media has.
-        chapters : int | None, optional
-            Filter by the media's episode length.
-        duration : int | None, optional
-            Filter by the media's chapter count.
-        volumes : int | None, optional
-            Filter by the media's volume count.
-        is_adult : bool | None, optional
-            Filter by if the media's intended for 18+ adult audiences.
-        genre : str | None, optional
-            Filter by the media's genres.
-        tag : str | None, optional
-            Filter by the media's tags.
-        minimum_tag_rank : int | None, optional
-            Only apply the tags filter argument to tags above this rank. Default: 18.
-        tag_category : str | None, optional
-            Filter by the media's tags within a tag category.
-        licensed_by : str | None, optional
-            Filter media by sites name with a online streaming or reading license.
-        licensed_by_id : int | None, optional
-            Filter media by sites id with a online streaming or reading license.
-        average_score : int | None, optional
-            Filter by the media's average score.
-        popularity : int | None, optional
-            Filter by the number of users with this media on their list.
-        source : MediaSource | None, optional
-            Filter by the source type of the media.
-        country_of_origin : str | None, optional
-            Filter by the media's country of origin.
-        is_licensed : bool | None, optional
-            If the media is officially licensed or a self-published doujin release.
-        id_not : int | None, optional
-            Filter by the media id.
-        id_in : Iterable[int] | None, optional
-            Filter by the media id.
-        id_not_in : Iterable[int] | None, optional
-            Filter by the media id.
-        id_mal_not : int | None, optional
-            Filter by the media's MyAnimeList id.
-        id_mal_in : Iterable[int] | None, optional
-            Filter by the media's MyAnimeList id.
-        id_mal_not_in : Iterable[int] | None, optional
-            Filter by the media's MyAnimeList id.
-        start_date_greater : int | None, optional
-            Filter by the start date of the media.
-            Must be an 8 digit long date integer (YYYYMMDD).
-            Unknown dates represented by 0. E.g. 2016: 20160000, May 1976: 19760500.
-        start_date_lesser : int | None, optional
-            Filter by the start date of the media.
-            Must be an 8 digit long date integer (YYYYMMDD).
-            Unknown dates represented by 0. E.g. 2016: 20160000, May 1976: 19760500.
-        start_date_like : str | None, optional
-            Filter by the start date of the media.
-        end_date_greater : int | None, optional
-            Filter by the end date of the media.
-            Must be an 8 digit long date integer (YYYYMMDD).
-            Unknown dates represented by 0. E.g. 2016: 20160000, May 1976: 19760500.
-        end_date_lesser : int | None, optional
-            Filter by the end date of the media.
-            Must be an 8 digit long date integer (YYYYMMDD).
-            Unknown dates represented by 0. E.g. 2016: 20160000, May 1976: 19760500.
-        end_date_like : str | None, optional
-            Filter by the end date of the media.
-        format_in : Iterable[MediaFormat] | None, optional
-            Filter by the media's format.
-        format_not : MediaFormat | None, optional
-            Filter by the media's format.
-        format_not_in : Iterable[MediaFormat] | None, optional
-            Filter by the media's format.
-        status_in : Iterable[MediaStatus] | None, optional
-            Filter by the media's current release status.
-        status_not : MediaStatus | None, optional
-            Filter by the media's current release status.
-        status_not_in : Iterable[MediaStatus] | None, optional
-            Filter by the media's current release status.
-        episodes_greater : int | None, optional
-            Filter by amount of episodes the media has.
-        episodes_lesser : int | None, optional
-            Filter by amount of episodes the media has.
-        duration_greater : int | None, optional
-            Filter by the media's episode length.
-        duration_lesser : int | None, optional
-            Filter by the media's episode length.
-        chapters_greater : int | None, optional
-            Filter by the media's chapter count.
-        chapters_lesser : int | None, optional
-            Filter by the media's chapter count.
-        volumes_greater : int | None, optional
-            Filter by the media's volume count.
-        volumes_lesser : int | None, optional
-            Filter by the media's volume count.
-        genre_in : Iterable[str] | None, optional
-            Filter by the media's genres.
-        genre_not_in : Iterable[str] | None, optional
-            Filter by the media's genres.
-        tag_in : Iterable[str] | None, optional
-            Filter by the media's tags.
-        tag_not_in : Iterable[str] | None, optional
-            Filter by the media's tags.
-        tag_category_in : Iterable[str] | None, optional
-            Filter by the media's tags within a tag category.
-        tag_category_not_in : Iterable[str] | None, optional
-            Filter by the media's tags within a tag category.
-        licensed_by_in : Iterable[str] | None, optional
-            Filter media by sites name with a online streaming or reading license.
-        licensed_by_id_in : Iterable[int] | None, optional
-            Filter media by sites id with a online streaming or reading license.
-        average_score_not : int | None, optional
-            Filter by the media's average score.
-        average_score_greater : int | None, optional
-            Filter by the media's average score.
-        average_score_lesser : int | None, optional
-            Filter by the media's average score.
-        popularity_not : int | None, optional
-            Filter by the number of users with this media on their list.
-        popularity_greater : int | None, optional
-            Filter by the number of users with this media on their list.
-        popularity_lesser : int | None, optional
-            Filter by the number of users with this media on their list.
-        source_in : Iterable[MediaSource] | None, optional
-            Filter by the source type of the media.
-        sort : SortType[MediaSort], optional
-            The order the results will be returned in.
-            Can be an instance of `MediaSort`, an iterable of `MediaSort`, or None.
+            Search term to include in the query.
+        **kwargs : Unpack[MediaQueryKwargs], optional
+            Additional query parameters. See [`MediaQueryKwargs`][pyanilist.MediaQueryKwargs]
+            for the full list of supported keys and their descriptions.
 
         Raises
         ------
         MediaNotFoundError
-            If the provided `media` ID or URL does not correspond to any existing media on Anilist.
+            If no media matches the provided query parameters on AniList.
+        InvalidMediaQueryError
+            Raised when the query parameters are missing, empty, or contain unexpected keys.
         RateLimitError
             If the API rate limit is exceeded. The error will contain information on how long to wait before retrying.
-        NoMediaArgumentsError
-            If no media query arguments are provided.
         AnilistError
             If any other error occurs during the API request.
         TypeError
@@ -348,263 +137,36 @@ class AniList:
             An object representing the retrieved media.
 
         """
-
-        variables = locals()
-        variables.pop("self")
-        variables = {
-            MEDIA_QUERY_VARS_SNAKE_CASE_TO_ANILIST_CASE[key]: value
-            for key, value in variables.items()
-            if value is not None
-        }
-
-        if sort_key := get_sort_key(sort, MediaSort):
-            variables["sort"] = sort_key
-
-        if not variables:
-            raise NoMediaArgumentsError
-
         response = self._post(
             query=MEDIA_QUERY,
-            variables=variables,
+            variables=to_anilist_vars(search, kwargs),
         )
-        media: dict[str, Any] = normalize_anilist_data(response["Media"])
+        media = normalize_anilist_data(response["Media"])
         return msgspec.convert(media, type=Media, strict=False)
 
-    def get_media_many(  # noqa: PLR0913
-        self,
-        search: str | None = None,
-        *,
-        id: int | None = None,
-        id_mal: int | None = None,
-        start_date: int | None = None,
-        end_date: int | None = None,
-        season: MediaSeason | None = None,
-        season_year: int | None = None,
-        type: MediaType | None = None,
-        format: MediaFormat | None = None,
-        status: MediaStatus | None = None,
-        episodes: int | None = None,
-        chapters: int | None = None,
-        duration: int | None = None,
-        volumes: int | None = None,
-        is_adult: bool | None = None,
-        genre: str | None = None,
-        tag: str | None = None,
-        minimum_tag_rank: int | None = None,
-        tag_category: str | None = None,
-        licensed_by: str | None = None,
-        licensed_by_id: int | None = None,
-        average_score: int | None = None,
-        popularity: int | None = None,
-        source: MediaSource | None = None,
-        country_of_origin: str | None = None,
-        is_licensed: bool | None = None,
-        id_not: int | None = None,
-        id_in: Iterable[int] | None = None,
-        id_not_in: Iterable[int] | None = None,
-        id_mal_not: int | None = None,
-        id_mal_in: Iterable[int] | None = None,
-        id_mal_not_in: Iterable[int] | None = None,
-        start_date_greater: int | None = None,
-        start_date_lesser: int | None = None,
-        start_date_like: str | None = None,
-        end_date_greater: int | None = None,
-        end_date_lesser: int | None = None,
-        end_date_like: str | None = None,
-        format_in: Iterable[MediaFormat] | None = None,
-        format_not: MediaFormat | None = None,
-        format_not_in: Iterable[MediaFormat] | None = None,
-        status_in: Iterable[MediaStatus] | None = None,
-        status_not: MediaStatus | None = None,
-        status_not_in: Iterable[MediaStatus] | None = None,
-        episodes_greater: int | None = None,
-        episodes_lesser: int | None = None,
-        duration_greater: int | None = None,
-        duration_lesser: int | None = None,
-        chapters_greater: int | None = None,
-        chapters_lesser: int | None = None,
-        volumes_greater: int | None = None,
-        volumes_lesser: int | None = None,
-        genre_in: Iterable[str] | None = None,
-        genre_not_in: Iterable[str] | None = None,
-        tag_in: Iterable[str] | None = None,
-        tag_not_in: Iterable[str] | None = None,
-        tag_category_in: Iterable[str] | None = None,
-        tag_category_not_in: Iterable[str] | None = None,
-        licensed_by_in: Iterable[str] | None = None,
-        licensed_by_id_in: Iterable[int] | None = None,
-        average_score_not: int | None = None,
-        average_score_greater: int | None = None,
-        average_score_lesser: int | None = None,
-        popularity_not: int | None = None,
-        popularity_greater: int | None = None,
-        popularity_lesser: int | None = None,
-        source_in: Iterable[MediaSource] | None = None,
-        sort: SortType[MediaSort] = None,
-    ) -> Iterator[Media]:
+    def get_media_many(self, search: str | None = None, **kwargs: Unpack[MediaQueryKwargs]) -> Iterator[Media]:
         """
-        Retrieve all matching media from AniList based on the provided parameters as an iterator.
+        Retrieve all matching media from AniList as an iterator
+        based on the provided query parameters.
 
         Unlike [`AniList.get_media`][pyanilist.AniList.get_media],
         this method does not raise a [`MediaNotFoundError`][pyanilist.MediaNotFoundError]
-        if no media entries are found; instead, the iterator will simply be empty.
+        if no results are found; the iterator will simply be empty.
 
         Parameters
         ----------
         search : str | None, optional
-            Filter by search query.
-        id : int | None, optional
-            Filter by the media id.
-        id_mal : int | None, optional
-            Filter by the media's MyAnimeList id.
-        start_date : int | None, optional
-            Filter by the start date of the media.
-            Must be an 8 digit long date integer (YYYYMMDD).
-            Unknown dates represented by 0. E.g. 2016: 20160000, May 1976: 19760500.
-        end_date : int | None, optional
-            Filter by the end date of the media.
-        season : MediaSeason | None, optional
-            Filter by the season the media was released in.
-        season_year : int | None, optional
-            The year of the season (Winter 2017 would also include December 2016 releases). Requires season argument.
-        type : MediaType | None, optional
-            Filter by the media's type.
-        format : MediaFormat | None, optional
-            Filter by the media's format.
-        status : MediaStatus | None, optional
-            Filter by the media's current release status.
-        episodes : int | None, optional
-            Filter by amount of episodes the media has.
-        chapters : int | None, optional
-            Filter by the media's episode length.
-        duration : int | None, optional
-            Filter by the media's chapter count.
-        volumes : int | None, optional
-            Filter by the media's volume count.
-        is_adult : bool | None, optional
-            Filter by if the media's intended for 18+ adult audiences.
-        genre : str | None, optional
-            Filter by the media's genres.
-        tag : str | None, optional
-            Filter by the media's tags.
-        minimum_tag_rank : int | None, optional
-            Only apply the tags filter argument to tags above this rank. Default: 18.
-        tag_category : str | None, optional
-            Filter by the media's tags within a tag category.
-        licensed_by : str | None, optional
-            Filter media by sites name with a online streaming or reading license.
-        licensed_by_id : int | None, optional
-            Filter media by sites id with a online streaming or reading license.
-        average_score : int | None, optional
-            Filter by the media's average score.
-        popularity : int | None, optional
-            Filter by the number of users with this media on their list.
-        source : MediaSource | None, optional
-            Filter by the source type of the media.
-        country_of_origin : str | None, optional
-            Filter by the media's country of origin.
-        is_licensed : bool | None, optional
-            If the media is officially licensed or a self-published doujin release.
-        id_not : int | None, optional
-            Filter by the media id.
-        id_in : Iterable[int] | None, optional
-            Filter by the media id.
-        id_not_in : Iterable[int] | None, optional
-            Filter by the media id.
-        id_mal_not : int | None, optional
-            Filter by the media's MyAnimeList id.
-        id_mal_in : Iterable[int] | None, optional
-            Filter by the media's MyAnimeList id.
-        id_mal_not_in : Iterable[int] | None, optional
-            Filter by the media's MyAnimeList id.
-        start_date_greater : int | None, optional
-            Filter by the start date of the media.
-            Must be an 8 digit long date integer (YYYYMMDD).
-            Unknown dates represented by 0. E.g. 2016: 20160000, May 1976: 19760500.
-        start_date_lesser : int | None, optional
-            Filter by the start date of the media.
-            Must be an 8 digit long date integer (YYYYMMDD).
-            Unknown dates represented by 0. E.g. 2016: 20160000, May 1976: 19760500.
-        start_date_like : str | None, optional
-            Filter by the start date of the media.
-        end_date_greater : int | None, optional
-            Filter by the end date of the media.
-            Must be an 8 digit long date integer (YYYYMMDD).
-            Unknown dates represented by 0. E.g. 2016: 20160000, May 1976: 19760500.
-        end_date_lesser : int | None, optional
-            Filter by the end date of the media.
-            Must be an 8 digit long date integer (YYYYMMDD).
-            Unknown dates represented by 0. E.g. 2016: 20160000, May 1976: 19760500.
-        end_date_like : str | None, optional
-            Filter by the end date of the media.
-        format_in : Iterable[MediaFormat] | None, optional
-            Filter by the media's format.
-        format_not : MediaFormat | None, optional
-            Filter by the media's format.
-        format_not_in : Iterable[MediaFormat] | None, optional
-            Filter by the media's format.
-        status_in : Iterable[MediaStatus] | None, optional
-            Filter by the media's current release status.
-        status_not : MediaStatus | None, optional
-            Filter by the media's current release status.
-        status_not_in : Iterable[MediaStatus] | None, optional
-            Filter by the media's current release status.
-        episodes_greater : int | None, optional
-            Filter by amount of episodes the media has.
-        episodes_lesser : int | None, optional
-            Filter by amount of episodes the media has.
-        duration_greater : int | None, optional
-            Filter by the media's episode length.
-        duration_lesser : int | None, optional
-            Filter by the media's episode length.
-        chapters_greater : int | None, optional
-            Filter by the media's chapter count.
-        chapters_lesser : int | None, optional
-            Filter by the media's chapter count.
-        volumes_greater : int | None, optional
-            Filter by the media's volume count.
-        volumes_lesser : int | None, optional
-            Filter by the media's volume count.
-        genre_in : Iterable[str] | None, optional
-            Filter by the media's genres.
-        genre_not_in : Iterable[str] | None, optional
-            Filter by the media's genres.
-        tag_in : Iterable[str] | None, optional
-            Filter by the media's tags.
-        tag_not_in : Iterable[str] | None, optional
-            Filter by the media's tags.
-        tag_category_in : Iterable[str] | None, optional
-            Filter by the media's tags within a tag category.
-        tag_category_not_in : Iterable[str] | None, optional
-            Filter by the media's tags within a tag category.
-        licensed_by_in : Iterable[str] | None, optional
-            Filter media by sites name with a online streaming or reading license.
-        licensed_by_id_in : Iterable[int] | None, optional
-            Filter media by sites id with a online streaming or reading license.
-        average_score_not : int | None, optional
-            Filter by the media's average score.
-        average_score_greater : int | None, optional
-            Filter by the media's average score.
-        average_score_lesser : int | None, optional
-            Filter by the media's average score.
-        popularity_not : int | None, optional
-            Filter by the number of users with this media on their list.
-        popularity_greater : int | None, optional
-            Filter by the number of users with this media on their list.
-        popularity_lesser : int | None, optional
-            Filter by the number of users with this media on their list.
-        source_in : Iterable[MediaSource] | None, optional
-            Filter by the source type of the media.
-        sort : SortType[MediaSort], optional
-            The order the results will be returned in.
-            Can be an instance of `MediaSort`, an iterable of `MediaSort`, or None.
+            Search term to include in the query.
+        **kwargs : Unpack[MediaQueryKwargs], optional
+            Additional query parameters. See [`MediaQueryKwargs`][MediaQueryKwargs]
+            for the full list of supported keys and their descriptions.
 
         Raises
         ------
+        InvalidMediaQueryError
+            Raised when the query parameters are missing, empty, or contain unexpected keys.
         RateLimitError
             If the API rate limit is exceeded. The error will contain information on how long to wait before retrying.
-        NoMediaArgumentsError
-            If no media query arguments are provided.
         AnilistError
             If any other error occurs during the API request.
         TypeError
@@ -615,21 +177,11 @@ class AniList:
         Yields
         ------
         Media
-            An object representing the retrieved media.
+            Each matching media object retrieved from AniList.
 
         """
 
-        # Collect and normalize the query variables
-        variables = locals()
-        variables.pop("self")
-        variables = {
-            MEDIA_QUERY_VARS_SNAKE_CASE_TO_ANILIST_CASE[key]: value
-            for key, value in variables.items()
-            if value is not None
-        }
-
-        if not variables:
-            raise NoMediaArgumentsError
+        variables = to_anilist_vars(search, kwargs)
 
         # We fetch four pages in one request with 50 results per page (AniList caps out at 50).
         variables["page1"] = 1
@@ -638,9 +190,6 @@ class AniList:
         variables["page4"] = 4
         variables["perPage"] = 50
         has_next_page: bool = True
-
-        if sort_key := get_sort_key(sort, MediaSort):
-            variables["sort"] = sort_key
 
         while has_next_page:
             response = self._post(

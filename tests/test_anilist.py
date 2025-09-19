@@ -11,6 +11,7 @@ from pyanilist import (
     CharacterRole,
     CharacterSort,
     FuzzyDate,
+    InvalidMediaQueryError,
     MediaCoverImage,
     MediaFormat,
     MediaNotFoundError,
@@ -21,7 +22,6 @@ from pyanilist import (
     MediaTitle,
     MediaTrailer,
     MediaType,
-    NoMediaArgumentsError,
     RateLimitError,
     RecommendationSort,
     StaffSort,
@@ -484,10 +484,10 @@ def test_rate_limit_error(anilist_client: AniList) -> None:
 
 
 def test_get_media_no_parameters_error(anilist_client: AniList) -> None:
-    with pytest.raises(NoMediaArgumentsError):
+    with pytest.raises(InvalidMediaQueryError):
         _ = anilist_client.get_media()
 
 
 def test_get_all_media_no_parameters_error(anilist_client: AniList) -> None:
-    with pytest.raises(NoMediaArgumentsError):
+    with pytest.raises(InvalidMediaQueryError):
         _ = [media.title for media in anilist_client.get_media_many()]

@@ -16,6 +16,7 @@ SUBS = {
     "aclose()": "close()",
     "__aenter__": "__enter__",
     "__aexit__": "__exit__",
+    "asynchronous iterator": "iterator",
 }
 
 

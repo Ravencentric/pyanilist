@@ -4,7 +4,10 @@ import re
 from collections.abc import Iterable
 from typing import Any, ParamSpec, TypeAlias, TypeVar
 
-from pyanilist._types import Media, MediaID, SortType
+from pyanilist._enums import MediaSort
+from pyanilist._errors import InvalidMediaQueryError
+from pyanilist._query import MEDIA_QUERY_VARS_SNAKE_CASE_TO_ANILIST_CASE
+from pyanilist._types import Media, MediaID, MediaQueryKwargs, SortType
 
 T = TypeVar("T")
 P = ParamSpec("P")
@@ -122,3 +125,33 @@ def get_sort_key(sort: SortType[T], typ: type[T]) -> tuple[T, ...] | None:
 
     msg = f"Invalid sort key: {type(sort).__name__}"
     raise TypeError(msg)
+
+
+def to_anilist_vars(search: str | None, kwargs: MediaQueryKwargs) -> dict[str, Any]:
+    """
+    Convert search and Media query keyword arguments to AniList API variables.
+    """
+    variables: dict[str, Any] = {}
+
+    if search:
+        variables["search"] = search
+
+    sort = kwargs.pop("sort", None)
+    if sort_key := get_sort_key(sort, MediaSort):
+        variables["sort"] = sort_key
+
+    try:
+        variables.update(
+            (MEDIA_QUERY_VARS_SNAKE_CASE_TO_ANILIST_CASE[key], value)
+            for key, value in kwargs.items()
+            if value is not None
+        )
+    except KeyError as key:
+        msg = f"Unexpected media query variable: {key!r}"
+        raise InvalidMediaQueryError(msg) from None
+
+    if not variables:
+        msg = "The Media query requires at least one valid argument."
+        raise InvalidMediaQueryError(msg)
+
+    return variables
