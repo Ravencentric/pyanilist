@@ -158,7 +158,7 @@ class AniList:
         search : str | None, optional
             Search term to include in the query.
         **kwargs : Unpack[MediaQueryKwargs], optional
-            Additional query parameters. See [`MediaQueryKwargs`][MediaQueryKwargs]
+            Additional query parameters. See [`MediaQueryKwargs`][pyanilist.MediaQueryKwargs]
             for the full list of supported keys and their descriptions.
 
         Raises
