@@ -243,11 +243,11 @@ def test_resolve_media_id() -> None:
 
     with pytest.raises(
         ValueError,
-        match="Invalid media URL. Expected a URL like 'https://anilist.co/anime/{id}', but got 'https://anilist.co/character/191241/Chinatsu-Kano'.",
+        match=r"Invalid media URL. Expected a URL like 'https://anilist.co/anime/{id}', but got 'https://anilist.co/character/191241/Chinatsu-Kano'.",
     ):
         resolve_media_id("https://anilist.co/character/191241/Chinatsu-Kano")
 
-    with pytest.raises(TypeError, match="Expected media to be an int, str, or Media object, but got NoneType."):
+    with pytest.raises(TypeError, match=r"Expected media to be an int, str, or Media object, but got NoneType."):
         resolve_media_id(None)  # type: ignore[arg-type]
 
 
@@ -276,5 +276,5 @@ def test_to_anilist_vars() -> None:
     with pytest.raises(InvalidMediaQueryError, match="Unexpected media query variable: 'unexpected_key'"):
         to_anilist_vars(None, {"unexpected_key": 123})  # type: ignore[typeddict-unknown-key]
 
-    with pytest.raises(InvalidMediaQueryError, match="The Media query requires at least one valid argument."):
+    with pytest.raises(InvalidMediaQueryError, match=r"The Media query requires at least one valid argument."):
         to_anilist_vars(None, {})
