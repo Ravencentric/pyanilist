@@ -52,7 +52,7 @@ with AniList() as anilist:
 
 ## Docs
 
-Checkout the complete documentation [here](https://pyanilist.ravencentric.cc).
+Checkout the complete documentation [here](https://ravencentric.cc/pyanilist/).
 
 ## License
 
