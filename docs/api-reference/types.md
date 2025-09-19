@@ -1,6 +1,3 @@
-<!-- Private Base Class -->
-::: pyanilist._types.Base
-<!-- Public Types -->
 ::: pyanilist.AiringSchedule
 ::: pyanilist.Character
 ::: pyanilist.CharacterImage
