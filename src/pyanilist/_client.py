@@ -159,8 +159,6 @@ class AniList:
 
         Raises
         ------
-        MediaNotFoundError
-            If no media matches the provided query parameters on AniList.
         InvalidMediaQueryError
             If the query parameters are missing, empty, or contain unexpected keys.
         RateLimitError
@@ -177,7 +175,7 @@ class AniList:
 
         variables = to_anilist_vars(search, kwargs)
 
-        # We fetch four pages in one request with 50 results per page (AniList caps out at 50).
+        # Fetch four pages in one request with 50 results per page (AniList caps at 50).
         variables["page1"] = 1
         variables["page2"] = 2
         variables["page3"] = 3
@@ -191,17 +189,17 @@ class AniList:
                 variables=variables,
             )
 
-            # As per Anilist's documentation:
+            # As per AniList's documentation:
             # "You should only rely on hasNextPage for any pagination logic."
             # Reference: https://docs.anilist.co/guide/graphql/pagination#pageinfo
             #
-            # In our case, we are always grabbing 4 pages at a time,
-            # so we only have to consider if there's any more pages
-            # after the last page (page4)
+            # In this case, we always grab 4 pages at a time,
+            # so we only need to check if there are any more pages
+            # after the last page (page4).
             has_next_page = response["page4"]["pageInfo"]["hasNextPage"]
 
             if has_next_page:
-                # Get the next set of 4 pages
+                # Get the next set of 4 pages.
                 variables["page1"] += 4  # 1 + 4 => 5
                 variables["page2"] += 4  # 2 + 4 => 6
                 variables["page3"] += 4  # 3 + 4 => 7
@@ -241,7 +239,7 @@ class AniList:
         Raises
         ------
         MediaNotFoundError
-            If no media matches the provided query parameters on AniList.
+            If the provided media ID or URL does not correspond to any existing media on AniList.
         RateLimitError
             If the API rate limit is exceeded. The error contains information on how long to wait before retrying.
         AnilistError
@@ -272,7 +270,7 @@ class AniList:
         Parameters
         ----------
         media : MediaID
-            The media to get relations for. Can be an ID (`int`), a URL (`str`), or a `Media` object.
+            The media to get related media for. Can be an ID (`int`), a URL (`str`), or a `Media` object.
 
         Yields
         ------
@@ -282,7 +280,7 @@ class AniList:
         Raises
         ------
         MediaNotFoundError
-            If no media matches the provided query parameters on AniList.
+            If the provided media ID or URL does not correspond to any existing media on AniList.
         RateLimitError
             If the API rate limit is exceeded. The error contains information on how long to wait before retrying.
         AnilistError
@@ -329,7 +327,7 @@ class AniList:
         Raises
         ------
         MediaNotFoundError
-            If no media matches the provided query parameters on AniList.
+            If the provided media ID or URL does not correspond to any existing media on AniList.
         RateLimitError
             If the API rate limit is exceeded. The error contains information on how long to wait before retrying.
         AnilistError
@@ -363,25 +361,25 @@ class AniList:
         sort: SortType[StaffSort] = None,
     ) -> Iterator[Staff]:
         """
-        Retrieve staffs based on a given `Media` object or ID.
+        Retrieve staff members based on a given `Media` object or ID.
 
         Parameters
         ----------
         media : MediaID
-            The media to get staffs for. Can be an ID (`int`), a URL (`str`), or a `Media` object.
+            The media to get staff for. Can be an ID (`int`), a URL (`str`), or a `Media` object.
         sort : SortType[StaffSort], optional
-            Sorting criteria for the staffs.
+            Sorting criteria for the staff.
             Can be an instance of `StaffSort`, an iterable of `StaffSort`, or None.
 
         Yields
         ------
         Staff
-            An object representing the retrieved staff.
+            An object representing the retrieved staff member.
 
         Raises
         ------
         MediaNotFoundError
-            If no media matches the provided query parameters on AniList.
+            If the provided media ID or URL does not correspond to any existing media on AniList.
         RateLimitError
             If the API rate limit is exceeded. The error contains information on how long to wait before retrying.
         AnilistError
@@ -419,7 +417,7 @@ class AniList:
         media : MediaID
             The media to get the airing schedule for. Can be an ID (`int`), a URL (`str`), or a `Media` object.
         not_yet_aired : bool | None, optional
-            Filter results to only include episodes that have not yet aired (`True`),
+            Filter results to include only episodes that have not yet aired (`True`),
             exclude unaired episodes (`False`), or include all episodes (`None`).
 
         Yields
@@ -430,7 +428,7 @@ class AniList:
         Raises
         ------
         MediaNotFoundError
-            If no media matches the provided query parameters on AniList.
+            If the provided media ID or URL does not correspond to any existing media on AniList.
         RateLimitError
             If the API rate limit is exceeded. The error contains information on how long to wait before retrying.
         AnilistError
@@ -477,7 +475,7 @@ class AniList:
         Raises
         ------
         MediaNotFoundError
-            If no media matches the provided query parameters on AniList.
+            If the provided media ID or URL does not correspond to any existing media on AniList.
         RateLimitError
             If the API rate limit is exceeded. The error contains information on how long to wait before retrying.
         AnilistError
