@@ -147,7 +147,7 @@ def to_anilist_vars(search: str | None, kwargs: MediaQueryKwargs) -> dict[str, A
             if value is not None
         )
     except KeyError as key:
-        msg = f"Unexpected media query variable: {key!r}"
+        msg = f"Unexpected media query variable: {key}"
         raise InvalidMediaQueryError(msg) from None
 
     if not variables:

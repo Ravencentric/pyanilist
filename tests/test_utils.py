@@ -4,8 +4,8 @@ from typing import Any
 
 import pytest
 
-from pyanilist import Media, MediaTitle, RecommendationSort
-from pyanilist._utils import get_sort_key, normalize_anilist_data, resolve_media_id
+from pyanilist import InvalidMediaQueryError, Media, MediaSort, MediaTitle, RecommendationSort
+from pyanilist._utils import get_sort_key, normalize_anilist_data, resolve_media_id, to_anilist_vars
 
 
 def test_normalize_anilist_data() -> None:
@@ -262,3 +262,18 @@ def test_get_sort_key() -> None:
 
     with pytest.raises(TypeError):
         get_sort_key(object(), RecommendationSort)
+
+def test_to_anilist_vars() -> None:
+    assert to_anilist_vars(None, {"id": 123}) == {"id": 123}
+    assert to_anilist_vars("hola", {"id_mal": 123}) == {"search": "hola", "idMal": 123}
+    assert to_anilist_vars(None, {"average_score": 80, "is_adult": False, "sort": MediaSort.ID, "genre": None}) == {
+        "averageScore": 80,
+        "isAdult": False,
+        "sort": (MediaSort.ID,),
+    }
+
+    with pytest.raises(InvalidMediaQueryError, match="Unexpected media query variable: 'unexpected_key'"):
+        to_anilist_vars(None, {"unexpected_key": 123})  # type: ignore[typeddict-unknown-key]
+
+    with pytest.raises(InvalidMediaQueryError, match="The Media query requires at least one valid argument."):
+        to_anilist_vars(None, {})
