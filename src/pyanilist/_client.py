@@ -218,7 +218,10 @@ class AniList:
                     yield msgspec.convert(node, type=Media, strict=False)
 
     def get_recommendations(
-        self, media: MediaID, *, sort: SortType[RecommendationSort] = None
+        self,
+        media: MediaID,
+        *,
+        sort: SortType[RecommendationSort] | None = None,
     ) -> Iterator[RecommendedMedia]:
         """
         Retrieve recommended media based on a given `Media` object or ID.
@@ -303,7 +306,7 @@ class AniList:
         self,
         media: MediaID,
         *,
-        sort: SortType[StudioSort] = None,
+        sort: SortType[StudioSort] | None = None,
         is_main: bool | None = None,
     ) -> Iterator[Studio]:
         """
@@ -358,7 +361,7 @@ class AniList:
         self,
         media: MediaID,
         *,
-        sort: SortType[StaffSort] = None,
+        sort: SortType[StaffSort] | None = None,
     ) -> Iterator[Staff]:
         """
         Retrieve staff members based on a given `Media` object or ID.
@@ -451,7 +454,7 @@ class AniList:
         self,
         media: MediaID,
         *,
-        sort: SortType[CharacterSort] = None,
+        sort: SortType[CharacterSort] | None = None,
         role: CharacterRole | None = None,
     ) -> Iterator[Character]:
         """

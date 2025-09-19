@@ -218,7 +218,10 @@ class AsyncAniList:
                     yield msgspec.convert(node, type=Media, strict=False)
 
     async def get_recommendations(
-        self, media: MediaID, *, sort: SortType[RecommendationSort] = None
+        self,
+        media: MediaID,
+        *,
+        sort: SortType[RecommendationSort] | None = None,
     ) -> AsyncIterator[RecommendedMedia]:
         """
         Retrieve recommended media based on a given `Media` object or ID.
@@ -303,7 +306,7 @@ class AsyncAniList:
         self,
         media: MediaID,
         *,
-        sort: SortType[StudioSort] = None,
+        sort: SortType[StudioSort] | None = None,
         is_main: bool | None = None,
     ) -> AsyncIterator[Studio]:
         """
@@ -358,7 +361,7 @@ class AsyncAniList:
         self,
         media: MediaID,
         *,
-        sort: SortType[StaffSort] = None,
+        sort: SortType[StaffSort] | None = None,
     ) -> AsyncIterator[Staff]:
         """
         Retrieve staff members based on a given `Media` object or ID.
@@ -451,7 +454,7 @@ class AsyncAniList:
         self,
         media: MediaID,
         *,
-        sort: SortType[CharacterSort] = None,
+        sort: SortType[CharacterSort] | None = None,
         role: CharacterRole | None = None,
     ) -> AsyncIterator[Character]:
         """

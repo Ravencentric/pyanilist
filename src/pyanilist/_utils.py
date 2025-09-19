@@ -86,7 +86,7 @@ def resolve_media_id(media: MediaID) -> int:
             raise TypeError(msg)
 
 
-def get_sort_key(sort: SortType[T], typ: type[T]) -> tuple[T, ...] | None:
+def get_sort_key(sort: SortType[T] | None, typ: type[T]) -> tuple[T, ...] | None:
     """
     Process a sort variable and returns a tuple suitable for AniList's `sort` parameter.
     This lets us accept a wider range of inputs for the `sort` parameter, while still
@@ -94,7 +94,7 @@ def get_sort_key(sort: SortType[T], typ: type[T]) -> tuple[T, ...] | None:
 
     Parameters
     ----------
-    sort : SortType[T]
+    sort : SortType[T] | None
         The sort variable to process. Can be a single item of type `T`,
         an iterable of items of type `T`, or None.
     typ : type[T]

@@ -26,10 +26,10 @@ from pyanilist._enums import (
 
 T = TypeVar("T")
 
-SortType: TypeAlias = Iterable[T] | T | None
+SortType: TypeAlias = Iterable[T] | T
 """
 Represents the structure for AniList's sort parameter.
-It can be a single sort key, an iterable of sort keys, or None.
+It can be a single sort key or an iterable of sort keys.
 """
 
 MediaID: TypeAlias = Union[int, str, "Media"]
@@ -966,7 +966,7 @@ class MediaQueryKwargs(TypedDict, total=False):
     source_in: Iterable[MediaSource] | None
     """Filter by the source type of the media."""
 
-    sort: SortType[MediaSort]
+    sort: SortType[MediaSort] | None
     """
     The order the results will be returned in.
     Can be an instance of `MediaSort`, an iterable of `MediaSort`, or None.
