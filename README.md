@@ -21,12 +21,6 @@
 
 </div>
 
-## Table Of Contents
-
-* [Installation](#installation)
-* [Docs](#docs)
-* [License](#license)
-
 ## Installation
 
 `pyanilist` is available on [PyPI](https://pypi.org/project/pyanilist/), so you can simply use [pip](https://github.com/pypa/pip) to install it.
