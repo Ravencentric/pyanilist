@@ -5,18 +5,20 @@ on:
     branches:
       - main
     paths:
+      - '.github/workflows/tests.yml'
       - 'src/**'
       - 'tests/**'
-      - '.github/workflows/tests.yml'
+      - 'uv.lock'
     tags-ignore:
       - 'v*.*.*'
   pull_request:
     branches:
       - main
     paths:
+      - '.github/workflows/tests.yml'
       - 'src/**'
       - 'tests/**'
-      - '.github/workflows/tests.yml'
+      - 'uv.lock'
   workflow_dispatch:
   workflow_call:
 
