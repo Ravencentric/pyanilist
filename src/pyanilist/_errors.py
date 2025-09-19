@@ -34,11 +34,11 @@ class MediaNotFoundError(AnilistError):
         super().__init__(message="Not Found.", status_code=404)
 
 
-class NoMediaArgumentsError(AnilistError):
-    """Raised when a Media query is made with no arguments provided."""
+class InvalidMediaQueryError(AnilistError):
+    """Raised when the Media query arguments are missing, empty, or contain unexpected keys."""
 
-    def __init__(self) -> None:
-        super().__init__(message="The Media query requires at least 1 argument.", status_code=400)
+    def __init__(self, message: str) -> None:
+        super().__init__(message=message, status_code=400)
 
 
 class RateLimitError(AnilistError):

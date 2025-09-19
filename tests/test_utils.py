@@ -4,8 +4,8 @@ from typing import Any
 
 import pytest
 
-from pyanilist import Media, MediaTitle, RecommendationSort
-from pyanilist._utils import get_sort_key, normalize_anilist_data, resolve_media_id, to_anilist_case
+from pyanilist import InvalidMediaQueryError, Media, MediaSort, MediaTitle, RecommendationSort
+from pyanilist._utils import get_sort_key, normalize_anilist_data, resolve_media_id, to_anilist_vars
 
 
 def test_normalize_anilist_data() -> None:
@@ -232,82 +232,6 @@ def test_normalize_anilist_data() -> None:
     }
 
 
-def test_query_variables_constructor() -> None:
-    casemap = {
-        "id": "id",
-        "id_mal": "idMal",
-        "start_date": "startDate",
-        "end_date": "endDate",
-        "season": "season",
-        "season_year": "seasonYear",
-        "type": "type",
-        "format": "format",
-        "status": "status",
-        "episodes": "episodes",
-        "chapters": "chapters",
-        "duration": "duration",
-        "volumes": "volumes",
-        "is_adult": "isAdult",
-        "genre": "genre",
-        "tag": "tag",
-        "minimum_tag_rank": "minimumTagRank",
-        "tag_category": "tagCategory",
-        "licensed_by": "licensedBy",
-        "licensed_by_id": "licensedById",
-        "average_score": "averageScore",
-        "popularity": "popularity",
-        "source": "source",
-        "country_of_origin": "countryOfOrigin",
-        "is_licensed": "isLicensed",
-        "search": "search",
-        "id_not": "id_not",
-        "id_in": "id_in",
-        "id_not_in": "id_not_in",
-        "id_mal_not": "idMal_not",
-        "id_mal_in": "idMal_in",
-        "id_mal_not_in": "idMal_not_in",
-        "start_date_greater": "startDate_greater",
-        "start_date_lesser": "startDate_lesser",
-        "start_date_like": "startDate_like",
-        "end_date_greater": "endDate_greater",
-        "end_date_lesser": "endDate_lesser",
-        "end_date_like": "endDate_like",
-        "format_in": "format_in",
-        "format_not": "format_not",
-        "format_not_in": "format_not_in",
-        "status_in": "status_in",
-        "status_not": "status_not",
-        "status_not_in": "status_not_in",
-        "episodes_greater": "episodes_greater",
-        "episodes_lesser": "episodes_lesser",
-        "duration_greater": "duration_greater",
-        "duration_lesser": "duration_lesser",
-        "chapters_greater": "chapters_greater",
-        "chapters_lesser": "chapters_lesser",
-        "volumes_greater": "volumes_greater",
-        "volumes_lesser": "volumes_lesser",
-        "genre_in": "genre_in",
-        "genre_not_in": "genre_not_in",
-        "tag_in": "tag_in",
-        "tag_not_in": "tag_not_in",
-        "tag_category_in": "tagCategory_in",
-        "tag_category_not_in": "tagCategory_not_in",
-        "licensed_by_in": "licensedBy_in",
-        "licensed_by_id_in": "licensedById_in",
-        "average_score_not": "averageScore_not",
-        "average_score_greater": "averageScore_greater",
-        "average_score_lesser": "averageScore_lesser",
-        "popularity_not": "popularity_not",
-        "popularity_greater": "popularity_greater",
-        "popularity_lesser": "popularity_lesser",
-        "source_in": "source_in",
-        "sort": "sort",
-    }
-
-    for key, value in casemap.items():
-        assert to_anilist_case(key) == value
-
-
 def test_resolve_media_id() -> None:
     assert (
         resolve_media_id(Media(id=170942, site_url="https://anilist.co/anime/170942/Blue-Box/", title=MediaTitle()))
@@ -338,3 +262,19 @@ def test_get_sort_key() -> None:
 
     with pytest.raises(TypeError):
         get_sort_key(object(), RecommendationSort)
+
+
+def test_to_anilist_vars() -> None:
+    assert to_anilist_vars(None, {"id": 123}) == {"id": 123}
+    assert to_anilist_vars("hola", {"id_mal": 123}) == {"search": "hola", "idMal": 123}
+    assert to_anilist_vars(None, {"average_score": 80, "is_adult": False, "sort": MediaSort.ID, "genre": None}) == {
+        "averageScore": 80,
+        "isAdult": False,
+        "sort": (MediaSort.ID,),
+    }
+
+    with pytest.raises(InvalidMediaQueryError, match="Unexpected media query variable: 'unexpected_key'"):
+        to_anilist_vars(None, {"unexpected_key": 123})  # type: ignore[typeddict-unknown-key]
+
+    with pytest.raises(InvalidMediaQueryError, match="The Media query requires at least one valid argument."):
+        to_anilist_vars(None, {})

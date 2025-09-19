@@ -1,4 +1,4 @@
 ::: pyanilist.AnilistError
 ::: pyanilist.MediaNotFoundError
-::: pyanilist.NoMediaArgumentsError
+::: pyanilist.InvalidMediaQueryError
 ::: pyanilist.RateLimitError

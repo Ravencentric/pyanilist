@@ -20,7 +20,7 @@ from pyanilist._enums import (
     StaffSort,
     StudioSort,
 )
-from pyanilist._errors import AnilistError, MediaNotFoundError, NoMediaArgumentsError, RateLimitError
+from pyanilist._errors import AnilistError, InvalidMediaQueryError, MediaNotFoundError, RateLimitError
 from pyanilist._types import (
     AiringSchedule,
     Character,
@@ -30,6 +30,7 @@ from pyanilist._types import (
     Media,
     MediaCoverImage,
     MediaExternalLink,
+    MediaQueryKwargs,
     MediaRank,
     MediaStreamingEpisode,
     MediaTag,
@@ -57,11 +58,13 @@ __all__: Final = (
     "CharacterSort",
     "ExternalLinkType",
     "FuzzyDate",
+    "InvalidMediaQueryError",
     "Media",
     "MediaCoverImage",
     "MediaExternalLink",
     "MediaFormat",
     "MediaNotFoundError",
+    "MediaQueryKwargs",
     "MediaRank",
     "MediaRankType",
     "MediaRelation",
