@@ -7,7 +7,7 @@ from typing import Any, ParamSpec, TypeAlias, TypeVar
 from pyanilist._enums import MediaSort
 from pyanilist._errors import InvalidMediaQueryError
 from pyanilist._query import MEDIA_QUERY_VARS_SNAKE_CASE_TO_ANILIST_CASE
-from pyanilist._types import Media, MediaID, MediaQueryKwargs, SortType
+from pyanilist._types import Media, MediaID, MediaQueryParams, SortType
 
 T = TypeVar("T")
 P = ParamSpec("P")
@@ -127,7 +127,7 @@ def get_sort_key(sort: SortType[T] | None, typ: type[T]) -> tuple[T, ...] | None
     raise TypeError(msg)
 
 
-def to_anilist_vars(search: str | None, kwargs: MediaQueryKwargs) -> dict[str, Any]:
+def to_anilist_vars(search: str | None, kwargs: MediaQueryParams) -> dict[str, Any]:
     """
     Convert search and Media query keyword arguments to AniList API variables.
     """

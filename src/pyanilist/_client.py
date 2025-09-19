@@ -31,7 +31,7 @@ from pyanilist._types import (
     AiringSchedule,
     Character,
     Media,
-    MediaQueryKwargs,
+    MediaQueryParams,
     RecommendedMedia,
     RelatedMedia,
     Staff,
@@ -104,7 +104,7 @@ class AniList:
 
         return data["data"]  # type: ignore[no-any-return]
 
-    def get_media(self, search: str | None = None, **kwargs: Unpack[MediaQueryKwargs]) -> Media:
+    def get_media(self, search: str | None = None, **kwargs: Unpack[MediaQueryParams]) -> Media:
         """
         Retrieve a single media object from AniList based on the provided query parameters.
 
@@ -114,7 +114,7 @@ class AniList:
             Search term to include in the query.
         **kwargs : Unpack[MediaQueryKwargs], optional
             Additional query parameters. See [`MediaQueryKwargs`][pyanilist.MediaQueryKwargs]
-            for the full list of supported keys and their descriptions.
+            for the full list of supported parameters and their descriptions.
 
         Raises
         ------
@@ -140,7 +140,7 @@ class AniList:
         media = normalize_anilist_data(response["Media"])
         return msgspec.convert(media, type=Media, strict=False)
 
-    def get_media_many(self, search: str | None = None, **kwargs: Unpack[MediaQueryKwargs]) -> Iterator[Media]:
+    def get_media_many(self, search: str | None = None, **kwargs: Unpack[MediaQueryParams]) -> Iterator[Media]:
         """
         Retrieve all matching media from AniList as an iterator
         based on the provided query parameters.
@@ -155,7 +155,7 @@ class AniList:
             Search term to include in the query.
         **kwargs : Unpack[MediaQueryKwargs], optional
             Additional query parameters. See [`MediaQueryKwargs`][pyanilist.MediaQueryKwargs]
-            for the full list of supported keys and their descriptions.
+            for the full list of supported parameters and their descriptions.
 
         Raises
         ------

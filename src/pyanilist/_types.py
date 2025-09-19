@@ -671,8 +671,8 @@ class RelatedMedia(Media, frozen=True, kw_only=True):
     """The type of relation to the parent media."""
 
 
-class MediaQueryKwargs(TypedDict, total=False):
-    """All optional keyword arguments for building an AniList media query."""
+class MediaQueryParams(TypedDict, total=False):
+    """Optional parameters for building an AniList media query."""
 
     id: int | None
     """Filter by the media id."""
