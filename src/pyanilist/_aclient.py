@@ -119,15 +119,11 @@ class AsyncAniList:
         MediaNotFoundError
             If no media matches the provided query parameters on AniList.
         InvalidMediaQueryError
-            Raised when the query parameters are missing, empty, or contain unexpected keys.
+            If the query parameters are missing, empty, or contain unexpected keys.
         RateLimitError
-            If the API rate limit is exceeded. The error will contain information on how long to wait before retrying.
+            If the API rate limit is exceeded. The error contains information on how long to wait before retrying.
         AnilistError
             If any other error occurs during the API request.
-        TypeError
-            If `media` or `sort` are not of the expected type.
-        ValueError
-            If the provided `media` URL is invalid.
 
         Returns
         -------
@@ -164,15 +160,11 @@ class AsyncAniList:
         Raises
         ------
         InvalidMediaQueryError
-            Raised when the query parameters are missing, empty, or contain unexpected keys.
+            If the query parameters are missing, empty, or contain unexpected keys.
         RateLimitError
-            If the API rate limit is exceeded. The error will contain information on how long to wait before retrying.
+            If the API rate limit is exceeded. The error contains information on how long to wait before retrying.
         AnilistError
             If any other error occurs during the API request.
-        TypeError
-            If `media` or `sort` are not of the expected type.
-        ValueError
-            If the provided `media` URL is invalid.
 
         Yields
         ------
@@ -247,15 +239,11 @@ class AsyncAniList:
         Raises
         ------
         MediaNotFoundError
-            If the provided `media` ID or URL does not correspond to any existing media on Anilist.
+            If the provided media ID or URL does not correspond to any existing media on AniList.
         RateLimitError
-            If the API rate limit is exceeded. The error will contain information on how long to wait before retrying.
+            If the API rate limit is exceeded. The error contains information on how long to wait before retrying.
         AnilistError
             If any other error occurs during the API request.
-        TypeError
-            If `media` or `sort` are not of the expected type.
-        ValueError
-            If the provided `media` URL is invalid.
 
         """
         variables: dict[str, Any] = {"mediaId": resolve_media_id(media)}
@@ -292,15 +280,11 @@ class AsyncAniList:
         Raises
         ------
         MediaNotFoundError
-            If the provided `media` ID or URL does not correspond to any existing media on Anilist.
+            If the provided media ID or URL does not correspond to any existing media on AniList.
         RateLimitError
-            If the API rate limit is exceeded. The error will contain information on how long to wait before retrying.
+            If the API rate limit is exceeded. The error contains information on how long to wait before retrying.
         AnilistError
             If any other error occurs during the API request.
-        TypeError
-            If `media` or `sort` are not of the expected type.
-        ValueError
-            If the provided `media` URL is invalid.
 
         """
         response = await self._post(query=RELATIONS_QUERY, variables={"mediaId": resolve_media_id(media)})
@@ -343,15 +327,11 @@ class AsyncAniList:
         Raises
         ------
         MediaNotFoundError
-            If the provided `media` ID or URL does not correspond to any existing media on Anilist.
+            If the provided media ID or URL does not correspond to any existing media on AniList.
         RateLimitError
-            If the API rate limit is exceeded. The error will contain information on how long to wait before retrying.
+            If the API rate limit is exceeded. The error contains information on how long to wait before retrying.
         AnilistError
             If any other error occurs during the API request.
-        TypeError
-            If `media` or `sort` are not of the expected type.
-        ValueError
-            If the provided `media` URL is invalid.
 
         """
         variables: dict[str, Any] = {"mediaId": resolve_media_id(media)}
@@ -399,15 +379,11 @@ class AsyncAniList:
         Raises
         ------
         MediaNotFoundError
-            If the provided `media` ID or URL does not correspond to any existing media on Anilist.
+            If the provided media ID or URL does not correspond to any existing media on AniList.
         RateLimitError
-            If the API rate limit is exceeded. The error will contain information on how long to wait before retrying.
+            If the API rate limit is exceeded. The error contains information on how long to wait before retrying.
         AnilistError
             If any other error occurs during the API request.
-        TypeError
-            If `media` or `sort` are not of the expected type.
-        ValueError
-            If the provided `media` URL is invalid.
 
         """
         variables: dict[str, Any] = {"mediaId": resolve_media_id(media)}
@@ -452,15 +428,11 @@ class AsyncAniList:
         Raises
         ------
         MediaNotFoundError
-            If the provided `media` ID or URL does not correspond to any existing media on Anilist.
+            If the provided media ID or URL does not correspond to any existing media on AniList.
         RateLimitError
-            If the API rate limit is exceeded. The error will contain information on how long to wait before retrying.
+            If the API rate limit is exceeded. The error contains information on how long to wait before retrying.
         AnilistError
             If any other error occurs during the API request.
-        TypeError
-            If `media` or `sort` are not of the expected type.
-        ValueError
-            If the provided `media` URL is invalid.
 
         """
         variables: dict[str, Any] = {"mediaId": resolve_media_id(media)}
@@ -503,15 +475,11 @@ class AsyncAniList:
         Raises
         ------
         MediaNotFoundError
-            If the provided `media` ID or URL does not correspond to any existing media on Anilist.
+            If the provided media ID or URL does not correspond to any existing media on AniList.
         RateLimitError
-            If the API rate limit is exceeded. The error will contain information on how long to wait before retrying.
+            If the API rate limit is exceeded. The error contains information on how long to wait before retrying.
         AnilistError
             If any other error occurs during the API request.
-        TypeError
-            If `media` or `sort` are not of the expected type.
-        ValueError
-            If the provided `media` URL is invalid.
 
         """
         variables: dict[str, Any] = {"mediaId": resolve_media_id(media)}
