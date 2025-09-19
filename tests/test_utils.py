@@ -263,6 +263,7 @@ def test_get_sort_key() -> None:
     with pytest.raises(TypeError):
         get_sort_key(object(), RecommendationSort)
 
+
 def test_to_anilist_vars() -> None:
     assert to_anilist_vars(None, {"id": 123}) == {"id": 123}
     assert to_anilist_vars("hola", {"id_mal": 123}) == {"search": "hola", "idMal": 123}

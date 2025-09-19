@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import itertools
-from typing import TYPE_CHECKING, Any, Unpack
+from typing import TYPE_CHECKING, Any
 
 import httpx
 import msgspec
@@ -41,7 +41,7 @@ from pyanilist._version import __version__
 if TYPE_CHECKING:
     from collections.abc import AsyncIterator
 
-    from typing_extensions import Self
+    from typing_extensions import Self, Unpack
 
     from pyanilist._types import MediaID, SortType
 
