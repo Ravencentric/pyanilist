@@ -493,15 +493,23 @@ class AniList:
         if role is not None:
             variables["role"] = role
 
-        response = self._post(query=CHARACTERS_QUERY, variables=variables)
-        edges = response["Media"]["characters"]["edges"]
+        variables["page"] = 1
+        variables["perPage"] = 25  # AniList's maximum for Media.characters.
+        has_next_page: bool = True
 
-        for edge in edges:
-            if character := edge["node"]:
-                character["role"] = edge["role"]
-                character["voiceActors"] = edge["voiceActors"]
-                if character := normalize_anilist_data(character):  # AniList can return a `null` character.
-                    # This check is necessary because in some cases,
-                    # we may end up with an empty dictionary after normalizing.
-                    # See: https://github.com/Ravencentric/pyanilist/issues/29
-                    yield msgspec.convert(character, type=Character, strict=False)
+        while has_next_page:
+            response = self._post(query=CHARACTERS_QUERY, variables=variables)
+            characters = response["Media"]["characters"]
+            has_next_page = characters["pageInfo"]["hasNextPage"]
+
+            for edge in characters["edges"]:
+                if character := edge["node"]:  # AniList can return a `null` character.
+                    character["role"] = edge["role"]
+                    character["voiceActors"] = edge["voiceActors"]
+                    if character := normalize_anilist_data(character):
+                        # This check is necessary because in some cases,
+                        # we may end up with an empty dictionary after normalizing.
+                        # See: https://github.com/Ravencentric/pyanilist/issues/29
+                        yield msgspec.convert(character, type=Character, strict=False)
+
+            variables["page"] += 1

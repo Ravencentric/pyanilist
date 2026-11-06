@@ -456,6 +456,39 @@ async def test_anilist_get_characters_with_role(async_anilist_client: AsyncAniLi
     ]
 
 
+@pytest.mark.vcr(match_on=["method", "uri", "body"])
+async def test_anilist_get_characters_multiple_pages(async_anilist_client: AsyncAniList) -> None:
+    results = async_anilist_client.get_characters(1, sort=CharacterSort.ID, role=CharacterRole.SUPPORTING)
+    characters = [character async for character in results]
+    assert len(characters) == 60
+    assert all(character.role is CharacterRole.SUPPORTING for character in characters)
+    assert [character.id for character in characters] == sorted(character.id for character in characters)
+    assert any(actor.language_v2 == "English" for character in characters[25:] for actor in character.voice_actors)
+
+
+@pytest.mark.vcr(match_on=["method", "uri", "body"])
+async def test_anilist_get_characters_early_stop(async_anilist_client: AsyncAniList) -> None:
+    # The cassette contains only the first page, so fetching another page fails playback.
+    results = async_anilist_client.get_characters(1, sort=CharacterSort.ID, role=CharacterRole.SUPPORTING)
+    characters = []
+    async for character in results:
+        characters.append(character)
+        if len(characters) == 25:
+            break
+    assert len(characters) == 25
+
+
+@pytest.mark.vcr(match_on=["method", "uri", "body"])
+async def test_anilist_get_characters_later_page_error(async_anilist_client: AsyncAniList) -> None:
+    # The cassette pairs a successful first page with a recorded rate-limit response.
+    results = async_anilist_client.get_characters(1, sort=CharacterSort.ID, role=CharacterRole.SUPPORTING)
+    characters = []
+    with pytest.raises(RateLimitError):
+        async for character in results:
+            characters.append(character)
+    assert len(characters) == 25
+
+
 @pytest.mark.vcr
 async def test_media_not_found_error_properties(async_anilist_client: AsyncAniList) -> None:
     try:
