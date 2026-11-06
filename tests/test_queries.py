@@ -5,11 +5,20 @@ import pytest
 from pyanilist import MediaQueryParams
 from pyanilist._query import (
     ALL_MEDIA_QUERY,
+    CHARACTERS_QUERY,
     MEDIA_QUERY,
     MEDIA_QUERY_VARS_SNAKE_CASE_TO_ANILIST_CASE,
     RECOMMENDATIONS_QUERY,
     RELATIONS_QUERY,
 )
+
+
+def test_characters_query_pagination() -> None:
+    query = " ".join(CHARACTERS_QUERY.split())
+    assert "$page: Int" in query
+    assert "$perPage: Int" in query
+    assert "characters(sort: $sort, role: $role, page: $page, perPage: $perPage)" in query
+    assert "pageInfo { hasNextPage }" in query
 
 
 def test_media_fields_in_queries() -> None:
