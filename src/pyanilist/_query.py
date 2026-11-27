@@ -1116,9 +1116,12 @@ query Media($mediaId: Int!, $notYetAired: Boolean) {
 """
 
 CHARACTERS_QUERY = """\
-query Media($mediaId: Int, $sort: [CharacterSort], $role: CharacterRole) {
+query Media($mediaId: Int, $sort: [CharacterSort], $role: CharacterRole, $page: Int, $perPage: Int) {
   Media(id: $mediaId) {
-    characters(sort: $sort, role: $role) {
+    characters(sort: $sort, role: $role, page: $page, perPage: $perPage) {
+      pageInfo {
+        hasNextPage
+      }
       edges {
         node {
           id
